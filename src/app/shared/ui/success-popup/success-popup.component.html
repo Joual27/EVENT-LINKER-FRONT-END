@@ -1,0 +1,15 @@
+@if (isVisible$ | async) {
+    <div class="w-[450px] absolute bottom-[7vh] right-[2.5%]" @slideInOut>
+        <div class="bg-success-bg-green w-full rounded-t-md relative ">
+            <div class="w-full h-full flex gap-6 items-center pt-3 pb-2 px-4">
+                <img src="assets/images/check.png" alt="">
+                <div class="flex-1 flex flex-col justify-center items-start">
+                    <h1 class="font-semibold text-[.95rem]">Success</h1>
+                    <p class="font-medium text-[.85rem] text-gray-700">{{ message$ | async }}</p>
+                </div>
+                <img src="assets/images/close.png" class="w-[15px] h-[15px] cursor-pointer" (click)="hidePopup()" alt="">
+            </div>
+            <div class="absolute bottom-0 left-0 h-[3px] bg-[#01A14E] w-full"></div>
+        </div>
+    </div>
+}
