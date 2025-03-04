@@ -4,13 +4,17 @@
     </div>
 
     @if(activeForm() == "register"){
-        <h1 class="text-white text-2xl mb-2 font-semibold">Welcome </h1>
+        <h1 class="text-white text-2xl mb-2 font-semibold">Welcome</h1>
+        <p class="text-[#666] font-medium mb-8 text-[.9rem]">
+            Already have an account? <span class="text-primary-color cursor-pointer hover:underline" (click)="switchToLoginForm()">Sign In</span>
+        </p>
+        <app-register-form></app-register-form>
     }@else{
         <h1 class="text-white text-2xl mb-2 font-semibold">Welcome Back</h1>
+        <p class="text-[#666] font-medium mb-8 text-[.9rem]">
+            Don't have an account yet? <span class="text-primary-color cursor-pointer hover:underline" (click)="switchToRegisterForm()">Sign Up</span>
+        </p>
+        <app-login-form></app-login-form>
     }
-    <p class="text-[#666] font-medium mb-8 text-[.9rem]">
-      Don't have an account yet? <a href="#" class="text-primary-color hover:underline">Sign up</a>
-    </p>
-
-    <app-login-form></app-login-form>
+   
 </div>
