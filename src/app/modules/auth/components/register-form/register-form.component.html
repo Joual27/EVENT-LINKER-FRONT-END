@@ -1,0 +1,64 @@
+<form>
+
+    <div class="mt-4 mb-8 w-full flex justify-center items-center gap-4  font-semibold text-white">
+        <div class="text-[.87rem] py-2 cursor-pointer" [ngClass]="registrationType() == 'worker' ? 'active' : ''" (click)="switchToWorkerForm()">
+            <p>Register as Worker</p>
+        </div>
+        <div class="text-[.87rem] py-2 cursor-pointer" [ngClass]="registrationType() == 'organizer' ? 'active' : ''" (click)="switchToOrganizerForm()">
+            <p>Register as Organizer</p>    
+        </div>
+    </div>
+
+    <div class="relative mb-4">
+        <i class="fa-solid fa-user absolute left-4 top-1/2 transform -translate-y-1/2 " style="color: #fdaa33;"></i>
+        <input type="text" placeholder="Username" class="w-full py-4 pl-10 pr-4 bg-[#222] focus:outline-none focus:border focus:border-1 focus:border-primary-color rounded-md text-white text-sm placeholder-[#666]">
+      </div>
+    <div class="relative mb-4">
+      <i class="fa-solid fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 " style="color: #fdaa33;"></i>
+      <input type="email" placeholder="Email Address" class="w-full py-4 pl-10 pr-4 bg-[#222] focus:outline-none focus:border focus:border-1 focus:border-primary-color rounded-md text-white text-sm placeholder-[#666]">
+    </div>
+
+    <div class="mb-4 flex items-center gap-2">
+        <div class="relative">
+            <i class="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#666]">🔒</i>
+            <input type="password" placeholder="Password" class="w-full py-4 pl-10 pr-4 bg-[#222] focus:outline-none focus:border focus:border-1 focus:border-primary-color rounded-md text-white text-sm placeholder-[#666]">
+        </div>
+        <div class="relative">
+            <i class="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#666]">🔒</i>
+            <input type="password" placeholder="Confirm Password" class="w-full py-4 pl-10 pr-4 bg-[#222] focus:outline-none focus:border focus:border-1 focus:border-primary-color rounded-md text-white text-sm placeholder-[#666]">
+        </div>
+    </div>
+
+   @if (registrationType() == "worker") {
+    <div class="mb-4">
+        <p class=" mb-3 mt-6 text-[.9rem] font-semibold text-[#666]">Are you an organization?</p>
+        <div class="flex items-center gap-6 w-full justify-center">
+          <label class="flex items-center cursor-pointer group">
+            <input type="radio" name="isOrganization" value="yes" class="hidden">
+            <div class="w-5 h-5 border-2 border-secondary-color rounded-full flex items-center justify-center mr-2">
+              <div class="w-2.5 h-2.5 rounded-full bg-secondary-color opacity-0 group-hover:opacity-30 transition-opacity peer-checked:opacity-100"></div>
+            </div>
+            <span class="text-[#666] group-hover:text-[#888]">Yes</span>
+          </label>
+          
+          <label class="flex items-center cursor-pointer group">
+            <input type="radio" name="isOrganization" value="no" class="hidden peer">
+            <div class="w-5 h-5 border-2 border-secondary-color rounded-full flex items-center justify-center mr-2">
+              <div class="w-2.5 h-2.5 rounded-full bg-secondary-color opacity-0 group-hover:opacity-30 transition-opacity peer-checked:opacity-100"></div>
+            </div>
+            <span class="text-[#666] group-hover:text-[#888]">No</span>
+          </label>
+        </div>
+      </div>
+   }@else {
+    <div class="relative mb-4">
+        <i class="fa-solid fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 " style="color: #fdaa33;"></i>
+        <input type="text" placeholder="Organization Name" class="w-full py-4 pl-10 pr-4 bg-[#222] focus:outline-none focus:border focus:border-1 focus:border-primary-color rounded-md text-white text-sm placeholder-[#666]">
+    </div>
+   }
+
+    <button type="submit" class="w-full py-4 bg-primary-color text-white rounded-md text-base cursor-pointer mt-4 hover:opacity-85 mb-8">
+      Register
+    </button>
+
+  </form>
