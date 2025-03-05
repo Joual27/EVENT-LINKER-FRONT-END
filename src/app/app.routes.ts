@@ -7,6 +7,11 @@ export const routes: Routes = [
     },
     {
         path : "auth",
-        loadComponent : () => import("./modules/auth/pages/auth-page/auth-page.component").then(m => m.AuthPageComponent)
+        loadComponent : () => import("./modules/auth/pages/auth-page/auth-page.component").then( m => m.AuthPageComponent),
+        loadChildren : () => import("./modules/auth/auth.routes").then(m => m.authRoutes)
+    },
+    {
+        path : "*",
+        redirectTo : ""
     }
 ];

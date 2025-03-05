@@ -3,3 +3,7 @@
 .active {
     border-bottom: 2px solid var(--primary-color);
 }
+
+.radio-input:checked + .radio-custom .radio-dot {
+    opacity: 1;
+}
