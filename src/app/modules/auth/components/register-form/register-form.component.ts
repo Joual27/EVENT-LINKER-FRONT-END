@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register-form',
-  imports: [CommonModule],
+  imports: [CommonModule , RouterLink],
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.css'
 })
