@@ -17,6 +17,7 @@ export const uiReducer = createReducer(
     })),
     on(uiActions.showFailurePopup , (state , {errors}) => ({
         ...state ,
+        shownFailurePopup : true,
         errors : errors
     })),
     on(uiActions.hideFailurePopup , (state) => ({
