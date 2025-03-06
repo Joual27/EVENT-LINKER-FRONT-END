@@ -28,7 +28,6 @@ export class FailurePopupComponent {
   isVisible$ : Observable<boolean>;
   errors$ : Observable<string[]>
 
-
   constructor(){
     this.isVisible$ = this.store.select(selectShownFailurePopup);
     this.errors$ = this.store.select(selectErrors);
