@@ -9,10 +9,21 @@ export class FormValidationService {
   static getFormErrors(form: FormGroup): string[] {
     const errors: string[] = [];
     this.collectErrors(form, errors);
+    const formErrors = form.errors;
+   if (formErrors) {
+    Object.keys(formErrors).forEach((errorKey) => {
+      switch (errorKey) {
+        case 'passwordMismatch':
+          errors.push("Password ain't matching!");
+          break;
+      }
+    });
+  }
     return errors;
   }
 
   private static collectErrors(control: AbstractControl, errors: string[]): void {
+    
     if (control instanceof FormGroup) {
       Object.keys(control.controls).forEach((key) => {
         this.collectErrors(control.get(key)!, errors);
@@ -40,9 +51,12 @@ export class FormValidationService {
               break;
             case 'passwordStrength':
               errors.push(
-                `${this.getControlName(control)} must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number.`
+                `${this.getControlName(control)} Not Strong enough.`
               );
               break;
+            case 'passwordMismatch':
+                errors.push("Passwords ain't macthing !");
+                break;
             default:
               errors.push(`${this.getControlName(control)} has an error: ${errorKey}.`);
               break;
@@ -60,12 +74,13 @@ export class FormValidationService {
     return null;
   }
 
+
   static passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;
 
     if (password !== confirmPassword) {
-      return { passwordMismatch: true };
+      return { passwordMismatch: 'yes' };
     }
     return null;
   }

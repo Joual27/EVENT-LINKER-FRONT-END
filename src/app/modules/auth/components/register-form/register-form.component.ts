@@ -3,6 +3,8 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { FormValidationService } from '../../../../shared/services/form-validation.service';
+import { Store } from '@ngrx/store';
+import * as uiActions from '../../../../shared/ui-state/ui.actions'
 
 @Component({
   selector: 'app-register-form',
@@ -12,6 +14,7 @@ import { FormValidationService } from '../../../../shared/services/form-validati
 })
 export class RegisterFormComponent {
   registrationType = signal<string>("worker");
+  private store = inject(Store);
   private fb = inject(FormBuilder);
   formGroup : FormGroup;
 
@@ -22,6 +25,8 @@ export class RegisterFormComponent {
       email : ['' , [Validators.required , Validators.email]],
       password : ['' , [Validators.required,FormValidationService.passwordStrengthValidator]],
       confirmPassword: ['', [Validators.required]]
+    } , {
+      validators : [FormValidationService.passwordMatchValidator]
     })
     this.updateFormControls();
   }
@@ -53,11 +58,10 @@ export class RegisterFormComponent {
   onSubmit() : void {
     let errors : string[] = [];
     if(this.formGroup.valid){
-    
-      console.log("valid : " + this.formGroup.value );
+      console.log("valid : " + this.formGroup.value);
     }else{
       errors = FormValidationService.getFormErrors(this.formGroup);
-      console.log("invalid :" +  errors);
+      this.store.dispatch(uiActions.showFailurePopup({errors :errors}))
     }
   }
 }
