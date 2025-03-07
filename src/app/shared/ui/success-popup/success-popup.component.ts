@@ -38,5 +38,5 @@ export class SuccessPopupComponent{
   hidePopup() : void {
     this.store.dispatch(hideSuccessPopup());
   }
-  
+    
 }

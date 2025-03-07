@@ -5,7 +5,7 @@ import * as uiActions from "./ui.actions"
 
 export const uiReducer = createReducer(
     initialUiState,
-    on(uiActions.shownSuccessPopup , (state , {message}) => ({
+    on(uiActions.showSuccessPopup , (state , {message}) => ({
         ...state,
         shownSuccessPopup : true,
         successPopupMessage : message
@@ -14,5 +14,14 @@ export const uiReducer = createReducer(
         ...state,
         shownSuccessPopup : false,
         successPopupMessage : ""
+    })),
+    on(uiActions.showFailurePopup , (state , {errors}) => ({
+        ...state ,
+        shownFailurePopup : true,
+        errors : errors
+    })),
+    on(uiActions.hideFailurePopup , (state) => ({
+        ...state ,
+        shownFailurePopup : false
     }))
 )

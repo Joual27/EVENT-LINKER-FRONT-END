@@ -2,12 +2,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SuccessPopupComponent } from "./shared/ui/success-popup/success-popup.component";
 import { Store } from '@ngrx/store';
-import { shownSuccessPopup } from './shared/ui-state/ui.actions';
+import { showSuccessPopup } from './shared/ui-state/ui.actions';
+import { FailurePopupComponent } from "./shared/ui/failure-popup/failure-popup.component";
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SuccessPopupComponent ],
+  imports: [RouterOutlet, SuccessPopupComponent, FailurePopupComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   
@@ -18,8 +19,6 @@ export class AppComponent implements OnInit{
  
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.store.dispatch(shownSuccessPopup({message : "ANA ABDELOUAHED SENANE SBE3 OU MOUCHI LHABLA"}))
-    } , 2500)
-  }
+   
+  } 
 }

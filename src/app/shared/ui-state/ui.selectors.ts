@@ -14,3 +14,14 @@ export const selectSuccessPopupMessage = createSelector(
     selectUiState ,
     (state) => state.successPopupMessage
 )
+
+
+export const selectShownFailurePopup = createSelector(
+    selectUiState,
+    (state) => state.shownFailurePopup
+)
+
+export const selectErrors = createSelector(
+    selectUiState,
+    (state) => state.errors
+)
