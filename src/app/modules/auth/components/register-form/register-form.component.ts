@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormValidationService } from '../../../../shared/services/form-validation.service';
 import { Store } from '@ngrx/store';
 import * as uiActions from '../../../../shared/ui-state/ui.actions'
 import { AuthResponse, RegistrationData, RegistrationResponse } from '../../models';
 import { AuthService } from '../../services/auth.service';
 import { EncryptionService } from '../../services/encryption.service';
-import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-register-form',
@@ -22,6 +21,7 @@ export class RegisterFormComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private encryptionService = inject(EncryptionService);
+  private router = inject(Router);
   formGroup : FormGroup;
 
   constructor(){
@@ -63,20 +63,23 @@ export class RegisterFormComponent {
  onSubmit(): void {
   let errors: string[] = [];
   if (this.formGroup.valid) {
-    let registrationData = this.convertToRegistrationData(this.formGroup);
+    let registrationData = this.convertToRegistrationData();
     this.authService.register(this.registrationType(), registrationData).subscribe({
       next: (response: RegistrationResponse) => {
         const authResponse = response as AuthResponse;
         console.log('Registration successful:', authResponse);
-        this.store.dispatch(uiActions.showSuccessPopup({ message: `${this.registrationType()} created successfully!` }));
+        this.store.dispatch(uiActions.showSuccessPopup({ message: `${this.registrationType()} created successfully! Redirecting ... !` }));
         this.encryptionService.setLoggedInUser({
-            id: authResponse.id,
-            token: authResponse.tokens.accessToken,
-            role: authResponse.role
+            id: authResponse.data.id,
+            token: authResponse.data.tokens.accessToken,
+            role: authResponse.data.role
         });
+        setTimeout(() => {
+          this.hideSuccessPopup();
+          this.redirectBasedOnRole(authResponse.data.role);
+        } , 3000)
       },
       error: (error) => {
-        console.error('Registration failed:', error);
         if (error.type === 'validation') {
           this.store.dispatch(uiActions.showFailurePopup({ errors: error.errors }));
         } else if (error.type === 'server') {
@@ -86,6 +89,9 @@ export class RegisterFormComponent {
         } else {
           this.store.dispatch(uiActions.showFailurePopup({ errors: ['An unexpected error occurred.'] }));
         }
+        setTimeout(() => {
+          this.hideFailurePopup();
+        } , 5000)
       }
     });
   } else {
@@ -94,9 +100,7 @@ export class RegisterFormComponent {
   }
 }
 
-
-  
-  convertToRegistrationData(FormGroup : FormGroup) : RegistrationData{
+  convertToRegistrationData() : RegistrationData{
     const formData = this.formGroup.value;
     let res : RegistrationData = {
       username : formData.username,
@@ -107,4 +111,31 @@ export class RegisterFormComponent {
     }
     return res;
   }
-}
+
+  redirectBasedOnRole(role : string) :void {
+    switch(role.toLowerCase()){
+      case 'worker' :
+        this.router.navigate(['/worker']);
+        break;
+      case 'organizer':
+        this.router.navigate(['/organizer']);
+        break;
+      case 'admin' :
+        this.router.navigate(['/admin']);
+        break;
+      default :
+       console.log("This Role is not available !");
+       
+    }
+  }
+
+  hideFailurePopup() : void{
+    this.store.dispatch(uiActions.hideFailurePopup());
+  }
+
+  hideSuccessPopup() : void {
+    this.store.dispatch(uiActions.hideSuccessPopup());
+  }
+
+
+ }

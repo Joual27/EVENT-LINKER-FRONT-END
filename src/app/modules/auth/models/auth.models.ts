@@ -16,12 +16,14 @@ export interface RegistrationData {
 }
 
 export interface AuthResponse {
-    id : number ,
-    tokens : {
-        accessToken : string,
-        refreshToken : string
-    },
-    role : string
+    data : {
+        id : number ,
+        tokens : {
+            accessToken : string,
+            refreshToken : string
+        },
+        role : string
+    }
 }
 
 export type RegistrationResponse = AuthResponse | string [] | object ;

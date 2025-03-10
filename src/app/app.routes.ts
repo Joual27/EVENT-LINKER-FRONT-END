@@ -13,5 +13,13 @@ export const routes: Routes = [
     {
         path : "*",
         redirectTo : ""
+    },
+    {
+        path : "organizer",
+        loadComponent : () => import("./modules/organizer/layouts/organizer-layout/organizer-layout.component").then(m => m.OrganizerLayoutComponent)
+    },
+    {
+        path : "worker" ,
+        loadComponent : () => import('./modules/worker/layouts/worker-layout/worker-layout.component').then(m => m.WorkerLayoutComponent)
     }
 ];
