@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { registrationData } from '../models';
+import { RegistrationData, RegistrationResponse } from '../models';
 import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class AuthService {
   private apiUrl = 'http://localhost:8080/api/v1/'; 
   constructor() {}
 
-  register(registrationType : string , data : registrationData) {
+  register(registrationType : string , data : RegistrationData) : Observable<RegistrationResponse> {
     return this.http.post(`${this.apiUrl}/public/auth/register/${registrationType}` , data).pipe(
       catchError((error : HttpErrorResponse) => {
         console.error(error);
@@ -24,7 +24,7 @@ export class AuthService {
             return throwError(() => errorResponse.message || 'Registration failed. Please try again.');
           }
         } else {
-          return throwError(() => 'Registration failed. Please try again.');
+          return throwError(() => 'Registration failed. Please try again.');  
         }
       })
     )

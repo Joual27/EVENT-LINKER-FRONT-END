@@ -5,6 +5,8 @@ import { RouterLink } from '@angular/router';
 import { FormValidationService } from '../../../../shared/services/form-validation.service';
 import { Store } from '@ngrx/store';
 import * as uiActions from '../../../../shared/ui-state/ui.actions'
+import { AuthResponse, RegistrationData } from '../../models';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register-form',
@@ -16,8 +18,8 @@ export class RegisterFormComponent {
   registrationType = signal<string>("worker");
   private store = inject(Store);
   private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
   formGroup : FormGroup;
-
 
   constructor(){
     this.formGroup = this.fb.group({
@@ -58,10 +60,29 @@ export class RegisterFormComponent {
   onSubmit() : void {
     let errors : string[] = [];
     if(this.formGroup.valid){
-      console.log("valid : " + this.formGroup.value);
+      let registrationData = this.convertToRegistrationData(this.formGroup);
+      this.authService.register(this.registrationType() , registrationData).subscribe(() => {
+        next : (response : AuthResponse) => {
+          console.log(response);
+          this.store.dispatch(uiActions.showSuccessPopup({message : "Account Created Successfully ! Redirecting ..."}))
+        }
+      })
     }else{
       errors = FormValidationService.getFormErrors(this.formGroup);
       this.store.dispatch(uiActions.showFailurePopup({errors :errors}))
     }
+  }
+
+  
+  convertToRegistrationData(FormGroup : FormGroup) : RegistrationData{
+    const formData = this.formGroup.value;
+    let res : RegistrationData = {
+      username : formData.username,
+      email : formData.email,
+      password : formData.password,
+      ...(this.registrationType() == 'worker' && {isOrganization : formData.isOrganization == 'yes'}),
+      ...(this.registrationType() == 'organizer' && {organizationName : formData.organizationName})
+    }
+    return res;
   }
 }
