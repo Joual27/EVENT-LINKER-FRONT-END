@@ -5,8 +5,10 @@ import { RouterLink } from '@angular/router';
 import { FormValidationService } from '../../../../shared/services/form-validation.service';
 import { Store } from '@ngrx/store';
 import * as uiActions from '../../../../shared/ui-state/ui.actions'
-import { AuthResponse, RegistrationData } from '../../models';
+import { AuthResponse, RegistrationData, RegistrationResponse } from '../../models';
 import { AuthService } from '../../services/auth.service';
+import { EncryptionService } from '../../services/encryption.service';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-register-form',
@@ -19,6 +21,7 @@ export class RegisterFormComponent {
   private store = inject(Store);
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private encryptionService = inject(EncryptionService);
   formGroup : FormGroup;
 
   constructor(){
@@ -57,21 +60,40 @@ export class RegisterFormComponent {
     this.updateFormControls();
   }
 
-  onSubmit() : void {
-    let errors : string[] = [];
-    if(this.formGroup.valid){
-      let registrationData = this.convertToRegistrationData(this.formGroup);
-      this.authService.register(this.registrationType() , registrationData).subscribe(() => {
-        next : (response : AuthResponse) => {
-          console.log(response);
-          this.store.dispatch(uiActions.showSuccessPopup({message : "Account Created Successfully ! Redirecting ..."}))
+ onSubmit(): void {
+  let errors: string[] = [];
+  if (this.formGroup.valid) {
+    let registrationData = this.convertToRegistrationData(this.formGroup);
+    this.authService.register(this.registrationType(), registrationData).subscribe({
+      next: (response: RegistrationResponse) => {
+        const authResponse = response as AuthResponse;
+        console.log('Registration successful:', authResponse);
+        this.store.dispatch(uiActions.showSuccessPopup({ message: `${this.registrationType()} created successfully!` }));
+        this.encryptionService.setLoggedInUser({
+            id: authResponse.id,
+            token: authResponse.tokens.accessToken,
+            role: authResponse.role
+        });
+      },
+      error: (error) => {
+        console.error('Registration failed:', error);
+        if (error.type === 'validation') {
+          this.store.dispatch(uiActions.showFailurePopup({ errors: error.errors }));
+        } else if (error.type === 'server') {
+          this.store.dispatch(uiActions.showFailurePopup({ errors: [error.message] }));
+        } else if (error.type === 'network') {
+          this.store.dispatch(uiActions.showFailurePopup({ errors: ['Network error. Please try again later.'] }));
+        } else {
+          this.store.dispatch(uiActions.showFailurePopup({ errors: ['An unexpected error occurred.'] }));
         }
-      })
-    }else{
-      errors = FormValidationService.getFormErrors(this.formGroup);
-      this.store.dispatch(uiActions.showFailurePopup({errors :errors}))
-    }
+      }
+    });
+  } else {
+    errors = FormValidationService.getFormErrors(this.formGroup);
+    this.store.dispatch(uiActions.showFailurePopup({ errors }));
   }
+}
+
 
   
   convertToRegistrationData(FormGroup : FormGroup) : RegistrationData{

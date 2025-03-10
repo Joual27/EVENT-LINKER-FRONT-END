@@ -9,11 +9,11 @@ export interface User {
     id : number,
     username : string ,
     email : string ,
-    role : Role
+    role : string
 }
 
-export enum Role {
-    'worker' ,
-    'organizer' ,
-    'admin'
-}
+export interface UserData {
+    id : number , 
+    token : string ,
+    role : string
+} 
