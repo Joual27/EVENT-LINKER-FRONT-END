@@ -5,14 +5,9 @@ export interface UiState {
     errors : string[]
 }
 
-export interface User {
-    id : number,
-    username : string ,
-    email : string ,
-    role : string
-}
 
-export interface UserData {
+
+export interface User {
     id : number , 
     token : string ,
     role : string
