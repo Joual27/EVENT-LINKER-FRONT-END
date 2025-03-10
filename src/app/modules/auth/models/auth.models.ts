@@ -7,10 +7,21 @@ export interface AuthState {
 }
 
 
-export interface registrationData {
+export interface RegistrationData {
     username : string , 
     email : string ,
     password : string ,
     organizationName ?: string, 
     isOrganization ?: boolean 
 }
+
+export interface AuthResponse {
+    id : number ,
+    tokens : {
+        accessToken : string,
+        refreshToken : string
+    },
+    role : string
+}
+
+export type RegistrationResponse = AuthResponse | string [] | object ;
