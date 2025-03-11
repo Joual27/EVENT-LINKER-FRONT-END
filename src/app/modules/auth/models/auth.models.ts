@@ -2,8 +2,7 @@ import { User } from "../../../shared/models";
 
 
 export interface AuthState {
-    authErrors : string[],
-    signedInUser : User
+    signedInUser : User | null
 }
 
 
@@ -16,12 +15,23 @@ export interface RegistrationData {
 }
 
 export interface AuthResponse {
-    id : number ,
-    tokens : {
-        accessToken : string,
-        refreshToken : string
-    },
-    role : string
+    data : {
+        id : number ,
+        tokens : {
+            accessToken : string,
+            refreshToken : string
+        },
+        role : string
+    }
+}
+
+export interface DecodedToken {
+    roles: string[];
+    username: string;
+    email: string;
+    sub: string;
+    iat: number;
+    exp: number;
 }
 
 export type RegistrationResponse = AuthResponse | string [] | object ;

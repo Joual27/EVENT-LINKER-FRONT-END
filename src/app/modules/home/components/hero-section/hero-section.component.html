@@ -12,6 +12,24 @@
             <h1>Experiences to Life ! 🎯</h1>
         </div>
         <h2 class="font-bold text-[1.1rem] text-center text-secondary-color">Connect, Collaborate, Celebrate Your Event, Our Network!</h2>
-        <button routerLink="/auth/register" class="px-6 py-2 bg-transparent text-white font-medium text-[.9rem] border-2 border-primary-color hover:border-white duration-300">Get Started</button>
+    
+        <div *ngIf="decodedUserData() as token ;  else getStarted">
+            <ng-container *ngIf="token.roles?.[0] === 'ROLE_WORKER'; else organizerLink">
+                <button routerLink="/worker" class="px-6 py-2 bg-transparent text-white font-medium text-[.9rem] border-2 border-primary-color hover:border-white duration-300">
+                    Browse Events
+                </button>
+            </ng-container>
+            <ng-template #organizerLink>
+                <button routerLink="/organizer" class="px-6 py-2 bg-transparent text-white font-medium text-[.9rem] border-2 border-primary-color hover:border-white duration-300">
+                    Manage Events
+                </button>
+            </ng-template>
+          </div>
+          
+          <ng-template #getStarted>
+            <button routerLink="/auth/register" class="px-6 py-2 bg-transparent text-white font-medium text-[.9rem] border-2 border-primary-color hover:border-white duration-300">
+              Get Started
+            </button>
+          </ng-template>        
     </div>
 </div>

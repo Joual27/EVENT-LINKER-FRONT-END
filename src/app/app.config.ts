@@ -9,5 +9,5 @@ import { reducers } from './core/store/app.reducers';
 import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),  provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }) ,provideStore(reducers), provideEffects() , provideAnimations() , provideHttpClient()]
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),provideStore(reducers) ,provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }) , provideEffects() , provideAnimations() , provideHttpClient()]
 };

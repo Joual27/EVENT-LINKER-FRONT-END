@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { OrganizerGuard } from './core/guards/organizer.guard';
+import { WorkerGuard } from './core/guards/worker.guard';
 
 export const routes: Routes = [
     {
@@ -13,5 +15,15 @@ export const routes: Routes = [
     {
         path : "*",
         redirectTo : ""
+    },
+    {
+        path : "organizer",
+        loadComponent : () => import("./modules/organizer/layouts/organizer-layout/organizer-layout.component").then(m => m.OrganizerLayoutComponent),
+        canActivate : [OrganizerGuard]
+    },
+    {
+        path : "worker" ,
+        loadComponent : () => import('./modules/worker/layouts/worker-layout/worker-layout.component').then(m => m.WorkerLayoutComponent),
+        canActivate : [WorkerGuard]
     }
 ];
