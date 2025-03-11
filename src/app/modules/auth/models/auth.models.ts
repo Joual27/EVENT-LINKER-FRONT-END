@@ -25,4 +25,13 @@ export interface AuthResponse {
     }
 }
 
+export interface DecodedToken {
+    roles: string[];
+    username: string;
+    email: string;
+    sub: string;
+    iat: number;
+    exp: number;
+}
+
 export type RegistrationResponse = AuthResponse | string [] | object ;

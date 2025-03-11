@@ -5,9 +5,11 @@ import { Router, RouterLink } from '@angular/router';
 import { FormValidationService } from '../../../../shared/services/form-validation.service';
 import { Store } from '@ngrx/store';
 import * as uiActions from '../../../../shared/ui-state/ui.actions'
+import * as authActions from "../../state/auth.actions"
 import { AuthResponse, RegistrationData, RegistrationResponse } from '../../models';
 import { AuthService } from '../../services/auth.service';
 import { EncryptionService } from '../../services/encryption.service';
+import { User } from '../../../../shared/models';
 
 @Component({
   selector: 'app-register-form',
@@ -67,13 +69,14 @@ export class RegisterFormComponent {
     this.authService.register(this.registrationType(), registrationData).subscribe({
       next: (response: RegistrationResponse) => {
         const authResponse = response as AuthResponse;
-        console.log('Registration successful:', authResponse);
         this.store.dispatch(uiActions.showSuccessPopup({ message: `${this.registrationType()} created successfully! Redirecting ... !` }));
-        this.encryptionService.setLoggedInUser({
-            id: authResponse.data.id,
-            token: authResponse.data.tokens.accessToken,
-            role: authResponse.data.role
-        });
+        let user : User = {
+          id: authResponse.data.id,
+          token: authResponse.data.tokens.accessToken,
+          role: authResponse.data.role
+        }
+        this.store.dispatch(authActions.loginSuccess({user: user}))
+        this.encryptionService.setLoggedInUser(user);
         setTimeout(() => {
           this.hideSuccessPopup();
           this.redirectBasedOnRole(authResponse.data.role);
@@ -136,6 +139,5 @@ export class RegisterFormComponent {
   hideSuccessPopup() : void {
     this.store.dispatch(uiActions.hideSuccessPopup());
   }
-
 
  }
