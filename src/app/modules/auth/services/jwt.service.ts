@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DecodedToken } from '../models';
 import {jwtDecode} from 'jwt-decode'
+import { EncryptionService } from './encryption.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JwtService {
+  
+  private encryptionService = inject(EncryptionService);
 
   constructor() { }
 
@@ -17,5 +20,13 @@ export class JwtService {
       return null;
     }
   }
-}
 
+
+  updateToken(token : string): void {
+    let user = this.encryptionService.getLoggedInUser();
+    if(user){
+       user.token = token;
+       this.encryptionService.setLoggedInUser(user);
+    }
+  }
+}
