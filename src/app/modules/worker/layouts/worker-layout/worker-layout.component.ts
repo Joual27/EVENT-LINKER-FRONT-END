@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Application } from '../../models/worker.models';
 import { WorkerService } from '../../services/worker.service';
@@ -15,7 +15,6 @@ export class WorkerLayoutComponent {
   private workerService = inject(WorkerService);
 
   ngOnInit(): void {
-  
     this.workerService.getWorkerApplications(0, 10).subscribe({
       next: (res) => console.log('API Response:', res),
       error: (err) => console.error('API Error:', err)

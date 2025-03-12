@@ -25,6 +25,15 @@ export interface AuthResponse {
     }
 }
 
+export interface RefreshTokenResponse {
+    id : number ,
+    tokens : {
+        accessToken : string,
+        refreshToken : string
+    },
+    role : string
+}
+
 export interface DecodedToken {
     roles: string[];
     username: string;

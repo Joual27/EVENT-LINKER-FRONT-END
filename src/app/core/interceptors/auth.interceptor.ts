@@ -5,7 +5,7 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, switchMap, filter, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from '../../modules/auth/services/auth.service';
-import { AuthResponse } from '../../modules/auth/models';
+import { RefreshTokenResponse } from '../../modules/auth/models';
 import { EncryptionService } from '../../modules/auth/services/encryption.service';
 import { JwtService } from '../../modules/auth/services/jwt.service';
 
@@ -15,9 +15,10 @@ const refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
 export const authInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
   const authService = inject(AuthService);
+  const encryptionService = inject(EncryptionService);
   const jwtService = inject(JwtService);
   const router = inject(Router);
-  const encryptionService = inject(EncryptionService);
+  
 
 
   if (isPublicEndpoint(request.url)) {
@@ -56,16 +57,17 @@ function handle401Error(request: HttpRequest<any> ,next: HttpHandlerFn ,authServ
     isRefreshing.next(true);
     refreshTokenSubject.next(null);
     return authService.refreshToken().pipe(
-      switchMap((response: AuthResponse) => {
-         isRefreshing.next(false);
-        console.log('New access token received:', response.data.tokens.accessToken);
-        jwtService.updateToken(response.data.tokens.accessToken);
-        refreshTokenSubject.next(response.data.tokens.accessToken);
-        return next(addTokenHeader(request, response.data.tokens.accessToken));
+      switchMap((response: RefreshTokenResponse) => {
+        isRefreshing.next(false);
+        console.log('New access token received:', response.tokens.accessToken);
+        jwtService.updateToken(response.tokens.accessToken);
+        refreshTokenSubject.next(response.tokens.accessToken);
+        return next(addTokenHeader(request, response.tokens.accessToken));
       }),
       catchError(err => {
         isRefreshing.next(false);
-        console.error('Token refresh failed, navigating to login page...', err);
+      
+        router.navigate(["/auth/login"])
         return throwError(() => err);
       })  
     );
@@ -74,7 +76,6 @@ function handle401Error(request: HttpRequest<any> ,next: HttpHandlerFn ,authServ
       filter(token => token !== null),
       take(1),
       switchMap(token => {
-        console.log('Using refreshed token for the request...');
         return next(addTokenHeader(request, token as string))
       }
       )
