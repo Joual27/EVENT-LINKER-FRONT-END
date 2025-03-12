@@ -6,6 +6,11 @@ export interface UiState {
 }
 
 
+export interface ApiResponse<T> {
+    status : number ,
+    message : string , 
+    data : T
+}
 
 export interface User {
     id : number , 

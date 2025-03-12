@@ -1,19 +1,17 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { RegistrationData, RegistrationResponse } from '../models';
+import { AuthResponse, RefreshTokenResponse, RegistrationData, RegistrationResponse } from '../models';
 import { catchError, Observable, throwError } from 'rxjs';
-import { environments } from '../../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private http = inject(HttpClient);
-  private apiUrl = environments.apiUrl; 
+  private http = inject(HttpClient); 
   constructor() {}
 
   register(registrationType: string, data: RegistrationData): Observable<RegistrationResponse> {
-    return this.http.post<RegistrationResponse>(`${this.apiUrl}/public/auth/register/${registrationType}`, data).pipe(
+    return this.http.post<RegistrationResponse>(`/api/public/auth/register/${registrationType}`, data).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Registration error:', error);
         if (error.status === 400 && error.error) {
@@ -29,10 +27,16 @@ export class AuthService {
         }
       })
     );
-  }  
+  }
+
+
+  refreshToken() : Observable<RefreshTokenResponse>{
+    return this.http.get<RefreshTokenResponse>('/api/refresh-token' , {withCredentials : true});
+  }
 
   private extractValidationErrors(errors: { [key: string]: string }): string[] {
     return Object.keys(errors).map((field) => `${field}: ${errors[field]}`);
   }
+
 
 }

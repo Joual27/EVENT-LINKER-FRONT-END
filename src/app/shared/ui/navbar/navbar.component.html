@@ -5,9 +5,11 @@
         <p class="text-white font-semibold cursor-pointer duration-300 hover:text-primary-color">Event</p>
         <p class="text-white font-semibold cursor-pointer duration-300 hover:text-primary-color">Contact</p>
     </div>
-    <img src="assets/images/EventLinkerLogo.png" class="w-[250px] " alt="">
+    <div class="flex justify-center items-center flex-1">
+      <img src="assets/images/EventLinkerLogo.png" class="w-[250px] h-[150px] object-cover" alt="">
+    </div>
     @if (decodedUserData()) {   
-        <div class="flex items-center gap-[15px] cursor-pointer">
+        <div class="flex items-center gap-[15px] cursor-pointer min-w-[250px]   ">
             <img src="/assets/images/profile.png" class="w-[40px] h-[40px]" alt="">
             <p class="text-white font-semibold text-[.9rem]">{{decodedUserData()?.username}}</p>
         </div>
