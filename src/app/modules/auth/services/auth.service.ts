@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { RegistrationData, RegistrationResponse } from '../models';
+import { AuthResponse, RegistrationData, RegistrationResponse } from '../models';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environments } from '../../../environments/environments';
 
@@ -29,10 +29,16 @@ export class AuthService {
         }
       })
     );
-  }  
+  }
+
+
+  refreshToken() : Observable<AuthResponse>{
+    return this.http.get<AuthResponse>(`${this.apiUrl}/refresh-token` , {withCredentials : true});
+  }
 
   private extractValidationErrors(errors: { [key: string]: string }): string[] {
     return Object.keys(errors).map((field) => `${field}: ${errors[field]}`);
   }
+
 
 }
