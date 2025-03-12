@@ -80,7 +80,7 @@ export class RegisterFormComponent {
         setTimeout(() => {
           this.hideSuccessPopup();
           this.redirectBasedOnRole(authResponse.data.role);
-        } , 3000)
+        } , 20000)git 
       },
       error: (error) => {
         if (error.type === 'validation') {
