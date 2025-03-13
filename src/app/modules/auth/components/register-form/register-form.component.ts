@@ -76,11 +76,13 @@ export class RegisterFormComponent {
           role: authResponse.data.role
         }
         this.store.dispatch(authActions.loginSuccess({user: user}))
+        this.store.dispatch(uiActions.appIsLoading());
         this.encryptionService.setLoggedInUser(user);
         setTimeout(() => {
           this.hideSuccessPopup();
+          this.store.dispatch(uiActions.stopLoading());
           this.redirectBasedOnRole(authResponse.data.role);
-        } , 20000)
+        } , 3000)
       },
       error: (error) => {
         if (error.type === 'validation') {

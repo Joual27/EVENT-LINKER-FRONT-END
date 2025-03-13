@@ -2,7 +2,8 @@ export interface UiState {
     shownSuccessPopup : boolean,
     successPopupMessage : string,
     shownFailurePopup : boolean , 
-    errors : string[]
+    errors : string[] , 
+    isLoading : boolean
 }
 
 

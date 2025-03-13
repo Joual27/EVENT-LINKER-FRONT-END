@@ -4,5 +4,6 @@ export const initialUiState : UiState = {
     shownSuccessPopup : false ,
     shownFailurePopup : false ,
     successPopupMessage : "",
-    errors : []
+    errors : [] ,
+    isLoading : false
 }

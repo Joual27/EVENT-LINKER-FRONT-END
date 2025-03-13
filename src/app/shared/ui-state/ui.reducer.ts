@@ -1,6 +1,7 @@
 import { createReducer, on } from "@ngrx/store";
 import { initialUiState } from "./ui.state";
 import * as uiActions from "./ui.actions"
+import { state } from "@angular/animations";
 
 
 export const uiReducer = createReducer(
@@ -23,5 +24,14 @@ export const uiReducer = createReducer(
     on(uiActions.hideFailurePopup , (state) => ({
         ...state ,
         shownFailurePopup : false
+    })),
+    on(uiActions.appIsLoading , (state) => ({
+        ...state ,
+        isLoading : true
+    })),
+    on(uiActions.stopLoading , (state) => ({
+        ...state ,
+        isLoading : false
     }))
+    
 )

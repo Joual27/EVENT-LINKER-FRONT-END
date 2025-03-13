@@ -6,11 +6,12 @@ import { showSuccessPopup } from './shared/ui-state/ui.actions';
 import { FailurePopupComponent } from "./shared/ui/failure-popup/failure-popup.component";
 import { EncryptionService } from './modules/auth/services/encryption.service';
 import { loginSuccess } from './modules/auth/state/auth.actions';
+import { LoadingComponent } from './shared/ui/loading/loading.component';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SuccessPopupComponent, FailurePopupComponent],
+  imports: [RouterOutlet, SuccessPopupComponent, FailurePopupComponent , LoadingComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   

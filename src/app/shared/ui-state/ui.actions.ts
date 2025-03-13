@@ -18,3 +18,11 @@ export const showFailurePopup = createAction(
 export const hideFailurePopup = createAction(
     "[UI] hide failure Popup" , 
 )
+
+export const appIsLoading = createAction(
+    "[UI] app is loading"
+)
+
+export const stopLoading = createAction(
+    "[UI] stop app loading"
+)
