@@ -34,7 +34,7 @@ export const authInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
 
   return next(request).pipe(
     catchError(error => {
-      if (error instanceof HttpErrorResponse && error.status === 401) {
+      if (error instanceof HttpErrorResponse && error.status === 401 && error.message.startsWith("Bad")) {
         console.log('401 error detected, attempting to refresh token...');
         return handle401Error(request, next, authService, jwtService, router);
       } else {
