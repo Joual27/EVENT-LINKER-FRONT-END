@@ -9,7 +9,8 @@ module.exports = {
         'success-bg-green' : 'var(--success-bg-green)',
         'secondary-orange' : 'var(--secondary-orange)',
         'primary-color' : 'var(--primary-color)',
-        'secondary-color' : 'var(--secondary-color)'
+        'secondary-color' : 'var(--secondary-color)',
+        'secondary-bg' : 'var(--secondary-bg)'
       }
     },
   },

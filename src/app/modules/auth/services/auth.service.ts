@@ -34,7 +34,6 @@ export class AuthService {
   login(credentials: { email: string, password: string }): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`/api/public/auth/login`, credentials).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.error('Login error:', error); 
         if (error.status === 400 && error.error) {
           const errorResponse = error.error;
           if (errorResponse.message === 'Validations Error' && errorResponse.validationErrors) {

@@ -1,8 +1,9 @@
-import { User } from "../../../shared/models";
+import { User, UserProfile } from "../../../shared/models";
 
 
 export interface AuthState {
-    signedInUser : User | null
+    signedInUser : User | null , 
+    userProfile : UserProfile | null
 }
 
 

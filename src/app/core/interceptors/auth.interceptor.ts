@@ -8,6 +8,8 @@ import { AuthService } from '../../modules/auth/services/auth.service';
 import { RefreshTokenResponse } from '../../modules/auth/models';
 import { EncryptionService } from '../../modules/auth/services/encryption.service';
 import { JwtService } from '../../modules/auth/services/jwt.service';
+import { Store } from '@ngrx/store';
+import { showFailurePopup } from '../../shared/ui-state/ui.actions';
 
 
 const isRefreshing = new BehaviorSubject<boolean>(false);
@@ -18,6 +20,7 @@ export const authInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
   const encryptionService = inject(EncryptionService);
   const jwtService = inject(JwtService);
   const router = inject(Router);
+  const store = inject(Store);
   
 
 
@@ -34,14 +37,18 @@ export const authInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
 
   return next(request).pipe(
     catchError(error => {
-      if (error instanceof HttpErrorResponse && error.status === 401 && error.message.startsWith("Bad")) {
-        console.log('401 error detected, attempting to refresh token...');
-        return handle401Error(request, next, authService, jwtService, router);
-      } else {
-        return throwError(() => error);
-      }
-    })
-  );
+      if (error instanceof HttpErrorResponse && error.status === 401) {
+        if (error.error?.message?.startsWith("Bad")) {
+          console.log('401 error detected with "Bad" message, dispatching failure action...');
+          store.dispatch(showFailurePopup({ errors: ["Bad credentials"] }));
+          return throwError(() => error);
+        } else {
+          console.log('401 error detected, attempting to refresh token...');
+          return handle401Error(request, next, authService, jwtService, router);
+        }
+      } 
+      return throwError(() => error);
+    }))
 };
 
 function addTokenHeader(request: HttpRequest<any>, token: string) {
@@ -66,7 +73,7 @@ function handle401Error(request: HttpRequest<any> ,next: HttpHandlerFn ,authServ
       }),
       catchError(err => {
         isRefreshing.next(false);
-      
+        console.log(err);
         router.navigate(["/auth/login"])
         return throwError(() => err);
       })  

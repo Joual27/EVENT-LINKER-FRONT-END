@@ -18,3 +18,27 @@ export interface User {
     token : string ,
     role : string
 }
+
+export interface UserProfile {
+    id: number;
+    username: string;
+    email: string;
+    createdAt: string;
+    role: "WORKER" | "ORGANIZER" | "ADMIN"; 
+    isOrganization?: boolean;
+    balance?: number;
+    skills?: SkillDTO[]; 
+    organizationName?: string | null;
+    events?: EventDTO[] | null;
+}
+  
+export interface SkillDTO {
+   id: number;
+   name: string;
+}
+  
+export interface EventDTO {
+    id: number;
+    title: string;
+    date: string;
+}

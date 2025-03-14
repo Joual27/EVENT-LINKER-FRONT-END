@@ -3,10 +3,11 @@ import { Observable } from 'rxjs';
 import { Application } from '../../models/worker.models';
 import { WorkerService } from '../../services/worker.service';
 import { ApiResponse } from '../../../../shared/models';
+import { UserNavbarComponent } from "../../../../shared/ui/user-navbar/user-navbar.component";
 
 @Component({
   selector: 'app-worker-layout',
-  imports: [],
+  imports: [UserNavbarComponent],
   templateUrl: './worker-layout.component.html',
   styleUrl: './worker-layout.component.css'
 })
