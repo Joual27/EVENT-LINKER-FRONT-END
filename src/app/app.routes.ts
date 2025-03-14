@@ -19,11 +19,13 @@ export const routes: Routes = [
     {
         path : "organizer",
         loadComponent : () => import("./modules/organizer/layouts/organizer-layout/organizer-layout.component").then(m => m.OrganizerLayoutComponent),
+        loadChildren : () => import("./modules/organizer/organizer.routes").then(m => m.organizerRoutes),
         canActivate : [OrganizerGuard]
     },
     {
         path : "worker" ,
         loadComponent : () => import('./modules/worker/layouts/worker-layout/worker-layout.component').then(m => m.WorkerLayoutComponent),
+        loadChildren : () => import("./modules/worker/worker.routes").then(m => m.workerRoutes),
         canActivate : [WorkerGuard]
     }
 ];
