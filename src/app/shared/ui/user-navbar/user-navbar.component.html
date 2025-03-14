@@ -7,18 +7,21 @@
           </a>
         </div>
         <div class="flex items-center space-x-4 ">
-            <ng-container *ngIf="user$ | async as user">
-                <ng-container *ngIf="user.role === 'WORKER'">
-                    <div class="text-sm text-[#666] font-medium">
-                        Balance :
-                        <span class="text-primary-color font-semibold underline text-[.9rem]"> 120$</span>
-                     </div>
+            <ng-container *ngIf="user$ | async as user ">
+                <ng-container *ngIf="profileData$ | async as profileData">
+                    <ng-container *ngIf="user.role === 'WORKER'">
+                        <div class="text-sm text-[#666] font-medium">
+                            Balance :
+                            <span class="text-primary-color font-semibold underline text-[.9rem]"> {{profileData.balance}} $</span>
+                         </div>
+                    </ng-container> 
+                    <div class="flex items-center space-x-2 cursor-pointer" (click)="togglePopup()">
+                        <img src="assets/images/profile.png" alt="Profile" class="w-8 h-8 rounded-full">
+                        <span class="font-medium text-gray-700">{{profileData.username}}</span>
+                      </div>
                 </ng-container>
             </ng-container>
-            <div class="flex items-center space-x-2 cursor-pointer" (click)="togglePopup()">
-              <img src="assets/images/profile.png" alt="Profile" class="w-8 h-8 rounded-full">
-              <span class="font-medium text-gray-700">La7ya</span>
-            </div>
+            
         </div>
       </div>
     </div>

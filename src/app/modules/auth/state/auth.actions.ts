@@ -7,13 +7,16 @@ export const loginSuccess = createAction(
     props<{user : User}>()
 )
 
-export const fetchUserProfileData= createAction(
-    "[Auth] fetch user profile infos",
-    props<{id : number}>()
-)
-
 export const ProfileDataFetchedSuccess = createAction(
     "[Auth] profile data fetched succesfully ",
     props<{data : UserProfile}>() 
+)
+
+export const logout = createAction(
+    "[Auth] logout"
+)
+
+export const loggedOutSuccess = createAction(
+    "[Auth] logged out successfully ! "
 )
 

@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { AuthResponse, RefreshTokenResponse, RegistrationData, RegistrationResponse } from '../models';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environments } from '../../../environments/environments';
+import { ApiResponse } from '../../../shared/models';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,13 @@ export class AuthService {
 
   refreshToken() : Observable<RefreshTokenResponse>{
     return this.http.get<RefreshTokenResponse>('/api/refresh-token' , {withCredentials : true});
+  }
+
+
+  logout() : Observable<ApiResponse<string>>{
+    return this.http.get<ApiResponse<string>>('/api/logout' , {
+      withCredentials : true,
+    })
   }
 
   private extractValidationErrors(errors: { [key: string]: string }): string[] {
