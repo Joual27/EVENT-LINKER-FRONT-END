@@ -9,7 +9,8 @@
     --success-bg-green: #B7E9CE;
     --secondary-orange : #B34B0C;
     --primary-color : #DA495B;
-    --secondary-color : #FFDBEF
+    --secondary-color : #FFDBEF;
+    --secondary-bg : #181818
 }
 
 body{

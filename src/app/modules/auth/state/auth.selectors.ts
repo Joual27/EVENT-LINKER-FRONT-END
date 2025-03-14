@@ -10,3 +10,9 @@ export const selectSignedInUser = createSelector(
     selectAuthState,
     (state) => state.signedInUser
 )
+
+
+export const selectProfileData = createSelector(
+    selectAuthState,
+    (state) => state.userProfile
+)
