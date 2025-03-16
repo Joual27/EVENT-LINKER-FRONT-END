@@ -7,6 +7,7 @@ import { selectProfileData, selectSignedInUser } from '../../../modules/auth/sta
 import { CommonModule } from '@angular/common';
 import { logout } from '../../../modules/auth/state/auth.actions';
 
+
 @Component({
   selector: 'app-user-navbar',
   imports: [RouterLink , CommonModule],
@@ -23,6 +24,7 @@ export class UserNavbarComponent {
   constructor() {
     this.user$ = this.store.select(selectSignedInUser);
     this.profileData$ = this.store.select(selectProfileData);
+   
   }
 
   ngOnInit(): void {}

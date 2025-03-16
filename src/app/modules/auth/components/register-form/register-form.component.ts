@@ -120,10 +120,10 @@ export class RegisterFormComponent {
   redirectBasedOnRole(role : string) :void {
     switch(role.toLowerCase()){
       case 'worker' :
-        this.router.navigate(['/worker/profile']);
+        this.router.navigate(['/profile']);
         break;
       case 'organizer':
-        this.router.navigate(['/organizer/profile']);
+        this.router.navigate(['/profile']);
         break;
       case 'admin' :
         this.router.navigate(['/admin/dashboard']);

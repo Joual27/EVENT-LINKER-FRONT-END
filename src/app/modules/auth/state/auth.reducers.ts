@@ -1,6 +1,7 @@
 import { createReducer, on } from "@ngrx/store";
 import { initialAuthState } from "./auth.state";
 import * as authActions from "./auth.actions"
+import { profileDataFetchedSuccess } from "../../../shared/state/profile.actions";
 
 export const authReducer = createReducer(
     initialAuthState,
@@ -8,7 +9,7 @@ export const authReducer = createReducer(
         ...state,
         signedInUser : user
     })),
-    on(authActions.ProfileDataFetchedSuccess , (state , {data}) => ({
+    on(profileDataFetchedSuccess , (state , {data}) => ({
         ...state,
         userProfile : data
     })),

@@ -1,8 +1,9 @@
 import { AuthState } from "../../modules/auth/models";
-import { UiState } from "../../shared/models";
+import { ProfileState, UiState } from "../../shared/models";
 
 
 export interface AppState {
     ui : UiState,
-    auth : AuthState
+    auth : AuthState,
+    profile : ProfileState
 }
