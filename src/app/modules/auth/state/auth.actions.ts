@@ -7,8 +7,8 @@ export const loginSuccess = createAction(
     props<{user : User}>()
 )
 
-export const ProfileDataFetchedSuccess = createAction(
-    "[Auth] profile data fetched succesfully ",
+export const loggedInUserProfileDataFetchedSuccessfully = createAction(
+    "[Auth] Logged in User profile data fetched succesfully ",
     props<{data : UserProfile}>() 
 )
 

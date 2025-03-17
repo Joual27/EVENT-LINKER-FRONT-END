@@ -24,7 +24,7 @@ export class AuthEffect{
             mergeMap(({user}) => 
                 this.userService.getUserProfileData(user.id).pipe(
                     map((res : ApiResponse<UserProfile>) => 
-                        authActions.ProfileDataFetchedSuccess({data : res.data})  
+                        authActions.loggedInUserProfileDataFetchedSuccessfully({data : res.data})  
                     ),
                     catchError((err) => of(showFailurePopup({errors : [err.message]})))
                 )

@@ -120,13 +120,13 @@ export class RegisterFormComponent {
   redirectBasedOnRole(role : string) :void {
     switch(role.toLowerCase()){
       case 'worker' :
-        this.router.navigate(['/worker']);
+        this.router.navigate(['/profile']);
         break;
       case 'organizer':
-        this.router.navigate(['/organizer']);
+        this.router.navigate(['/profile']);
         break;
       case 'admin' :
-        this.router.navigate(['/admin']);
+        this.router.navigate(['/admin/dashboard']);
         break;
       default :
        console.log("This Role is not available !");

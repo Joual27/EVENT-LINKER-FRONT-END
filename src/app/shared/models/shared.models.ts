@@ -19,6 +19,10 @@ export interface User {
     role : string
 }
 
+export interface ProfileState {
+    activeUserProfile : UserProfile | null
+}
+
 export interface UserProfile {
     id: number;
     username: string;
@@ -30,6 +34,7 @@ export interface UserProfile {
     skills?: SkillDTO[]; 
     organizationName?: string | null;
     events?: EventDTO[] | null;
+    stats : WorkerStats | OrganizerStats | null
 }
   
 export interface SkillDTO {
@@ -38,7 +43,19 @@ export interface SkillDTO {
 }
   
 export interface EventDTO {
-    id: number;
     title: string;
-    date: string;
+    description: string;
+}
+
+export interface UserStats {
+    numberOfReviews : number ,
+    avgReview : number
+}
+
+export interface WorkerStats extends UserStats{
+    completedJobs : number,
+}
+
+export interface OrganizerStats extends UserStats{
+    numberOfCreatedEvents : number,
 }
