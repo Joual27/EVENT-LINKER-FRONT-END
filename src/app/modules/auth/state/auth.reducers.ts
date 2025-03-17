@@ -9,7 +9,7 @@ export const authReducer = createReducer(
         ...state,
         signedInUser : user
     })),
-    on(profileDataFetchedSuccess , (state , {data}) => ({
+    on(authActions.loggedInUserProfileDataFetchedSuccessfully , (state , {data}) => ({
         ...state,
         userProfile : data
     })),

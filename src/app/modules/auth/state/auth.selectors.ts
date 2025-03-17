@@ -11,7 +11,6 @@ export const selectSignedInUser = createSelector(
     (state) => state.signedInUser
 )
 
-
 export const selectProfileData = createSelector(
     selectAuthState,
     (state) => state.userProfile

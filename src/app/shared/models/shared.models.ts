@@ -43,10 +43,10 @@ export interface SkillDTO {
 }
   
 export interface EventDTO {
-    id: number;
     title: string;
-    date: string;
+    description: string;
 }
+
 export interface UserStats {
     numberOfReviews : number ,
     avgReview : number
