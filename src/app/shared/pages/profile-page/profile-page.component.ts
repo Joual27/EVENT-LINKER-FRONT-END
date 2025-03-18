@@ -9,10 +9,11 @@ import { ActivatedRoute } from '@angular/router';
 import { UserNavbarComponent } from "../../ui/user-navbar/user-navbar.component";
 import * as profileActions from "../../state/profile.actions"
 import { selectActiveProfileData } from '../../state/profile.selectors';
+import { BioComponent } from "../../components/bio/bio.component";
 
 @Component({
   selector: 'app-profile-page',
-  imports: [CommonModule, AsyncPipe, UserNavbarComponent],
+  imports: [CommonModule, AsyncPipe, UserNavbarComponent, BioComponent],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css'
 })
@@ -20,10 +21,10 @@ export class ProfilePageComponent implements OnInit{
   private store = inject(Store);
   private route = inject(ActivatedRoute);
   profileData$ : Observable<UserProfile | null>;
-  activeTab = "work"
+  activeTab = "bio"
   tabs = [
-    { id: "work", label: "Work" },
-    { id: "moodboards", label: "Moodboards" },
+    { id: "bio", label: "Bio" },
+    { id: "moodboards", label: "Moodboards"},
     { id: "likes", label: "Likes" },
     { id: "about", label: "About" },
   ]
