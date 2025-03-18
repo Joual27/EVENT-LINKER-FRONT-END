@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse, OrganizerStats, UserProfile, UserStats, WorkerStats } from '../models';
+import { ApiResponse, UserProfile, UserStats, } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,8 @@ export class ProfileService {
     return this.http.get<ApiResponse<UserProfile>>(`/api/users/${id}`);
   }
 
-  getUserStats(id : number) : Observable<ApiResponse<WorkerStats | OrganizerStats>>{
-    return this.http.get<ApiResponse<WorkerStats | OrganizerStats>>(`/api/users/stats/${id}`);
+  getUserStats(id : number) : Observable<ApiResponse<UserStats>>{
+    return this.http.get<ApiResponse<UserStats>>(`/api/users/stats/${id}`);
   }
   
 }

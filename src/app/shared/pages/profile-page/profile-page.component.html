@@ -35,27 +35,38 @@
         </div>
         
         <div class="flex justify-end gap-8 mt-6">
-          <div class="flex flex-col items-center">
-            <p class="text-sm text-[#666]">Completed Jobs</p>
-            <div class="flex items-center gap-2">
-              <p class="text-2xl font-bold text-white">2,985</p>
+          @if (profileData.role == "WORKER") {
+            <div class="flex flex-col items-center">
+              <p class="text-sm text-[#666]">Completed Jobs</p>
+              <div class="flex items-center gap-2">
+                <p class="text-2xl font-bold text-white">{{profileData.stats.completedJobs}}</p>
+              </div>
             </div>
-          </div>
-          <div class="flex flex-col items-center">
-            <p class="text-sm text-[#666]">Events Created</p>
-            <div class="flex items-center gap-2">
-              <p class="text-2xl font-bold text-white">2,985</p>
+          }@else {
+            <div class="flex flex-col items-center">
+              <p class="text-sm text-[#666]">Events Created</p>
+              <div class="flex items-center gap-2">
+                <p class="text-2xl font-bold text-white">{{profileData.stats.numberOfCreatedEvents}}</p>
+              </div>
             </div>
-          </div>
-          <div class="text-center">
-            <p class="text-sm text-[#666]">Reviews</p>
+          }  
+        
+          <div class="flex flex-col items-center">
+            <p class="text-sm text-[#666]">Avg Review</p>
             <div class="flex items-center gap-2">
-              <p class="text-2xl font-bold text-white">2,985</p>
+              @if (profileData.stats.numberOfReviews > 0) {
+                <div class="flex items-center gap-[4px]">
+                  <p class="text-2xl font-bold text-white">{{profileData.stats.avgReview}}</p>
+                  <i class="fa-solid fa-star " style="color: #FFD43B;"></i>
+                  <p class="text-white font-medium text-[.8rem]">({{profileData.stats.numberOfReviews}})</p>
+                </div>
+              }@else {
+                <p class="font-semibold text-white text-2xl">-</p>
+              }
             </div>
           </div>
         </div>
         
-      
         <div class="mt-8 border-b">
           <div class="grid grid-cols-4 w-full max-w-md">
             <button 
@@ -70,8 +81,8 @@
           </div>
           
           <div class="py-4 text-white px-10">
-            <div *ngIf="activeTab === 'work'">
-              <p>Work</p>
+            <div *ngIf="activeTab === 'bio'">
+              <app-bio></app-bio>
             </div>
             <div *ngIf="activeTab === 'moodboards'">
               <p>section2</p>

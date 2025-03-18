@@ -34,7 +34,7 @@ export interface UserProfile {
     skills?: SkillDTO[]; 
     organizationName?: string | null;
     events?: EventDTO[] | null;
-    stats : WorkerStats | OrganizerStats | null
+    stats : UserStats
 }
   
 export interface SkillDTO {
@@ -49,13 +49,8 @@ export interface EventDTO {
 
 export interface UserStats {
     numberOfReviews : number ,
-    avgReview : number
+    avgReview : number,
+    numberOfCreatedEvents ?: number,
+    completedJobs ?: number
 }
 
-export interface WorkerStats extends UserStats{
-    completedJobs : number,
-}
-
-export interface OrganizerStats extends UserStats{
-    numberOfCreatedEvents : number,
-}

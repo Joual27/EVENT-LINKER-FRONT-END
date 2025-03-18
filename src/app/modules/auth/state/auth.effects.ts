@@ -1,18 +1,18 @@
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import * as authActions from './auth.actions'
-import { catchError, map, mergeMap, of } from "rxjs";
+import { catchError, forkJoin, map, mergeMap, of } from "rxjs";
 import { inject } from "@angular/core";
-import { UserService } from "../../../shared/services/user.service";
-import { ApiResponse, UserProfile } from "../../../shared/models";
+import { UserProfile } from "../../../shared/models";
 import { appIsLoading, showFailurePopup, stopLoading } from "../../../shared/ui-state/ui.actions";
 import { AuthService } from "../services/auth.service";
 import { EncryptionService } from "../services/encryption.service";
 import { Store } from "@ngrx/store";
 import { Router } from "@angular/router";
+import { ProfileService } from "../../../shared/services/profile.service";
 
 export class AuthEffect{
     private actions$ = inject(Actions);
-    private userService = inject(UserService);
+    private profileService = inject(ProfileService);
     private authService = inject(AuthService);
     private encryprionService = inject(EncryptionService);
     private router = inject(Router);
@@ -21,15 +21,26 @@ export class AuthEffect{
     fetchUserProfileData$ = createEffect(() => 
         this.actions$.pipe(
             ofType(authActions.loginSuccess),
-            mergeMap(({user}) => 
-                this.userService.getUserProfileData(user.id).pipe(
-                    map((res : ApiResponse<UserProfile>) => 
-                        authActions.loggedInUserProfileDataFetchedSuccessfully({data : res.data})  
-                    ),
-                    catchError((err) => of(showFailurePopup({errors : [err.message]})))
+            mergeMap(({ user }) => 
+                forkJoin({
+                    profile: this.profileService.getUserProfileData(user.id),
+                    stats: this.profileService.getUserStats(user.id),
+                }).pipe(
+                    map(({ profile, stats }) => {
+                        const updatedProfile: UserProfile = {
+                            ...profile.data, 
+                            stats: stats.data, 
+                        };
+    
+                        return authActions.loggedInUserProfileDataFetchedSuccessfully({
+                            data: updatedProfile
+                        });
+                    }),
+                    catchError((err) => of(showFailurePopup({ errors: [err.message] })))
                 )
             )
-    ))
+        )
+    )
 
     logout$ = createEffect(() => 
         this.actions$.pipe(
