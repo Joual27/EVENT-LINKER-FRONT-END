@@ -32,9 +32,11 @@ export interface UserProfile {
     isOrganization?: boolean;
     balance?: number;
     skills?: SkillDTO[]; 
-    organizationName?: string | null;
-    events?: EventDTO[] | null;
-    stats : UserStats
+    organizationName?: string ;
+    events?: EventDTO[] ;
+    stats : UserStats;
+    bio ?: string;
+    profileImgUrl ?: string
 }
   
 export interface SkillDTO {
