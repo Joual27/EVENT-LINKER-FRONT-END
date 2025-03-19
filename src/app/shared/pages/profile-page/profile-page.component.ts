@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UserProfile } from '../../models';
@@ -20,11 +20,12 @@ import { BioComponent } from "../../components/bio/bio.component";
 export class ProfilePageComponent implements OnInit{
   private store = inject(Store);
   private route = inject(ActivatedRoute);
+  shownUpdateProfileOverlay = signal<boolean>(false);
   profileData$ : Observable<UserProfile | null>;
   activeTab = "bio"
   tabs = [
     { id: "bio", label: "Bio" },
-    { id: "moodboards", label: "Moodboards"},
+    { id: "reviews", label: "Reviews"},
     { id: "likes", label: "Likes" },
     { id: "about", label: "About" },
   ]
@@ -60,5 +61,15 @@ export class ProfilePageComponent implements OnInit{
   
   setActiveTab(tabId: string): void {
     this.activeTab = tabId
+  }
+
+
+  showUpdateProfileOverlay() : void{
+    this.shownUpdateProfileOverlay.set(true);
+  }
+
+
+  hideUpdateProfileOverlay() : void{
+    this.shownUpdateProfileOverlay.set(false);
   }
 }
