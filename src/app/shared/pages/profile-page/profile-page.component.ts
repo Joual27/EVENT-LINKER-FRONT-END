@@ -10,17 +10,19 @@ import { UserNavbarComponent } from "../../ui/user-navbar/user-navbar.component"
 import * as profileActions from "../../state/profile.actions"
 import { selectActiveProfileData } from '../../state/profile.selectors';
 import { BioComponent } from "../../components/bio/bio.component";
+import { FileUploadComponent } from "../../ui/file-upload/file-upload.component";
 
 @Component({
   selector: 'app-profile-page',
-  imports: [CommonModule, AsyncPipe, UserNavbarComponent, BioComponent],
+  imports: [CommonModule, AsyncPipe, UserNavbarComponent, BioComponent, FileUploadComponent],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css'
 })
 export class ProfilePageComponent implements OnInit{
   private store = inject(Store);
   private route = inject(ActivatedRoute);
-  shownUpdateProfileOverlay = signal<boolean>(false);
+  shownUpdateProfileOverlay = signal<boolean>(false); 
+  shownUpdateProfilePopup = signal<boolean>(false);
   profileData$ : Observable<UserProfile | null>;
   activeTab = "bio"
   tabs = [
@@ -58,7 +60,6 @@ export class ProfilePageComponent implements OnInit{
     });
   }
 
-  
   setActiveTab(tabId: string): void {
     this.activeTab = tabId
   }
@@ -68,8 +69,15 @@ export class ProfilePageComponent implements OnInit{
     this.shownUpdateProfileOverlay.set(true);
   }
 
+  showUpdateProfilePopup() : void{
+    this.shownUpdateProfilePopup.set(true);
+  }
 
   hideUpdateProfileOverlay() : void{
     this.shownUpdateProfileOverlay.set(false);
+  }
+
+  hideUpdateProfilePopup() : void{
+    this.shownUpdateProfilePopup.set(false);
   }
 }

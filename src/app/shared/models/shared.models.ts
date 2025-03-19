@@ -56,3 +56,21 @@ export interface UserStats {
     completedJobs ?: number
 }
 
+enum UploadState {
+    Initial,
+    Selected,
+    Uploading,
+    Success,
+    Failed
+}
+  
+export interface FileItem {
+    file: File;
+    name: string;
+    size: string;
+    progress: number;
+    state: UploadState;
+}
+
+
+

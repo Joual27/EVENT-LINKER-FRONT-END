@@ -12,5 +12,9 @@ export const fetchProfileData = createAction(
     props<{id : number}>()
 )
 
+export const updateProfile = createAction(
+    "[Profile] Update profile" ,
+    props<{data : FormData}>()
+)
 
 // update profile state stricture and

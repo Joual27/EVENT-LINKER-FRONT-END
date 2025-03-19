@@ -19,4 +19,7 @@ export class ProfileService {
     return this.http.get<ApiResponse<UserStats>>(`/api/users/stats/${id}`);
   }
   
+  updateProfile(data : FormData) : Observable<ApiResponse<UserProfile>>{
+    return this.http.put<ApiResponse<UserProfile>>(`/api/users/profile` , data);
+  }
 }

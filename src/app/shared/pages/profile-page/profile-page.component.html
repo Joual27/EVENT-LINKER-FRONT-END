@@ -14,7 +14,7 @@
             alt="Profile picture" 
             class="object-cover w-full h-full relative z-0"
           />  
-          <div [ngClass]="shownUpdateProfileOverlay() ? '' : 'hidden'" class="absolute inset-0 bg-white/50 z-[10] flex items-center justify-center" style="border-radius: 2.5rem;">
+          <div [ngClass]="shownUpdateProfileOverlay() ? '' : 'hidden'" class="absolute inset-0 bg-white/50 z-[10] flex items-center justify-center" style="border-radius: 2.5rem;" (click)="showUpdateProfilePopup()">
             <i class="fa-solid fa-camera text-2xl" style="color: #DA495B;"></i>
           </div>
         </div>
@@ -102,3 +102,6 @@
     </div>
   </div>
 </ng-container>
+@if (shownUpdateProfilePopup()) {
+  <app-file-upload (closePopup)="hideUpdateProfilePopup()"></app-file-upload>
+}
