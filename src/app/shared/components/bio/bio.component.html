@@ -1,11 +1,23 @@
 <div class="w-full min-h-[300px]">
-    <div class="w-full h-[300px] flex items-center justify-center gap-4">
-        @if (bio) {
-            <i class="fa-solid fa-quote-left" style="margin-bottom: 15px;"></i>
-            <p class="text-[.9rem] font-semibold">{{bio}}</p>
-            <i class="fa-solid fa-quote-right" style="margin-top: 15px;"></i>
-        }@else {
-            <p class="text-[.9rem] font-semibold">You don't have a bio yet ! <span class="underline text-[.8rem] text-primary-color cursor-pointer duration-300 hover:opacity-85">add one</span> </p>
-        }
-    </div>
+    <ng-container *ngIf="profileData$ | async as profileData">
+        <ng-container *ngIf="signedInUser$ | async as signedInUser">
+            <div class="w-full h-[300px] flex items-center justify-center gap-4 relative">
+                @if (bio) {
+                    <i class="fa-solid fa-quote-left" style="margin-bottom: 15px;"></i>
+                    <p class="text-[.9rem] font-semibold">{{bio}}</p>
+                    <i class="fa-solid fa-quote-right" style="margin-top: 15px;"></i>
+                    <div class="absolute w-full h-full flex justify-end" >
+                        <i class="fa-solid fa-user-pen" style="color: #DA495B; font-size: 1.25rem; cursor: pointer;" (click)="onShowPopup()"></i>
+                    </div>
+                }@else if(signedInUser.id == profileData.id) {
+                    <p class="text-[.9rem] font-semibold">You don't have a bio yet ! <span class="underline text-[.8rem] text-primary-color cursor-pointer duration-300 hover:opacity-85" (click)="onShowPopup()">add one</span> </p>
+                    
+                }@else {
+                    <p class="text-[.9rem] font-semibold">{{profileData.username}} Didn't write a Bio Yet ! </p>
+                }
+               
+            </div>
+        </ng-container>
+    </ng-container>
+    
 </div>  

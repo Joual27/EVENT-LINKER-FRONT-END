@@ -1,107 +1,118 @@
 <app-user-navbar></app-user-navbar> 
 <ng-container *ngIf="profileData$ | async as profileData">
-  <div class="container mx-auto">
-    <div class="relative ">
-      <div class="h-40 w-full bg-gradient-to-r from-primary-color via-purple-500 to-pink-500 rounded-b-3xl"></div>
-      <div class="px-6">
-        <div class="relative -mt-24 ">
-          <div class="relative h-44 w-44 overflow-hidden border-4 cursor-pointer border-white border-opacity-30 backdrop-blur-lg duration-300" style="border-radius: 3rem;"
-          (mouseenter)="showUpdateProfileOverlay()"
-          (mouseleave)="hideUpdateProfileOverlay()"
-          >
-          <img 
-            [src]="profileData.profileImgUrl" 
-            alt="Profile picture" 
-            class="object-cover w-full h-full relative z-0"
-          />  
-          <div [ngClass]="shownUpdateProfileOverlay() ? '' : 'hidden'" class="absolute inset-0 bg-white/50 z-[10] flex items-center justify-center" style="border-radius: 2.5rem;" (click)="showUpdateProfilePopup()">
-            <i class="fa-solid fa-camera text-2xl" style="color: #DA495B;"></i>
+   <ng-container *ngIf="signedInUser$ | async as signedInUser">
+    <div class="container mx-auto">
+      <div class="relative ">
+        <div class="h-40 w-full bg-gradient-to-r from-primary-color via-purple-500 to-pink-500 rounded-b-3xl"></div>
+        <div class="px-6">
+          <div class="relative -mt-24 ">
+            <div [ngClass]="profileData.id == signedInUser.id ? 'cursor-pointer' : ''" class="relative h-44 w-44 overflow-hidden border-4  border-white border-opacity-30 backdrop-blur-lg duration-300" style="border-radius: 3rem;"
+            (mouseenter)="showUpdateProfileOverlay()"
+            (mouseleave)="hideUpdateProfileOverlay()"
+            > 
+            <img 
+              [src]="(profileData.profileImgUrl) ? profileData.profileImgUrl : '/assets/images/profile.png'" 
+              alt="Profile picture" 
+              class="object-cover w-full h-full relative z-0"
+            />  
+           @if (profileData.id == signedInUser.id) {
+              <div [ngClass]="shownUpdateProfileOverlay() ? '' : 'hidden'" class="absolute inset-0 bg-white/50 z-[10] flex items-center justify-center" style="border-radius: 2.5rem;" (click)="showUpdateProfilePopup()">
+                <i class="fa-solid fa-camera text-2xl" style="color: #DA495B;"></i>
+              </div>
+           }
           </div>
-        </div>
-        </div>
-        
-        <div class="mt-4 flex flex-col md:flex-row md:items-center md:justify-between">
-          <div>
-            <div class="flex items-center gap-3">
-              <h1 class="text-2xl font-bold text-white">{{profileData.username}}</h1>
-              <span [ngClass]="profileData.role == 'ORGANIZER' ? 'bg-blue-600' : 'bg-purple-500'" class=" text-white text-xs font-semibold px-2 py-0.5 rounded">{{profileData.role == 'ORGANIZER' ? 'Organizer' : 'Worker'}}</span>
-            </div>
-            @if (profileData.role == 'WORKER' ) {
-              <p class="text-[#666] mt-1 font-medium ">{{ profileData.isOrganization == false ? 'Non-organization' : 'Organisation'}}</p>
-            }
-
-            @if (profileData.role == 'ORGANIZER') {
-              <p class="text-[#666] mt-1 font-medium ">{{ profileData.organizationName}}</p>
-            }
           </div>
           
-          <div class="flex gap-3 mt-4 md:mt-0">
-            <button class="rounded-full px-6 py-2 bg-primary-color text-white hover:opacity-85 text-sm ">Save</button>
-          </div>
-        </div>
-        
-        <div class="flex justify-end gap-8 mt-6">
-          @if (profileData.role == "WORKER") {
-            <div class="flex flex-col items-center">
-              <p class="text-sm text-[#666]">Completed Jobs</p>
-              <div class="flex items-center gap-2">
-                <p class="text-2xl font-bold text-white">{{profileData.stats.completedJobs}}</p>
+          <div class="mt-4 flex flex-col md:flex-row md:items-center md:justify-between">
+            <div>
+              <div class="flex items-center gap-3">
+                <h1 class="text-2xl font-bold text-white">{{profileData.username}}</h1>
+                <span [ngClass]="profileData.role == 'ORGANIZER' ? 'bg-blue-600' : 'bg-purple-500'" class=" text-white text-xs font-semibold px-2 py-0.5 rounded">{{profileData.role == 'ORGANIZER' ? 'Organizer' : 'Worker'}}</span>
               </div>
-            </div>
-          }@else {
-            <div class="flex flex-col items-center">
-              <p class="text-sm text-[#666]">Events Created</p>
-              <div class="flex items-center gap-2">
-                <p class="text-2xl font-bold text-white">{{profileData.stats.numberOfCreatedEvents}}</p>
-              </div>
-            </div>
-          } 
-        
-          <div class="flex flex-col items-center">
-            <p class="text-sm text-[#666]">Avg Review</p>
-            <div class="flex items-center gap-2">
-              @if (profileData.stats.numberOfReviews > 0) {
-                <div class="flex items-center gap-[4px]">
-                  <p class="text-2xl font-bold text-white">{{profileData.stats.avgReview}}</p>
-                  <i class="fa-solid fa-star " style="color: #FFD43B;"></i>
-                  <p class="text-white font-medium text-[.8rem]">({{profileData.stats.numberOfReviews}})</p>
-                </div>
-              }@else {
-                <p class="font-semibold text-white text-2xl">-</p>
+              @if (profileData.role == 'WORKER' ) {
+                <p class="text-[#666] mt-1 font-medium ">{{ profileData.isOrganization == false ? 'Non-organization' : 'Organisation'}}</p>
+              }
+  
+              @if (profileData.role == 'ORGANIZER') {
+                <p class="text-[#666] mt-1 font-medium ">{{ profileData.organizationName}}</p>
               }
             </div>
-          </div>
-        </div>
-        
-        <div class="mt-8 border-b">
-          <div class="grid grid-cols-4 w-full max-w-md">
-            <button 
-              *ngFor="let tab of tabs" 
-              [class.border-b-2]="activeTab === tab.id"
-              [class.border-primary-color]="activeTab === tab.id"
-              class="py-2 px-4 text-center text-white cursor-pointer"
-              (click)="setActiveTab(tab.id)"
-            >
-              {{ tab.label }}
-            </button>
+            
+            <div class="flex gap-3 mt-4 md:mt-0">
+             @if (signedInUser.id == profileData.id) {
+              <button class="rounded-full px-6 py-2 bg-primary-color text-white hover:opacity-85 text-sm ">Save</button>
+             }@else {
+              <button class="rounded-full px-6 py-2 bg-primary-color text-white hover:opacity-85 text-sm ">Get In Touch</button>
+             }
+            </div>
           </div>
           
-          <div class="py-4 text-white px-10">
-            <div *ngIf="activeTab === 'bio'">
-              <app-bio [bio]="profileData.bio"></app-bio>
+          <div class="flex justify-end gap-8 mt-6">
+            @if (profileData.role == "WORKER") {
+              <div class="flex flex-col items-center">
+                <p class="text-sm text-[#666]">Completed Jobs</p>
+                <div class="flex items-center gap-2">
+                  <p class="text-2xl font-bold text-white">{{profileData.stats.completedJobs}}</p>
+                </div>
+              </div>
+            }@else {
+              <div class="flex flex-col items-center">
+                <p class="text-sm text-[#666]">Events Created</p>
+                <div class="flex items-center gap-2">
+                  <p class="text-2xl font-bold text-white">{{profileData.stats.numberOfCreatedEvents}}</p>
+                </div>
+              </div>
+            } 
+          
+            <div class="flex flex-col items-center">
+              <p class="text-sm text-[#666]">Avg Review</p>
+              <div class="flex items-center gap-2">
+                @if (profileData.stats.numberOfReviews > 0) {
+                  <div class="flex items-center gap-[4px]">
+                    <p class="text-2xl font-bold text-white">{{profileData.stats.avgReview}}</p>
+                    <i class="fa-solid fa-star " style="color: #FFD43B;"></i>
+                    <p class="text-white font-medium text-[.8rem]">({{profileData.stats.numberOfReviews}})</p>
+                  </div>
+                }@else {
+                  <p class="font-semibold text-white text-2xl">-</p>
+                }
+              </div>
             </div>
-            <div *ngIf="activeTab === 'reviews'">
-              <p>Reviews</p>
+          </div>
+          
+          <div class="mt-8 border-b">
+            <div class="grid grid-cols-4 w-full max-w-md">
+              <button 
+                *ngFor="let tab of tabs" 
+                [class.border-b-2]="activeTab === tab.id"
+                [class.border-primary-color]="activeTab === tab.id"
+                class="py-2 px-4 text-center text-white cursor-pointer"
+                (click)="setActiveTab(tab.id)"
+              >
+                {{ tab.label }}
+              </button>
             </div>
-            <div *ngIf="activeTab === 'about'">
-              <p>Bio here !</p>
+            
+            <div class="py-4 text-white px-10">
+              <div *ngIf="activeTab === 'bio'">
+                <app-bio [signedInUser$]="signedInUser$" [profileData$]="profileData$" [bio]="profileData.bio" (showUpdateBioPopup)="showUpdateBioPopup()"></app-bio>
+              </div>
+              <div *ngIf="activeTab === 'reviews'">
+                <p>Reviews</p>
+              </div>
+              <div *ngIf="activeTab === 'about'">
+                <p>Bio here !</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    @if (shownUpdateProfilePopup()) {
+      <app-file-upload (closePopup)="hideUpdateProfilePopup()"></app-file-upload>
+    }
+    @if (shownUpdateBioPopup()) {
+      <app-update-bio-popup (close)="hideUpdateBioPopup()" [currentBio]="profileData.bio" (save)="hideUpdateBioPopup()"></app-update-bio-popup>
+    }
+   </ng-container>
 </ng-container>
-@if (shownUpdateProfilePopup()) {
-  <app-file-upload (closePopup)="hideUpdateProfilePopup()"></app-file-upload>
-}

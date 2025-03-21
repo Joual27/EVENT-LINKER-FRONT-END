@@ -43,10 +43,6 @@ export class FileUploadComponent{
   readonly MAX_SIZE = '2MB';
   readonly MAX_SIZE_BYTES = 2 * 1024 * 1024;
   
-  constructor(
-    private http: HttpClient
-  ) {}
-
 
   onDragOver(event: DragEvent): void {
     event.preventDefault();

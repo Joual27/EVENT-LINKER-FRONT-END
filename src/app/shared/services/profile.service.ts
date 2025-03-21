@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse, UserProfile, UserStats, } from '../models';
+import { ApiResponse, Review, UserProfile, UserStats, } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -22,4 +22,9 @@ export class ProfileService {
   updateProfile(data : FormData) : Observable<ApiResponse<UserProfile>>{
     return this.http.put<ApiResponse<UserProfile>>(`/api/users/profile` , data);
   }
+
+  getUserReviews(id : number) : Observable<ApiResponse<Review[]>>{
+    return this.http.get<ApiResponse<Review[]>>(`/api/reviews/${id}`)
+  }
+
 }

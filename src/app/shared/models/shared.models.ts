@@ -6,7 +6,6 @@ export interface UiState {
     isLoading : boolean
 }
 
-
 export interface ApiResponse<T> {
     status : number ,
     message : string , 
@@ -20,7 +19,7 @@ export interface User {
 }
 
 export interface ProfileState {
-    activeUserProfile : UserProfile | null
+    activeUserProfile : UserProfile | null 
 }
 
 export interface UserProfile {
@@ -35,6 +34,7 @@ export interface UserProfile {
     organizationName?: string ;
     events?: EventDTO[] ;
     stats : UserStats;
+    reviews : Review[];
     bio ?: string;
     profileImgUrl ?: string
 }
@@ -70,6 +70,18 @@ export interface FileItem {
     size: string;
     progress: number;
     state: UploadState;
+}
+
+export interface Review {
+    id : number;
+    comment : string ;
+    rating : string ;
+    reviewer : EmbeddedUser
+}
+
+export interface EmbeddedUser{
+    username : string ;
+    profileImgUrl : string
 }
 
 

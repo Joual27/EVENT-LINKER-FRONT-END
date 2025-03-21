@@ -97,7 +97,7 @@
             </div>
           </div>
       
-          <!-- Success state -->
+          
           <div *ngIf="uploadState === UploadState.Success && selectedFile" class="mt-2.5">
             <div class="flex items-center justify-between p-3 rounded bg-green-50 mb-2">
               <div class="flex items-center flex-1">
@@ -123,12 +123,10 @@
       
     
         <div class="flex justify-end px-5 py-4 border-t border-gray-200 gap-3">
-          <button class="px-4 py-2 border border-gray-300 bg-white text-gray-700 rounded text-sm cursor-pointer transition-all duration-200 hover:bg-gray-50" (click)="handleClosingPopup()">Cancel</button>
+          <button class="px-3 py-[5px] bg-primary-color rounded-3xl  text-[.95rem] text-white cursor-pointer duration-300 hover:opacity-90" (click)="handleClosingPopup()">Cancel</button>
           <button *ngIf="uploadState === UploadState.Selected" 
-                  class="px-4 py-2 border-none bg-primary-color text-white rounded text-sm cursor-pointer transition-all duration-200 hover:opacity-90" 
+          class="px-3 py-[5px] bg-primary-color rounded-3xl  text-[.95rem] text-white cursor-pointer duration-300 hover:opacity-90"
                   (click)="uploadFile()">Continue</button>
-          <button *ngIf="uploadState === UploadState.Success" 
-                  class="px-4 py-2 border-none bg-primary-color text-white rounded text-sm cursor-pointer transition-all duration-200 hover:opacity-90">Continue</button>
-        </div>
+        
       </div>
 </div>

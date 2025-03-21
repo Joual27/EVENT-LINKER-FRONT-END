@@ -17,14 +17,13 @@ export class ProfileEffect{
           mergeMap(({ id }) =>
             forkJoin({
               profile: this.profileService.getUserProfileData(id),
-              stats: this.profileService.getUserStats(id),
+              stats: this.profileService.getUserStats(id)
             }).pipe(
               map(({ profile, stats }) => {
                 const updatedProfile: UserProfile = {
                   ...profile.data, 
                   stats: stats.data, 
                 };
-    
                 return profileActions.profileDataFetchedSuccess({ data: updatedProfile });
               }),
               catchError((err) => of(showFailurePopup({ errors: [err.message] })))
@@ -41,7 +40,7 @@ export class ProfileEffect{
               mergeMap((profileResponse) => {
                 const userId = profileResponse.data.id;
                 return forkJoin({
-                  profile: of(profileResponse), // Use the updated profile response
+                  profile: of(profileResponse), 
                   stats: this.profileService.getUserStats(userId)
                 });
               }),

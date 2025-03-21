@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { UserProfile } from "../models";
+import { Review, UserProfile } from "../models";
 
 
 export const profileDataFetchedSuccess = createAction(
@@ -17,4 +17,4 @@ export const updateProfile = createAction(
     props<{data : FormData}>()
 )
 
-// update profile state stricture and
+
