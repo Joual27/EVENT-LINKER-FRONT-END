@@ -1,12 +1,12 @@
 import { createReducer, on } from "@ngrx/store";
 import { initialProfileState } from "./profile.state";
-import { profileDataFetchedSuccess } from "./profile.actions";
-
+import * as profileActions from "./profile.actions"
+import { state } from "@angular/animations";
 
 export const profileReducer = createReducer(
     initialProfileState ,
-    on(profileDataFetchedSuccess , (state , {data}) => ({
+    on(profileActions.profileDataFetchedSuccess , (state , {data}) => ({
         ...state,
         activeUserProfile : data
-    }))
+    })),
 )
