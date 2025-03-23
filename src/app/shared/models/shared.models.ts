@@ -19,7 +19,8 @@ export interface User {
 }
 
 export interface ProfileState {
-    activeUserProfile : UserProfile | null 
+    activeUserProfile : UserProfile | null ,
+    reviews : PaginationResponse<Review[]> | null
 }
 
 export interface UserProfile {
@@ -72,11 +73,18 @@ export interface FileItem {
     state: UploadState;
 }
 
+export interface PaginationResponse<T>{
+    hasNext : boolean ;
+    hasPrevious : boolean , 
+    data : T
+}
+
 export interface Review {
     id : number;
     comment : string ;
-    rating : string ;
-    reviewer : EmbeddedUser
+    rating : number ;
+    reviewer : EmbeddedUser;
+    createdAt : string | Date
 }
 
 export interface EmbeddedUser{

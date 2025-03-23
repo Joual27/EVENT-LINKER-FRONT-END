@@ -12,10 +12,11 @@ import { selectActiveProfileData } from '../../state/profile.selectors';
 import { BioComponent } from "../../components/bio/bio.component";
 import { FileUploadComponent } from "../../ui/file-upload/file-upload.component";
 import { UpdateBioPopupComponent } from '../../components/update-bio-popup/update-bio-popup.component';
+import { ProfileReviewsListComponent } from "../../components/profile-reviews-list/profile-reviews-list.component";
 
 @Component({
   selector: 'app-profile-page',
-  imports: [CommonModule, AsyncPipe, UserNavbarComponent, BioComponent, FileUploadComponent , UpdateBioPopupComponent],
+  imports: [CommonModule, AsyncPipe, UserNavbarComponent, BioComponent, FileUploadComponent, UpdateBioPopupComponent, ProfileReviewsListComponent ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css'
 })

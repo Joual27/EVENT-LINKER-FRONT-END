@@ -1,0 +1,9 @@
+<div class="w-full h-[300px] flex items-center justify-center gap-4 relative">
+    @if (reviews.length == 0) {
+        <p>No reviews Yet !</p>
+    }@else {
+        @for (review of reviews; track review.id) {
+            <app-profile-reviews-item [review]="review"></app-profile-reviews-item>
+        }
+    }
+</div>

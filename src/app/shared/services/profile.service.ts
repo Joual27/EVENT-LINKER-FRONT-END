@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse, Review, UserProfile, UserStats, } from '../models';
+import { ApiResponse, PaginationResponse, Review, UserProfile, UserStats, } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +23,8 @@ export class ProfileService {
     return this.http.put<ApiResponse<UserProfile>>(`/api/users/profile` , data);
   }
 
-  getUserReviews(id : number) : Observable<ApiResponse<Review[]>>{
-    return this.http.get<ApiResponse<Review[]>>(`/api/reviews/${id}`)
+  getUserReviews(id : number , page : number) : Observable<ApiResponse<PaginationResponse<Review []>>>{
+    return this.http.get<ApiResponse<PaginationResponse<Review []>>>(`/api/reviews/${id}?page=${page}&size=2`)
   }
-
+  
 }
