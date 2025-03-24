@@ -1,0 +1,106 @@
+<div class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+    <div class="bg-gray-900 rounded-lg w-full max-w-md relative" 
+         (click)="$event.stopPropagation()">
+      
+      <!-- Gradient header -->
+      <div class="h-2 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-400 rounded-t-lg"></div>
+      
+      <!-- Close button -->
+      <button 
+        (click)="onClose()" 
+        class="absolute top-3 right-3 text-gray-400 hover:text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      
+      <div class="p-6">
+        <h2 class="text-xl font-bold text-white mb-6">
+          {{ event ? 'Edit Event' : 'Create Event' }}
+        </h2>
+        
+        <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+          <div class="space-y-4">
+            <!-- Title -->
+            <div>
+              <label for="title" class="block text-sm font-medium text-gray-300 mb-1">Title</label>
+              <input 
+                type="text" 
+                id="title" 
+                formControlName="title"
+                class="w-full bg-gray-800 border border-gray-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                placeholder="Event title"
+              >
+              <div *ngIf="eventForm.get('title')?.invalid && eventForm.get('title')?.touched" 
+                   class="text-red-400 text-xs mt-1">
+                Title is required
+              </div>
+            </div>
+            
+            <!-- Description -->
+            <div>
+              <label for="description" class="block text-sm font-medium text-gray-300 mb-1">Description</label>
+              <textarea 
+                id="description" 
+                formControlName="description"
+                rows="3"
+                class="w-full bg-gray-800 border border-gray-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                placeholder="Event description"
+              ></textarea>
+              <div *ngIf="eventForm.get('description')?.invalid && eventForm.get('description')?.touched" 
+                   class="text-red-400 text-xs mt-1">
+                Description is required
+              </div>
+            </div>
+            
+            <!-- Date -->
+            <div>
+              <label for="date" class="block text-sm font-medium text-gray-300 mb-1">Date & Time</label>
+              <input 
+                type="datetime-local" 
+                id="date" 
+                formControlName="date"
+                class="w-full bg-gray-800 border border-gray-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+              >
+              <div *ngIf="eventForm.get('date')?.invalid && eventForm.get('date')?.touched" 
+                   class="text-red-400 text-xs mt-1">
+                Date and time are required
+              </div>
+            </div>
+            
+            <!-- Location -->
+            <div>
+              <label for="location" class="block text-sm font-medium text-gray-300 mb-1">Location</label>
+              <input 
+                type="text" 
+                id="location" 
+                formControlName="location"
+                class="w-full bg-gray-800 border border-gray-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                placeholder="Event location"
+              >
+              <div *ngIf="eventForm.get('location')?.invalid && eventForm.get('location')?.touched" 
+                   class="text-red-400 text-xs mt-1">
+                Location is required
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-6 flex justify-end gap-3">
+            <button 
+              type="button"
+              (click)="onClose()"
+              class="py-2 px-4 border border-gray-600 rounded-md text-gray-300 hover:bg-gray-800 transition-colors duration-200">
+              Cancel
+            </button>
+            <button 
+              type="submit"
+              class="py-2 px-6 bg-pink-500 hover:bg-pink-600 rounded-md text-white font-medium transition-colors duration-200">
+              {{ event ? 'Update' : 'Create' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  

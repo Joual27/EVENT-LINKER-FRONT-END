@@ -86,19 +86,19 @@
                 *ngFor="let tab of tabs" 
                 [class.border-b-2]="activeTab === tab.id"
                 [class.border-primary-color]="activeTab === tab.id"
-                class="py-2 px-4 text-center text-white cursor-pointer"
-                (click)="setActiveTab(tab.id)"
-              >
+                class="py-2 px-4 text-center text-white font-semibold text-[.95rem] cursor-pointer"
+                (click)="setActiveTab(tab.id)"  
+              > 
                 {{ tab.label }}
               </button>
             </div>
-            
+
             <div class="py-4 text-white px-10">
               <div *ngIf="activeTab === 'bio'">
                 <app-bio [signedInUser$]="signedInUser$" [profileData$]="profileData$" [bio]="profileData.bio" (showUpdateBioPopup)="showUpdateBioPopup()"></app-bio>
               </div>
               <div *ngIf="activeTab === 'reviews'">
-                <p>Reviews</p>
+                <app-profile-reviews-list [reviews$]="reviews$"></app-profile-reviews-list>
               </div>
               <div *ngIf="activeTab === 'about'">
                 <p>Bio here !</p>

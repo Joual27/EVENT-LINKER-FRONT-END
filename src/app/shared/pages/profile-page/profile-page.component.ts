@@ -2,20 +2,21 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { User, UserProfile } from '../../models';
+import { PaginationResponse, Review, User, UserProfile } from '../../models';
 import { selectProfileData, selectSignedInUser } from '../../../modules/auth/state/auth.selectors';
 import { appIsLoading, stopLoading } from '../../ui-state/ui.actions';
 import { ActivatedRoute } from '@angular/router';
 import { UserNavbarComponent } from "../../ui/user-navbar/user-navbar.component";
 import * as profileActions from "../../state/profile.actions"
-import { selectActiveProfileData } from '../../state/profile.selectors';
+import { selectActiveProfileData, selectReviews } from '../../state/profile.selectors';
 import { BioComponent } from "../../components/bio/bio.component";
 import { FileUploadComponent } from "../../ui/file-upload/file-upload.component";
 import { UpdateBioPopupComponent } from '../../components/update-bio-popup/update-bio-popup.component';
+import { ProfileReviewsListComponent } from "../../components/profile-reviews-list/profile-reviews-list.component";
 
 @Component({
   selector: 'app-profile-page',
-  imports: [CommonModule, AsyncPipe, UserNavbarComponent, BioComponent, FileUploadComponent , UpdateBioPopupComponent],
+  imports: [CommonModule, AsyncPipe, UserNavbarComponent, BioComponent, FileUploadComponent, UpdateBioPopupComponent, ProfileReviewsListComponent ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css'
 })
@@ -23,6 +24,7 @@ export class ProfilePageComponent implements OnInit{
   private store = inject(Store);
   private route = inject(ActivatedRoute);
   signedInUser$ : Observable<User | null>;
+  reviews$ : Observable<PaginationResponse<Review[]> | null>;
   shownUpdateProfileOverlay = signal<boolean>(false); 
   shownUpdateProfilePopup = signal<boolean>(false);
   shownUpdateBioPopup = signal<boolean>(false);
@@ -39,6 +41,7 @@ export class ProfilePageComponent implements OnInit{
     this.store.dispatch(appIsLoading());
     this.profileData$ = this.store.select(selectActiveProfileData);
     this.signedInUser$ = this.store.select(selectSignedInUser);
+    this.reviews$ = this.store.select(selectReviews);
   }
 
   ngOnInit(): void {
@@ -50,7 +53,7 @@ export class ProfilePageComponent implements OnInit{
         this.store.select(selectProfileData).subscribe({
           next: (res) => {
             if (res) {
-              this.store.dispatch(profileActions.profileDataFetchedSuccess({data : res}));
+              this.store.dispatch(profileActions.fetchProfileData({id : res.id}));
             }
           },
         });

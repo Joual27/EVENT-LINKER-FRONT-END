@@ -1,0 +1,21 @@
+<ng-container *ngIf="reviews$ | async as reviews">
+    <div class="w-full h-[300px] flex items-center justify-center gap-4 relative">
+        @if (reviews.data.length == 0) {
+            <p>No reviews Yet !</p>
+        }@else {
+            @for (review of reviews.data; track review.id) {
+                <app-profile-reviews-item [review]="review"></app-profile-reviews-item>
+            }
+        }
+        @if (reviews.hasPrevious) {
+            <div class="absolute left-0 bottom-0 py-1" (click)="onPrevious()">
+                <button class="px-2 py-1 bg-transparent text-white font-medium text-[.85rem] border-2 border-primary-color hover:border-white duration-300">previous</button>
+            </div>
+        }
+       @if (reviews.hasNext) {
+        <div class="absolute right-4 w- bottom-0 py-3 " (click)="onNext()">
+            <button class="px-2 py-1 bg-transparent text-white font-medium text-[.85rem] border-2 border-primary-color hover:border-white duration-300">next</button>
+        </div> 
+       } 
+    </div>
+</ng-container>
