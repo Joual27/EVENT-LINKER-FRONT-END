@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core"
+import { Component, inject, OnInit, signal } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { OrganizerEvent } from "../../models/organizer.models"
 import { EventListComponent } from "../../components/event-list/event-list.component"
@@ -9,6 +9,8 @@ import { fetchEvents } from "../../state/organizer.actions"
 import { Observable } from "rxjs"
 import { PaginationResponse } from "../../../../shared/models"
 import { selectOrganizerEvents } from "../../state/organizer.selectors"
+import { appIsLoading, stopLoading } from "../../../../shared/ui-state/ui.actions"
+import * as organizerActions from "../../state/organizer.actions"
 
 
 @Component({
@@ -22,13 +24,18 @@ export class EventsPageComponent implements OnInit{
   events$ : Observable<PaginationResponse<OrganizerEvent[]> | null>;
   showPopup = false
   currentEvent: OrganizerEvent | null = null
+  currentPage = signal<number>(0);
 
   constructor(){
     this.events$ = this.store.select(selectOrganizerEvents);
   }
   
   ngOnInit(): void {
+    this.store.dispatch(appIsLoading());
     this.store.dispatch(fetchEvents({page : 0}));
+    setTimeout(() => {
+      this.store.dispatch(stopLoading());
+    }, 900);
   }
 
   openCreatePopup(): void {
@@ -43,6 +50,16 @@ export class EventsPageComponent implements OnInit{
 
   closePopup(): void {
     this.showPopup = false
+  }
+
+  onNext() : void { 
+    this.currentPage.set(this.currentPage() +1 );
+    this.store.dispatch(fetchEvents({page : this.currentPage()}));
+  }
+
+  onPrevious() : void {
+    this.currentPage.set(this.currentPage() - 1 );
+    this.store.dispatch(fetchEvents({page : this.currentPage()}));
   }
 
   // saveEvent(event: OrganizerEvent): void {

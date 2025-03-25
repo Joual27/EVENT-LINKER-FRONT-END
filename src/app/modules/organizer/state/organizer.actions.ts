@@ -13,3 +13,10 @@ export const EventsFetchedSuccessfully = createAction(
     "[Organizer Events Page] Events Fetched successfully !",
     props<{events : PaginationResponse<OrganizerEvent[]>}>()
 )
+
+export const createEvent = createAction(
+    "[Organizer events page] Create event" , 
+    props<{data : FormData}>()
+)
+
+

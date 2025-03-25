@@ -1,3 +1,4 @@
+
 <ng-container *ngIf="events$ | async as events">
   <div class="min-h-screen bg-black text-white">
     <div class="container mx-auto px-4 ">
@@ -13,16 +14,36 @@
       <app-event-list 
         [events]="events.data" 
         (editEvent)="openEditPopup($event)" 
-        >
+      >
       </app-event-list>
+      <div class="w-full relative">
+        @if (events.hasPrevious) {
+          <div class="left-0 absolute bottom-[-6.5rem]">
+            <button class="px-4 py-2 bg-transparent text-white font-medium text-[.9rem] border-2 border-primary-color hover:border-white duration-300"
+              (click)="onPrevious()"
+            >
+              Previous
+            </button>
+          </div>
+        }
+        @if (events.hasNext) {
+          <div class="right-0 absolute bottom-[-6.5rem]">
+            <button class="px-4 py-2 bg-transparent text-white font-medium text-[.9rem] border-2 border-primary-color hover:border-white duration-300"
+             (click)="onNext()"
+            >
+              next
+            </button>
+          </div>
+        }
+      </div>  
     </div>
     
-    <app-event-form-popup 
+    <app-event-form-popup   
       *ngIf="showPopup" 
-      [event]="currentEvent" 
+      [event]="currentEvent"  
       (close)="closePopup()" 
       >
     </app-event-form-popup>
   </div>
   
-</ng-container>s
+</ng-container>

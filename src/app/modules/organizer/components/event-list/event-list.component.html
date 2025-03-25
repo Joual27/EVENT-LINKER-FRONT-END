@@ -1,21 +1,11 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <app-event-item 
-      *ngFor="let event of events" 
+    @for (event of events; track event.id) {
+      <app-event-item 
       [event]="event"
       (edit)="onEditEvent(event)"
       (delete)="onDeleteEvent(event.id)">
     </app-event-item>
+    }
 </div>
-<div class="w-full relative">
-  <div class="left-0 absolute bottom-[-6.5rem]">
-    <button class="px-4 py-2 bg-transparent text-white font-medium text-[.9rem] border-2 border-primary-color hover:border-white duration-300">
-      Previous
-    </button>
-  </div>
-  <div class="right-0 absolute bottom-[-6.5rem]">
-    <button class="px-4 py-2 bg-transparent text-white font-medium text-[.9rem] border-2 border-primary-color hover:border-white duration-300">
-      next
-    </button>
-  </div>
-</div>  
+
   
