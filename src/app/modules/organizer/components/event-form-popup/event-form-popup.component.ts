@@ -49,8 +49,8 @@ export class EventFormPopupComponent implements OnInit {
         description: formValue.description,
         date: new Date(formValue.date).toISOString(),
         location: formValue.location,
-        imageUrl:
-          this.event?.imageUrl ||
+        imgUrl:
+          this.event?.imgUrl ||
           "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xS1PLfhCWab6K86S0jZBkZYYXr6MUV.png",
       }
 

@@ -1,5 +1,5 @@
-<div class="min-h-screen bg-black text-white">
-    
+<ng-container *ngIf="events$ | async as events">
+  <div class="min-h-screen bg-black text-white">
     <div class="container mx-auto px-4 ">
       <div class="flex justify-between items-center mb-8">
         <app-page-title title="My events"></app-page-title>
@@ -11,9 +11,9 @@
       </div>
       
       <app-event-list 
-        [events]="events" 
+        [events]="events.data" 
         (editEvent)="openEditPopup($event)" 
-        (deleteEvent)="deleteEvent($event)">
+        >
       </app-event-list>
     </div>
     
@@ -21,8 +21,8 @@
       *ngIf="showPopup" 
       [event]="currentEvent" 
       (close)="closePopup()" 
-      (save)="saveEvent($event)">
+      >
     </app-event-form-popup>
   </div>
   
-  
+</ng-container>s

@@ -1,9 +1,14 @@
+import { PaginationResponse } from "../../../shared/models"
+
 export interface OrganizerEvent {
     id: string
     title: string
     description: string
     date: string
     location: string
-    imageUrl?: string
-    organizer?: string
-  }
+    imgUrl: string
+}
+
+export interface OrganizerState{
+  events : PaginationResponse<OrganizerEvent[]> | null;
+}
