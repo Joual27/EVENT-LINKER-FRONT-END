@@ -1,10 +1,17 @@
-import { Component } from "@angular/core"
+import { Component, inject, OnInit, signal } from "@angular/core"
 import { CommonModule } from "@angular/common"
-
 import { OrganizerEvent } from "../../models/organizer.models"
 import { EventListComponent } from "../../components/event-list/event-list.component"
 import { EventFormPopupComponent } from "../../components/event-form-popup/event-form-popup.component"
 import { PageTitleComponent } from "../../../../shared/ui/page-title/page-title.component";
+import { Store } from "@ngrx/store"
+import { fetchEvents } from "../../state/organizer.actions"
+import { Observable } from "rxjs"
+import { PaginationResponse } from "../../../../shared/models"
+import { selectOrganizerEvents } from "../../state/organizer.selectors"
+import { appIsLoading, stopLoading } from "../../../../shared/ui-state/ui.actions"
+import * as organizerActions from "../../state/organizer.actions"
+
 
 @Component({
   selector: "app-events-page",
@@ -12,40 +19,24 @@ import { PageTitleComponent } from "../../../../shared/ui/page-title/page-title.
   imports: [CommonModule, EventListComponent, EventFormPopupComponent, PageTitleComponent],
   templateUrl: "./events-page.component.html",
 })
-export class EventsPageComponent {
-  events: OrganizerEvent[] = [
-    {
-      id: "1",
-      title: "GITEX Global",
-      description:
-        "GITEX GLOBAL is one of the world's largest tech & startup events, connecting technology leaders, enterprises, and startups.",
-      date: "2025-04-17T19:30:00",
-      location: "Dubai World Trade Centre",
-      imageUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xS1PLfhCWab6K86S0jZBkZYYXr6MUV.png",
-      organizer: "Dubai World Trade Centre",
-    },
-    {
-      id: "2",
-      title: "Web Summit",
-      description: "Web Summit brings together the people and companies redefining the global tech industry.",
-      date: "2025-05-22T10:00:00",
-      location: "Lisbon, Portugal",
-      imageUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xS1PLfhCWab6K86S0jZBkZYYXr6MUV.png",
-      organizer: "Web Summit",
-    },
-    {
-      id: "3",
-      title: "CES",
-      description:
-        "CES is the most influential tech event in the world — the proving ground for breakthrough technologies and global innovators.",
-      date: "2026-01-05T09:00:00",
-      location: "Las Vegas, USA",
-      imageUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xS1PLfhCWab6K86S0jZBkZYYXr6MUV.png",
-      organizer: "Consumer Technology Association",
-    },
-  ]
+export class EventsPageComponent implements OnInit{
+  private store = inject(Store);
+  events$ : Observable<PaginationResponse<OrganizerEvent[]> | null>;
   showPopup = false
   currentEvent: OrganizerEvent | null = null
+  currentPage = signal<number>(0);
+
+  constructor(){
+    this.events$ = this.store.select(selectOrganizerEvents);
+  }
+  
+  ngOnInit(): void {
+    this.store.dispatch(appIsLoading());
+    this.store.dispatch(fetchEvents({page : 0}));
+    setTimeout(() => {
+      this.store.dispatch(stopLoading());
+    }, 900);
+  }
 
   openCreatePopup(): void {
     this.currentEvent = null
@@ -61,26 +52,34 @@ export class EventsPageComponent {
     this.showPopup = false
   }
 
-  saveEvent(event: OrganizerEvent): void {
-    if (this.currentEvent) {
-      // Update existing event
-      const index = this.events.findIndex((e) => e.id === this.currentEvent!.id)
-      if (index !== -1) {
-        this.events[index] = { ...event, id: this.currentEvent.id }
-      }
-    } else {
-      // Create new event
-      const newEvent = {
-        ...event,
-        id: (this.events.length + 1).toString(),
-      }
-      this.events = [...this.events, newEvent]
-    }
-    this.closePopup()
+  onNext() : void { 
+    this.currentPage.set(this.currentPage() +1 );
+    this.store.dispatch(fetchEvents({page : this.currentPage()}));
   }
 
-  deleteEvent(id: string): void {
-    this.events = this.events.filter((event) => event.id !== id)
+  onPrevious() : void {
+    this.currentPage.set(this.currentPage() - 1 );
+    this.store.dispatch(fetchEvents({page : this.currentPage()}));
   }
+
+  // saveEvent(event: OrganizerEvent): void {
+  //   if (this.currentEvent) {
+  //     const index = this.events.findIndex((e) => e.id === this.currentEvent!.id)
+  //     if (index !== -1) {
+  //       this.events[index] = { ...event, id: this.currentEvent.id }
+  //     }
+  //   } else {
+  //     const newEvent = {
+  //       ...event,
+  //       id: (this.events.length + 1).toString(),
+  //     }
+  //     this.events = [...this.events, newEvent]
+  //   }
+  //   this.closePopup()
+  // }
+
+  // deleteEvent(id: string): void {
+  //   this.events = this.events.filter((event) => event.id !== id)
+  // }
 }
 

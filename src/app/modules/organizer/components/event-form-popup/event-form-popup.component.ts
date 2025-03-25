@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter, type OnInit, inject } from "@an
 import { CommonModule } from "@angular/common"
 import { FormBuilder, type FormGroup, ReactiveFormsModule, Validators } from "@angular/forms"
 import { OrganizerEvent } from "../../models/organizer.models"
+import { Store } from "@ngrx/store"
+import { createEvent } from "../../state/organizer.actions"
 
 @Component({
   selector: "app-event-form-popup",
@@ -12,15 +14,21 @@ import { OrganizerEvent } from "../../models/organizer.models"
 export class EventFormPopupComponent implements OnInit {
   @Input() event: OrganizerEvent | null = null
   @Output() close = new EventEmitter<void>()
-  @Output() save = new EventEmitter<OrganizerEvent>()
-  private fb = inject(FormBuilder);
+  private fb = inject(FormBuilder)
+  private store = inject(Store);
 
   eventForm!: FormGroup
-
- 
+  imagePreview: string | null = null
+  imageFile: File | null = null
+  imageRequired = true
 
   ngOnInit(): void {
     this.initForm()
+
+    if (this.event?.imgUrl) {
+      this.imagePreview = this.event.imgUrl
+      this.imageRequired = false
+    }
   }
 
   initForm(): void {
@@ -39,22 +47,44 @@ export class EventFormPopupComponent implements OnInit {
     return date.toISOString().slice(0, 16)
   }
 
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement
+    if (input.files && input.files.length > 0) {
+      this.imageFile = input.files[0]
+      const reader = new FileReader()
+      reader.onload = () => {
+        this.imagePreview = reader.result as string
+      }
+      reader.readAsDataURL(this.imageFile)
+      this.imageRequired = false
+    }
+  }
+
+  removeImage(): void {
+    this.imagePreview = null
+    this.imageFile = null
+    const fileInput = document.getElementById("image-upload") as HTMLInputElement
+    if (fileInput) {
+      fileInput.value = ""
+    }
+    this.imageRequired = true
+  }
+
+  isFormValid(): boolean {
+    return this.eventForm.valid && 
+    (!this.imageRequired || 
+     this.imageFile !== null || 
+     !!(this.event && this.event.imgUrl));
+  }
+
   onSubmit(): void {
     if (this.eventForm.valid) {
-      const formValue = this.eventForm.value
-
-      const savedEvent: OrganizerEvent = {
-        id: this.event?.id || "",
-        title: formValue.title,
-        description: formValue.description,
-        date: new Date(formValue.date).toISOString(),
-        location: formValue.location,
-        imageUrl:
-          this.event?.imageUrl ||
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xS1PLfhCWab6K86S0jZBkZYYXr6MUV.png",
+      if (this.imageRequired && !this.imageFile && !this.event?.imgUrl) {
+        return
       }
-
-      this.save.emit(savedEvent)
+      const formValue = this.eventForm.value
+      const formData = this.populateFormData(formValue);
+      this.store.dispatch(createEvent({data : formData}));
     } else {
       this.eventForm.markAllAsTouched()
     }
@@ -62,6 +92,26 @@ export class EventFormPopupComponent implements OnInit {
 
   onClose(): void {
     this.close.emit()
+  }
+
+  populateFormData(formValue : any ) : FormData{
+    const formData = new FormData();
+    if (this.imageFile) {
+      formData.append("img", this.imageFile)
+    } else if (this.event?.imgUrl && !this.imageRequired) {
+      formData.append("existingImageId", this.event.id || "")
+    }
+    formData.append("title", formValue.title)
+    formData.append("description", formValue.description)
+    const dateObj = new Date(formValue.date)
+    const formattedDate = dateObj.toISOString().replace("Z", "") 
+    formData.append("date", formattedDate)
+    formData.append("location", formValue.location)
+  
+    if (this.event?.id) {
+      formData.append("id", this.event.id)
+    }
+    return formData;
   }
 }
 

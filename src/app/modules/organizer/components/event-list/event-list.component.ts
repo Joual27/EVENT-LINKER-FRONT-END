@@ -10,7 +10,7 @@ import { OrganizerEvent } from "../../models/organizer.models"
   templateUrl: "./event-list.component.html",
 })
 export class EventListComponent {
-  @Input() events: OrganizerEvent[] = []
+  @Input() events : OrganizerEvent[] = [];
   @Output() editEvent = new EventEmitter<OrganizerEvent>()
   @Output() deleteEvent = new EventEmitter<string>()
 
@@ -22,3 +22,4 @@ export class EventListComponent {
     this.deleteEvent.emit(id)
   }
 }
+  
