@@ -14,6 +14,7 @@
       <app-event-list 
         [events]="events.data" 
         (editEvent)="openEditPopup($event)" 
+        (deleteEvent)="confirmDeletion($event)"
       >
       </app-event-list>
       <div class="w-full relative">
@@ -44,6 +45,14 @@
       (close)="closePopup()" 
       >
     </app-event-form-popup>
+
+
+    @if (shownConfirmationModal()) {
+      <app-confirmation-modal
+        (confirm)="deleteEvent(eventToDelete)"
+        (cancel)="hideConfirmationModal()"
+      ></app-confirmation-modal>
+    }
   </div>
   
 </ng-container>

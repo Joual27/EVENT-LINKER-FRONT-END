@@ -19,4 +19,19 @@ export const createEvent = createAction(
     props<{data : FormData}>()
 )
 
+export const updateEvent = createAction(
+    "[Organizer events page] Update event" , 
+    props<{data : FormData}>()
+)
+
+export const deleteEvent = createAction(
+    "[Organizer events page] delete event" , 
+    props<{id : string}>()
+)
+
+export const eventCreatedSuccessfully = createAction(
+    "[[Organizer events page] Event Created Successfully !]",
+    props<{data : OrganizerEvent}>()
+)
+
 

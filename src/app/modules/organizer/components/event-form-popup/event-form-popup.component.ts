@@ -3,7 +3,8 @@ import { CommonModule } from "@angular/common"
 import { FormBuilder, type FormGroup, ReactiveFormsModule, Validators } from "@angular/forms"
 import { OrganizerEvent } from "../../models/organizer.models"
 import { Store } from "@ngrx/store"
-import { createEvent } from "../../state/organizer.actions"
+import { createEvent, updateEvent } from "../../state/organizer.actions"
+import { appIsLoading, stopLoading } from "../../../../shared/ui-state/ui.actions"
 
 @Component({
   selector: "app-event-form-popup",
@@ -24,7 +25,6 @@ export class EventFormPopupComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm()
-
     if (this.event?.imgUrl) {
       this.imagePreview = this.event.imgUrl
       this.imageRequired = false
@@ -42,7 +42,6 @@ export class EventFormPopupComponent implements OnInit {
 
   formatDateForInput(dateString: string): string {
     if (!dateString) return ""
-
     const date = new Date(dateString)
     return date.toISOString().slice(0, 16)
   }
@@ -71,10 +70,8 @@ export class EventFormPopupComponent implements OnInit {
   }
 
   isFormValid(): boolean {
-    return this.eventForm.valid && 
-    (!this.imageRequired || 
-     this.imageFile !== null || 
-     !!(this.event && this.event.imgUrl));
+    if (!this.event && !this.imageFile) return false;
+    return this.eventForm.valid;
   }
 
   onSubmit(): void {
@@ -84,7 +81,18 @@ export class EventFormPopupComponent implements OnInit {
       }
       const formValue = this.eventForm.value
       const formData = this.populateFormData(formValue);
-      this.store.dispatch(createEvent({data : formData}));
+      this.store.dispatch(appIsLoading())
+      if(this.event){
+        this.store.dispatch(updateEvent({data : formData}));
+      }else{
+        this.store.dispatch(createEvent({data : formData}));
+      }
+      setTimeout(() => {
+        this.store.dispatch(stopLoading())
+        this.onClose()
+      } , 3000)
+      this.onClose();
+     
     } else {
       this.eventForm.markAllAsTouched()
     }
@@ -94,12 +102,11 @@ export class EventFormPopupComponent implements OnInit {
     this.close.emit()
   }
 
+
   populateFormData(formValue : any ) : FormData{
     const formData = new FormData();
-    if (this.imageFile) {
-      formData.append("img", this.imageFile)
-    } else if (this.event?.imgUrl && !this.imageRequired) {
-      formData.append("existingImageId", this.event.id || "")
+    if (!this.event && this.imageFile) {
+      formData.append("img", this.imageFile);
     }
     formData.append("title", formValue.title)
     formData.append("description", formValue.description)

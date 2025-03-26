@@ -1,0 +1,122 @@
+<div class="min-h-screen bg-black text-white">
+    <!-- Header with gradient -->
+    <div class="w-full h-48 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-400 rounded-b-lg"></div>
+    
+    <div class="container mx-auto px-4 -mt-6">
+      <!-- Back button -->
+      <a 
+        routerLink="/announcements" 
+        class="inline-flex items-center text-gray-300 hover:text-white mb-6"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Back to Announcements
+      </a>
+      
+      <!-- Loading state -->
+      <div *ngIf="isLoading" class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pink-500"></div>
+      </div>
+      
+      <!-- Error state -->
+      <div *ngIf="error" class="bg-red-900/30 border border-red-500 text-white p-4 rounded-md">
+        {{ error }}
+      </div>
+      
+      <!-- Announcement details -->
+      <div *ngIf="announcement && !isLoading" class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800">
+        <div class="h-2 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-400"></div>
+        
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-6">
+            <div>
+              <h1 class="text-2xl font-bold text-white">{{ announcement.title }}</h1>
+              <div class="flex items-center gap-4 mt-2">
+                <span class="px-3 py-1 text-sm rounded-full border {{ getStatusClass() }}">
+                  {{ announcement.status }}
+                </span>
+                <span class="text-gray-400 text-sm">
+                  Created: {{ formatDate(announcement.createdAt) }}
+                </span>
+              </div>
+            </div>
+            
+            <div class="flex gap-2">
+              <a 
+                [routerLink]="['/announcements/edit', announcement.id]" 
+                class="bg-transparent hover:opacity-95 text-white border-2 border-primary-color text-[.9rem] font-semibold py-1 px-3 rounded-full transition-colors duration-300 hover:border-white"
+              >
+                Edit
+              </a>
+              <button 
+                (click)="confirmDelete()" 
+                class="bg-transparent hover:opacity-95 text-white border-2 border-red-500 text-[.9rem] font-semibold py-1 px-3 rounded-full transition-colors duration-300 hover:border-red-400"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="md:col-span-2">
+              <h2 class="text-lg font-medium text-gray-300 mb-2">Description</h2>
+              <p class="text-gray-300 whitespace-pre-line">{{ announcement.description }}</p>
+            </div>
+            
+            <div>
+              <h2 class="text-lg font-medium text-gray-300 mb-2">Event</h2>
+              <div class="bg-gray-800 p-4 rounded-md">
+                <h3 class="font-medium text-white">{{ announcement.event.title }}</h3>
+                <p *ngIf="announcement.event.location" class="text-sm text-gray-400 mt-1">
+                  <span class="inline-block mr-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </span>
+                  {{ announcement.event.location }}
+                </p>
+                <p *ngIf="announcement.event.date" class="text-sm text-gray-400 mt-1">
+                  <span class="inline-block mr-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </span>
+                  {{ formatDate(announcement.event.date) }}
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h2 class="text-lg font-medium text-gray-300 mb-2">Required Skills</h2>
+            <div class="flex flex-wrap gap-2">
+              <div 
+                *ngFor="let skill of announcement.announcementSkills" 
+                class="bg-gray-800 px-3 py-1 rounded-full text-sm"
+              >
+                {{ skill.name }}
+                <span *ngIf="skill.level" class="text-gray-400 ml-1">({{ skill.level }})</span>
+              </div>
+              
+              <div *ngIf="announcement.announcementSkills.length === 0" class="text-gray-400 text-sm">
+                No skills specified
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <app-confirmation-modal
+      *ngIf="showConfirmationModal"
+      title="Delete Announcement"
+      message="Are you sure you want to delete this announcement? This action cannot be undone."
+      confirmButtonText="Delete"
+      (confirm)="deleteAnnouncement()"
+      (cancel)="cancelDelete()">
+    </app-confirmation-modal>
+  </div>
+  
+  
