@@ -4,11 +4,12 @@ import { AnnouncementListComponent } from "../../components/announcement-list/an
 import { AnnouncementFormPopupComponent } from "../../components/announcement-form-popup/announcement-form-popup.component"
 import { ConfirmationModalComponent } from "../../../../shared/ui/confirmation-modal/confirmation-modal.component"
 import { Announcement, AnnouncementStatus, CreateAnnouncementDTO, OrganizerEvent } from "../../models/organizer.models"
+import { PageTitleComponent } from "../../../../shared/ui/page-title/page-title.component";
 
 @Component({
   selector: "app-announcements-page",
   standalone: true,
-  imports: [CommonModule, AnnouncementListComponent, AnnouncementFormPopupComponent, ConfirmationModalComponent],
+  imports: [CommonModule, AnnouncementListComponent, AnnouncementFormPopupComponent, ConfirmationModalComponent, PageTitleComponent],
   templateUrl: "./announcements-page.component.html",
 })
 export class AnnouncementsPageComponent {

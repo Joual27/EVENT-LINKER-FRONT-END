@@ -1,57 +1,30 @@
-<div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800">
-    <!-- Search bar -->
-    <div class="p-4 border-b border-gray-800">
-      <div class="relative">
-        <input 
-          type="text" 
-          placeholder="Search announcements..." 
-          class="w-full bg-gray-800 border border-gray-700 rounded-md py-2 pl-10 pr-3 text-white focus:outline-none focus:ring-2 focus:ring-primary-color focus:border-transparent"
-        >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      </div>
-    </div>
+<div class="bg-secondary-bg rounded-lg overflow-hidden border border-gray-800">
     
-    <!-- Table header -->
     <div class="grid grid-cols-12 gap-4 p-4 border-b border-gray-800 bg-gray-800/50 text-gray-300 font-medium">
-      <div class="col-span-3 flex items-center cursor-pointer" (click)="onSort('title')">
+      <div class="col-span-3 flex items-center cursor-pointer">
         Title
-        <svg *ngIf="sortField === 'title'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="sortDirection === 'asc' ? 'M5 15l7-7 7 7' : 'M19 9l-7 7-7-7'" />
-        </svg>
+      
       </div>
-      <div class="col-span-3 flex items-center cursor-pointer" (click)="onSort('event')">
+      <div class="col-span-3 flex items-center cursor-pointer">
         Event
-        <svg *ngIf="sortField === 'event'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="sortDirection === 'asc' ? 'M5 15l7-7 7 7' : 'M19 9l-7 7-7-7'" />
-        </svg>
+    
       </div>
-      <div class="col-span-2 flex items-center cursor-pointer" (click)="onSort('status')">
+      <div class="col-span-2 flex items-center cursor-pointer">
         Status
-        <svg *ngIf="sortField === 'status'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="sortDirection === 'asc' ? 'M5 15l7-7 7 7' : 'M19 9l-7 7-7-7'" />
-        </svg>
+
       </div>
-      <div class="col-span-2 flex items-center cursor-pointer" (click)="onSort('createdAt')">
+      <div class="col-span-2 flex items-center cursor-pointer">
         Created
-        <svg *ngIf="sortField === 'createdAt'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="sortDirection === 'asc' ? 'M5 15l7-7 7 7' : 'M19 9l-7 7-7-7'" />
-        </svg>
+    
       </div>
       <div class="col-span-2 text-right">Actions</div>
     </div>
     
-    <!-- Empty state -->
     <div *ngIf="sortedAnnouncements.length === 0" class="p-8 text-center text-gray-400">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-      </svg>
       <p class="text-lg">No announcements found</p>
       <p class="mt-2">Create a new announcement to get started</p>
     </div>
     
-    <!-- Announcement items -->
     <app-announcement-item 
       *ngFor="let announcement of sortedAnnouncements" 
       [announcement]="announcement"
