@@ -81,7 +81,6 @@ export class EventFormPopupComponent implements OnInit {
       }
       const formValue = this.eventForm.value
       const formData = this.populateFormData(formValue);
-      this.store.dispatch(appIsLoading())
       if(this.event){
         this.store.dispatch(updateEvent({data : formData}));
       }else{
@@ -90,9 +89,7 @@ export class EventFormPopupComponent implements OnInit {
       setTimeout(() => {
         this.store.dispatch(stopLoading())
         this.onClose()
-      } , 3000)
-      this.onClose();
-     
+      } , 3000)   
     } else {
       this.eventForm.markAllAsTouched()
     }

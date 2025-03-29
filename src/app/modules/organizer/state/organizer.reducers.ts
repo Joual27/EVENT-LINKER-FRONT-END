@@ -10,4 +10,8 @@ export const organizerReducer = createReducer(
         ...state,
         events : events
     })) ,
+    on(organizerActions.AnnouncementsFetchedSuccessfully , (state , {announcements}) => ({
+        ...state,
+        announcements : announcements
+    }))
 )

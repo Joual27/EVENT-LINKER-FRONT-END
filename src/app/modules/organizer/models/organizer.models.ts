@@ -11,6 +11,7 @@ export interface OrganizerEvent {
 
 export interface OrganizerState{
   events : PaginationResponse<OrganizerEvent[]> | null;
+  announcements : PaginationResponse<Announcement[]> | null; 
 }
 
 export  enum AnnouncementStatus {
@@ -20,11 +21,6 @@ export  enum AnnouncementStatus {
   EXPIRED
 }
 
-export interface AnnouncementSkill {
-  id: number
-  name: string
-  level?: string
-}
 
 export interface Announcement {
   id: number
@@ -33,13 +29,26 @@ export interface Announcement {
   createdAt: string
   status: AnnouncementStatus
   event: OrganizerEvent
-  announcementSkills: AnnouncementSkill[]
+  announcementSkills : {
+    skill : {
+      id : number ,
+      name : string
+    }
+    acceptsNonOrganizations : boolean
+  }
 }
 
-export interface CreateAnnouncementDTO {
+export interface Skill {
+  id : number ,
+  name ? : string,
+  acceptsNonOrganizations : boolean
+}
+
+export interface CreateAndUpdateAnnouncementDTO {
+  id ?: number
   title: string
   description: string
-  skills: { id: number; level: string }[]
-  eventId: string
+  skills : Skill[]
+  eventId ?: string
 }
 

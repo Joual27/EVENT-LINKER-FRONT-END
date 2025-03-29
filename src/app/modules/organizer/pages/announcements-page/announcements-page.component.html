@@ -1,6 +1,6 @@
-<div class="min-h-screen bg-black text-white">
-
-    <div class="container mx-auto px-4 ">
+<ng-container *ngIf="announcements$ | async as announcements">
+    <div class="min-h-screen bg-black text-white">
+      <div class="container mx-auto px-4">
         <div class="flex justify-between items-center mb-8">
           <app-page-title title="My Announcements"></app-page-title>
           <button 
@@ -9,30 +9,45 @@
             Create Announcement
           </button>
         </div>
-      <app-announcement-list 
-      *ngIf="!isLoading && !error"
-      [announcements]="announcements" 
-      (edit)="openEditPopup($event)" 
-      (delete)="confirmDelete($event)">
-    </app-announcement-list>
-  </div>
-  
-  <app-announcement-form-popup 
-    *ngIf="showFormPopup" 
-    [announcement]="currentAnnouncement" 
-    (close)="closePopup()" 
-    (save)="saveAnnouncement($event)">
-  </app-announcement-form-popup>
-  
-  <app-confirmation-modal
-    *ngIf="showConfirmationModal"
-    (confirm)="deleteAnnouncement()"
-    (cancel)="cancelDelete()">
-  </app-confirmation-modal>
-</div>    
+        
+        <app-announcement-list 
+          [announcements]="announcements.data" 
+          (edit)="openEditPopup($event)" 
+          (delete)="confirmDeletion($event)"
+        ></app-announcement-list>
+        
+        <div class="w-full relative">
+          @if (announcements.hasPrevious) {
+            <div class="left-0 absolute bottom-[-6.5rem]">
+              <button class="px-4 py-2 bg-transparent text-white font-medium text-[.9rem] border-2 border-primary-color hover:border-white duration-300"
+                (click)="onPrevious()">
+                Previous
+              </button>
+            </div>
+          }
+          @if (announcements.hasNext) {
+            <div class="right-0 absolute bottom-[-6.5rem]">
+              <button class="px-4 py-2 bg-transparent text-white font-medium text-[.9rem] border-2 border-primary-color hover:border-white duration-300"
+                (click)="onNext()">
+                Next
+              </button>
+            </div>
+          }
+        </div>
+      </div>
       
-   
-      
-      
+      <app-announcement-form-popup   
+        *ngIf="showFormPopup" 
+        [announcement]="currentAnnouncement"  
+        (close)="closePopup()" 
+        (save)="saveAnnouncement($event)">
+      </app-announcement-form-popup>
   
-  
+      @if (shownConfirmationModal() && announcementToDelete()) {
+        <app-confirmation-modal
+          (confirm)="deleteAnnouncement(announcementToDelete()!)"
+          (cancel)="hideConfirmationModal()">
+        </app-confirmation-modal>
+      }
+    </div>
+  </ng-container>

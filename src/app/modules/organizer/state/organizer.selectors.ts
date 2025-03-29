@@ -8,3 +8,9 @@ export const selectOrganizerEvents = createSelector(
     selectOrganizerState,
     (state) => state.events
 )
+
+
+export const selectOrganizerAnnouncements = createSelector(
+    selectOrganizerState,
+    (state) => state.announcements
+);

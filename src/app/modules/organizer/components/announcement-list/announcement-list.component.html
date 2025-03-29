@@ -20,13 +20,13 @@
       <div class="col-span-2 text-right">Actions</div>
     </div>
     
-    <div *ngIf="sortedAnnouncements.length === 0" class="p-8 text-center text-gray-400">
+    <div *ngIf="announcements.length === 0" class="p-8 text-center text-gray-400">
       <p class="text-lg">No announcements found</p>
       <p class="mt-2">Create a new announcement to get started</p>
     </div>
     
     <app-announcement-item 
-      *ngFor="let announcement of sortedAnnouncements" 
+      *ngFor="let announcement of announcements" 
       [announcement]="announcement"
       (edit)="onEdit(announcement)"
       (delete)="onDelete(announcement.id)">
