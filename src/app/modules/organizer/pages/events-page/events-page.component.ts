@@ -5,18 +5,18 @@ import { EventListComponent } from "../../components/event-list/event-list.compo
 import { EventFormPopupComponent } from "../../components/event-form-popup/event-form-popup.component"
 import { PageTitleComponent } from "../../../../shared/ui/page-title/page-title.component";
 import { Store } from "@ngrx/store"
-import { fetchEvents } from "../../state/organizer.actions"
+import { deleteEvent, fetchEvents } from "../../state/organizer.actions"
 import { Observable } from "rxjs"
 import { PaginationResponse } from "../../../../shared/models"
 import { selectOrganizerEvents } from "../../state/organizer.selectors"
 import { appIsLoading, stopLoading } from "../../../../shared/ui-state/ui.actions"
-import * as organizerActions from "../../state/organizer.actions"
+import { ConfirmationModalComponent } from "../../../../shared/ui/confirmation-modal/confirmation-modal.component";
 
 
 @Component({
   selector: "app-events-page",
   standalone: true,
-  imports: [CommonModule, EventListComponent, EventFormPopupComponent, PageTitleComponent],
+  imports: [CommonModule, EventListComponent, EventFormPopupComponent, PageTitleComponent, ConfirmationModalComponent],
   templateUrl: "./events-page.component.html",
 })
 export class EventsPageComponent implements OnInit{
@@ -25,6 +25,8 @@ export class EventsPageComponent implements OnInit{
   showPopup = false
   currentEvent: OrganizerEvent | null = null
   currentPage = signal<number>(0);
+  shownConfirmationModal = signal<boolean>(false);
+  eventToDelete !: string 
 
   constructor(){
     this.events$ = this.store.select(selectOrganizerEvents);
@@ -36,6 +38,16 @@ export class EventsPageComponent implements OnInit{
     setTimeout(() => {
       this.store.dispatch(stopLoading());
     }, 900);
+  }
+
+  deleteEvent(id: string): void {
+    this.store.dispatch(deleteEvent({ id }));
+    this.hideConfirmationModal();
+  }
+
+  confirmDeletion(id: string): void {
+    this.eventToDelete = id;
+    this.showConfirmationModal();
   }
 
   openCreatePopup(): void {
@@ -62,24 +74,13 @@ export class EventsPageComponent implements OnInit{
     this.store.dispatch(fetchEvents({page : this.currentPage()}));
   }
 
-  // saveEvent(event: OrganizerEvent): void {
-  //   if (this.currentEvent) {
-  //     const index = this.events.findIndex((e) => e.id === this.currentEvent!.id)
-  //     if (index !== -1) {
-  //       this.events[index] = { ...event, id: this.currentEvent.id }
-  //     }
-  //   } else {
-  //     const newEvent = {
-  //       ...event,
-  //       id: (this.events.length + 1).toString(),
-  //     }
-  //     this.events = [...this.events, newEvent]
-  //   }
-  //   this.closePopup()
-  // }
+  showConfirmationModal() : void{
+    this.shownConfirmationModal.set(true);
+  } 
 
-  // deleteEvent(id: string): void {
-  //   this.events = this.events.filter((event) => event.id !== id)
-  // }
+  hideConfirmationModal() : void {
+    this.shownConfirmationModal.set(false);
+  }
+
 }
 

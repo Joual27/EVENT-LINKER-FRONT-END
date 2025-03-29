@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core"
+import { Component, Input, Output, EventEmitter, inject } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { OrganizerEvent } from "../../models/organizer.models"
+import { Store } from "@ngrx/store"
 
 @Component({
   selector: "app-event-item",
@@ -11,7 +12,8 @@ import { OrganizerEvent } from "../../models/organizer.models"
 export class EventItemComponent {
   @Input() event!: OrganizerEvent
   @Output() edit = new EventEmitter<void>()
-  @Output() delete = new EventEmitter<void>()
+  @Output() delete = new EventEmitter<string>()
+  
 
   formatDate(dateString: string): string {
     const date = new Date(dateString)
@@ -29,7 +31,7 @@ export class EventItemComponent {
   }
 
   onDelete(): void {
-    this.delete.emit()
+    this.delete.emit(this.event.id);
   }
 }
 

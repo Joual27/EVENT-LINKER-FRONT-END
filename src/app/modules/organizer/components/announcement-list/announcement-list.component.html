@@ -1,0 +1,36 @@
+<div class="bg-secondary-bg rounded-lg overflow-hidden border border-gray-800">
+    
+    <div class="grid grid-cols-12 gap-4 p-4 border-b border-gray-800 bg-gray-800/50 text-gray-300 font-medium">
+      <div class="col-span-3 flex items-center cursor-pointer">
+        Title
+      
+      </div>
+      <div class="col-span-3 flex items-center cursor-pointer">
+        Event
+    
+      </div>
+      <div class="col-span-2 flex items-center cursor-pointer">
+        Status
+
+      </div>
+      <div class="col-span-2 flex items-center cursor-pointer">
+        Created
+    
+      </div>
+      <div class="col-span-2 text-right">Actions</div>
+    </div>
+    
+    <div *ngIf="announcements.length === 0" class="p-8 text-center text-gray-400">
+      <p class="text-lg">No announcements found</p>
+      <p class="mt-2">Create a new announcement to get started</p>
+    </div>
+    
+    <app-announcement-item 
+      *ngFor="let announcement of announcements" 
+      [announcement]="announcement"
+      (edit)="onEdit(announcement)"
+      (delete)="onDelete(announcement.id)">
+    </app-announcement-item>
+  </div>
+  
+  

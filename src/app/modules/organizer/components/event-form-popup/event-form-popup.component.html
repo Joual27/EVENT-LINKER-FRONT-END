@@ -19,68 +19,69 @@
       
       <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
         <div class="space-y-4">
-          <!-- Image Upload and Preview -->
-          <div>
-            <label class="block text-sm font-medium text-gray-300 mb-1">
-              Event Image <span class="text-red-400">*</span>
-            </label>
-            <div class="flex flex-col md:flex-row gap-4">
-              <!-- Image Preview -->
-              <div class="w-full md:w-1/2 aspect-video bg-gray-800 border border-gray-700 rounded-md overflow-hidden flex items-center justify-center"
-                   [ngClass]="{'border-red-400': imageRequired && !imagePreview}">
-                <img 
-                  *ngIf="imagePreview" 
-                  [src]="imagePreview" 
-                  alt="Event preview" 
-                  class="w-full h-full object-cover"
-                >
-                <div *ngIf="!imagePreview" class="text-gray-500 flex flex-col items-center justify-center p-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <p class="text-center text-sm">No image selected</p>
-                </div>
-              </div>
-              
-              <div class="w-full md:w-1/2 flex flex-col gap-2">
-                <div class="flex-1 flex flex-col gap-2">
-                  <label 
-                    for="image-upload" 
-                    class="w-full bg-gray-800 border border-gray-700 rounded-md py-2 px-3 text-gray-300 cursor-pointer hover:border-primary-color transition-colors flex items-center justify-center gap-2"
-                    [ngClass]="{'border-red-400': imageRequired && !imagePreview}"
+      
+          @if (!event) {
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">
+                Event Image <span class="text-red-400">*</span>
+              </label>
+              <div class="flex flex-col md:flex-row gap-4">
+                <div class="w-full md:w-1/2 aspect-video bg-gray-800 border border-gray-700 rounded-md overflow-hidden flex items-center justify-center"
+                     [ngClass]="{'border-red-400': imageRequired && !imagePreview}">
+                  <img 
+                    *ngIf="imagePreview" 
+                    [src]="imagePreview" 
+                    alt="Event preview" 
+                    class="w-full h-full object-cover"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12" />
+                  <div *ngIf="!imagePreview" class="text-gray-500 flex flex-col items-center justify-center p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    Choose Image
-                  </label>
-                  <input 
-                    type="file" 
-                    id="image-upload" 
-                    accept="image/*" 
-                    class="hidden" 
-                    (change)="onImageSelected($event)"
-                  >
-                  <div class="flex justify-between">
-                    <p class="text-xs text-gray-400">Recommended size: 1280x720px</p>
-                    <p *ngIf="imageRequired && !imagePreview" class="text-xs text-red-400">Image is required</p>
+                    <p class="text-center text-sm">No image selected</p>
                   </div>
                 </div>
                 
-                <button 
-                  *ngIf="imagePreview" 
-                  type="button" 
-                  (click)="removeImage()" 
-                  class="text-red-400 text-sm flex items-center gap-1 hover:text-red-300 transition-colors"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                  Remove image
-                </button>
+                <div class="w-full md:w-1/2 flex flex-col gap-2">
+                  <div class="flex-1 flex flex-col gap-2">
+                    <label 
+                      for="image-upload" 
+                      class="w-full bg-gray-800 border border-gray-700 rounded-md py-2 px-3 text-gray-300 cursor-pointer hover:border-primary-color transition-colors flex items-center justify-center gap-2"
+                      [ngClass]="{'border-red-400': imageRequired && !imagePreview}"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12" />
+                      </svg>
+                      Choose Image
+                    </label>
+                    <input 
+                      type="file" 
+                      id="image-upload" 
+                      accept="image/*" 
+                      class="hidden" 
+                      (change)="onImageSelected($event)"
+                    >
+                    <div class="flex justify-between">
+                      <p class="text-xs text-gray-400">Recommended size: 1280x720px</p>
+                      <p *ngIf="imageRequired && !imagePreview" class="text-xs text-red-400">Image is required</p>
+                    </div>
+                  </div>
+                  
+                  <button 
+                    *ngIf="imagePreview" 
+                    type="button" 
+                    (click)="removeImage()" 
+                    class="text-red-400 text-sm flex items-center gap-1 hover:text-red-300 transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Remove image
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          }
           
           <div>
             <label for="title" class="block text-sm font-medium text-gray-300 mb-1">
