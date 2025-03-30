@@ -14,3 +14,9 @@ export interface Application {
     createdAt : Date,
     letter : string
 }
+
+export interface ApplicationRequest {
+    announcementId: number
+    price: number
+    coverLetter: string
+  }

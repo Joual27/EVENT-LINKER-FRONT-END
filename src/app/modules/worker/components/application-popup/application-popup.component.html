@@ -1,0 +1,117 @@
+<div class="fixed inset-0 bg-black bg-opacity-70 popup-overlay flex items-center justify-center z-50 p-4">
+    <div class="popup-container bg-gray-900 rounded-lg w-full max-w-2xl relative" (click)="$event.stopPropagation()">
+      <div class="h-2 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-400 rounded-t-lg"></div>
+      
+      <!-- Close button -->
+      <button 
+        (click)="onClose()" 
+        class="absolute top-3 right-3 text-gray-400 hover:text-white"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      
+      <div class="p-6">
+        <!-- Header -->
+        <div class="popup-header pb-4 mb-6">
+          <h2 class="text-xl font-bold text-white mb-2">Apply for: {{ announcement.title }}</h2>
+          <p class="text-gray-400 text-sm">{{ announcement.event.title }}</p>
+        </div>
+        
+        <!-- Application form -->
+        <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
+          <div class="space-y-6">
+            <!-- Price -->
+            <div>
+              <label for="price" class="block text-sm font-medium text-gray-300 mb-1">
+                Your Price (USD) <span class="text-red-400">*</span>
+              </label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
+                <input 
+                  type="number" 
+                  id="price" 
+                  formControlName="price"
+                  class="form-input w-full bg-gray-800 border border-gray-700 rounded-md py-2 pl-8 pr-3 text-white focus:outline-none"
+                  placeholder="Enter your price"
+                  [ngClass]="{'border-red-400': applicationForm.get('price')?.invalid && applicationForm.get('price')?.touched}"
+                >
+              </div>
+              <div *ngIf="applicationForm.get('price')?.invalid && applicationForm.get('price')?.touched" 
+                   class="text-red-400 text-xs mt-1">
+                Please enter a valid price (minimum $1)
+              </div>
+            </div>
+            
+            <!-- Cover Letter -->
+            <div>
+              <label for="coverLetter" class="block text-sm font-medium text-gray-300 mb-1">
+                Cover Letter <span class="text-red-400">*</span>
+              </label>
+              <textarea 
+                id="coverLetter" 
+                formControlName="coverLetter"
+                rows="6"
+                class="form-input w-full bg-gray-800 border border-gray-700 rounded-md py-2 px-3 text-white focus:outline-none"
+                placeholder="Introduce yourself and explain why you're a good fit for this position..."
+                [ngClass]="{'border-red-400': applicationForm.get('coverLetter')?.invalid && applicationForm.get('coverLetter')?.touched}"
+              ></textarea>
+              
+              <div class="flex justify-between items-center mt-1">
+                <div *ngIf="applicationForm.get('coverLetter')?.invalid && applicationForm.get('coverLetter')?.touched" 
+                     class="text-red-400 text-xs">
+                  Cover letter must be at least 50 characters
+                </div>
+                
+                <div 
+                  class="text-xs character-count"
+                  [ngClass]="{
+                    'warning': coverLetterLength < 50,
+                    'success': coverLetterLength >= 50
+                  }"
+                >
+                  {{ coverLetterLength }} / 50 characters minimum
+                </div>
+              </div>
+            </div>
+            
+            <!-- Skills required -->
+            <div>
+              <h3 class="text-sm font-medium text-gray-300 mb-2">Required Skills:</h3>
+              <div class="flex flex-wrap gap-2 bg-gray-800/50 p-3 rounded-md">
+                <div 
+                  *ngFor="let skillItem of announcement.announcementSkills" 
+                  class="px-3 py-1 rounded-full text-sm bg-gray-700 text-gray-300"
+                >
+                  {{ skillItem.skill.name }}
+                  <span *ngIf="!skillItem.acceptsNonOrganizations" class="ml-1 text-xs text-pink-400">(Org. only)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Form actions -->
+          <div class="mt-8 flex justify-end gap-3">
+            <button 
+              type="button"
+              (click)="onClose()"
+              class="cancel-button bg-transparent hover:opacity-95 text-white border-2 border-pink-500 text-[.9rem] font-semibold py-2 px-6 rounded-full transition-colors duration-300"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit"
+              [disabled]="applicationForm.invalid"
+              class="submit-button bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-90 text-white text-[.9rem] font-semibold py-2 px-6 rounded-full transition-colors duration-300"
+              [ngClass]="{'opacity-50 cursor-not-allowed': applicationForm.invalid}"
+            >
+              Submit Application
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  

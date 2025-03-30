@@ -1,0 +1,76 @@
+.announcement-card {
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .announcement-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .announcement-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #ec4899, #a855f7);
+  }
+  
+  .apply-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .apply-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    transition: left 0.5s ease;
+  }
+  
+  .apply-button:hover::before {
+    left: 100%;
+  }
+  
+  .skill-badge {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .skill-badge:hover {
+    transform: translateY(-2px);
+  }
+  
+  .event-badge {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .event-badge::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, #ec4899, #a855f7);
+  }
+  
+  .expand-button {
+    transition: all 0.3s ease;
+  }
+  
+  .expand-button.expanded {
+    transform: rotate(180deg);
+  }
+  
+  
