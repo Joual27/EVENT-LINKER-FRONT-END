@@ -14,12 +14,7 @@ export interface OrganizerState{
   announcements : PaginationResponse<Announcement[]> | null; 
 }
 
-export  enum AnnouncementStatus {
-  PENDING ,
-  ACTIVE ,
-  REFUSED ,
-  EXPIRED
-}
+
 
 
 export interface Announcement {
@@ -27,7 +22,7 @@ export interface Announcement {
   title: string
   description: string
   createdAt: string
-  status: AnnouncementStatus
+  status: string
   event: OrganizerEvent
   announcementSkills : {
     skill : {
@@ -35,7 +30,7 @@ export interface Announcement {
       name : string
     }
     acceptsNonOrganizations : boolean
-  }
+  }[]
 }
 
 export interface Skill {

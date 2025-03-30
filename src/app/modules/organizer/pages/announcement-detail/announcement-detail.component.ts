@@ -3,24 +3,29 @@ import { CommonModule } from "@angular/common"
 import { ActivatedRoute, Router, RouterModule } from "@angular/router"
 import { HttpClient } from "@angular/common/http"
 import { ConfirmationModalComponent } from "../../../../shared/ui/confirmation-modal/confirmation-modal.component"
-import { Announcement, AnnouncementStatus } from "../../models/organizer.models"
+import { Announcement } from "../../models/organizer.models"
+import { ApiResponse } from "../../../../shared/models"
+import { Store } from "@ngrx/store"
+import { appIsLoading, stopLoading } from "../../../../shared/ui-state/ui.actions"
 
 @Component({
   selector: "app-announcement-detail",
   standalone: true,
-  imports: [CommonModule, RouterModule, ConfirmationModalComponent],
+  imports: [CommonModule, RouterModule],
   templateUrl: "./announcement-detail.component.html",
 })
 export class AnnouncementDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
+  private store = inject(Store);
   private router = inject(Router);
   private http = inject(HttpClient);
   announcement: Announcement | null = null
   isLoading = true
   error: string | null = null
   showConfirmationModal = false
-  
+  activeTab: "details" | "applications" = "details"
 
+  
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -29,13 +34,20 @@ export class AnnouncementDetailComponent implements OnInit {
         this.fetchAnnouncement(Number(id))
       }
     })
+
+    this.store.dispatch(appIsLoading());
+    setTimeout(() => {
+      this.store.dispatch(stopLoading())
+    } , 1000)
+    
   }
+
 
   fetchAnnouncement(id: number): void {
     this.isLoading = true
-    this.http.get<Announcement>(`/api/announcements/${id}`).subscribe({
-      next: (data) => {
-        this.announcement = data
+    this.http.get<ApiResponse<Announcement>>(`/api/organizer/announcements/${id}`).subscribe({
+      next: (res) => {
+        this.announcement = res.data
         this.isLoading = false
       },
       error: (err) => {
@@ -44,6 +56,10 @@ export class AnnouncementDetailComponent implements OnInit {
         this.isLoading = false
       },
     })
+  }
+
+  setActiveTab(tab: "details" | "applications"): void {
+    this.activeTab = tab
   }
 
   confirmDelete(): void {
@@ -62,7 +78,6 @@ export class AnnouncementDetailComponent implements OnInit {
         },
         error: (err) => {
           console.error("Error deleting announcement:", err)
-          // Handle error (show message to user)
           this.showConfirmationModal = false
         },
       })
@@ -73,13 +88,13 @@ export class AnnouncementDetailComponent implements OnInit {
     if (!this.announcement) return ""
 
     switch (this.announcement.status) {
-      case AnnouncementStatus.ACTIVE:
+      case "ACTIVE":
         return "bg-green-900/30 text-green-400 border-green-700"
-      case AnnouncementStatus.PENDING:
+      case "PENDING":
         return "bg-gray-900/30 text-gray-400 border-gray-700"
-      case AnnouncementStatus.EXPIRED:
+      case "EXPIRED":
         return "bg-blue-900/30 text-blue-400 border-blue-700"
-      case AnnouncementStatus.REFUSED:
+      case "REFUSED":
         return "bg-yellow-900/30 text-yellow-400 border-yellow-700"
       default:
         return "bg-gray-900/30 text-gray-400 border-gray-700"
