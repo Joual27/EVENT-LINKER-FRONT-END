@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse, PaginationResponse } from '../../../shared/models';
 import { Announcement, CreateAndUpdateAnnouncementDTO, OrganizerEvent, Skill } from '../models/organizer.models';
+import { Application } from '../../worker/models/worker.models';
 
 @Injectable({
   providedIn: 'root'
@@ -34,4 +35,8 @@ export class OrganizerAnnouncementsService {
   getAllSkills() : Observable<ApiResponse<Skill[]>> {
     return this.http.get<ApiResponse<Skill[]>>('/api/skills')
   } 
+
+  getAnnouncementApplications(page : number , announcementId : number) : Observable<ApiResponse<PaginationResponse<Application[]>>> {
+    return this.http.get<ApiResponse<PaginationResponse<Application[]>>>(`/api/organizer/announcements/applications/${announcementId}?page=${page}&size=3`)
+  }
 }

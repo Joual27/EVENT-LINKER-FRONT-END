@@ -14,3 +14,10 @@ export const selectOrganizerAnnouncements = createSelector(
     selectOrganizerState,
     (state) => state.announcements
 );
+
+
+
+export const selectAnnouncementApplications = createSelector(
+    selectOrganizerState,
+    (state) => state.applications
+)

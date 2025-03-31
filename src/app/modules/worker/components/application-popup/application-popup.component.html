@@ -2,7 +2,6 @@
     <div class="popup-container bg-gray-900 rounded-lg w-full max-w-2xl relative" (click)="$event.stopPropagation()">
       <div class="h-2 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-400 rounded-t-lg"></div>
       
-      <!-- Close button -->
       <button 
         (click)="onClose()" 
         class="absolute top-3 right-3 text-gray-400 hover:text-white"
@@ -41,14 +40,13 @@
               </div>
             </div>
             
-            <!-- Cover Letter -->
             <div>
               <label for="coverLetter" class="block text-sm font-medium text-gray-300 mb-1">
                 Cover Letter <span class="text-red-400">*</span>
               </label>
               <textarea 
                 id="coverLetter" 
-                formControlName="coverLetter"
+                formControlName="letter"
                 rows="6"
                 class="form-input w-full bg-gray-800 border border-gray-700 rounded-md py-2 px-3 text-white focus:outline-none"
                 placeholder="Introduce yourself and explain why you're a good fit for this position..."

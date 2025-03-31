@@ -88,6 +88,7 @@ export interface Review {
 }
 
 export interface EmbeddedUser{
+    id ?: number,
     username : string ;
     profileImgUrl : string
 }

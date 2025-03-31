@@ -13,5 +13,9 @@ export const organizerReducer = createReducer(
     on(organizerActions.AnnouncementsFetchedSuccessfully , (state , {announcements}) => ({
         ...state,
         announcements : announcements
+    })),
+    on(organizerActions.AnnouncementApplicationsFetchedSuccessfully , (state , {data}) => ({
+        ...state,
+        applications : data
     }))
 )

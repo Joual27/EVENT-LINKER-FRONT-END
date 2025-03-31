@@ -1,4 +1,5 @@
 import { PaginationResponse } from "../../../shared/models"
+import { Application } from "../../worker/models/worker.models"
 
 export interface OrganizerEvent {
     id: string
@@ -12,6 +13,7 @@ export interface OrganizerEvent {
 export interface OrganizerState{
   events : PaginationResponse<OrganizerEvent[]> | null;
   announcements : PaginationResponse<Announcement[]> | null; 
+  applications :  PaginationResponse<Application[]> | null
 }
 
 

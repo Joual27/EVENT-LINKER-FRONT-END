@@ -1,6 +1,7 @@
 import { createAction, props } from "@ngrx/store";
 import { PaginationResponse } from "../../../shared/models";
 import { Announcement, CreateAndUpdateAnnouncementDTO, OrganizerEvent } from "../models/organizer.models";
+import { Application } from "../../worker/models/worker.models";
 
 
 
@@ -63,4 +64,14 @@ export const fetchAnnouncements = createAction(
     "[Organizer announcements page] Announcement Created Successfully!",
     props<{data: Announcement}>()
   );
+
+  export const fetchAnnouncementApplications = createAction(
+    "[Announncement Page] Fetch applications of announcement" ,
+    props<{page : number , id : number}>
+  )
+
+  export const AnnouncementApplicationsFetchedSuccessfully = createAction(
+    "[Announncement Page] Fetch applications of announcement" ,
+    props<{data : PaginationResponse<Application[]>}>()
+  )
 

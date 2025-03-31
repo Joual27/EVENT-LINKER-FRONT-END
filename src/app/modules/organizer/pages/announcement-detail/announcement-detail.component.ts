@@ -4,9 +4,11 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router"
 import { HttpClient } from "@angular/common/http"
 import { ConfirmationModalComponent } from "../../../../shared/ui/confirmation-modal/confirmation-modal.component"
 import { Announcement } from "../../models/organizer.models"
-import { ApiResponse } from "../../../../shared/models"
+import { ApiResponse, PaginationResponse } from "../../../../shared/models"
 import { Store } from "@ngrx/store"
 import { appIsLoading, stopLoading } from "../../../../shared/ui-state/ui.actions"
+import { Observable } from "rxjs"
+import { Application } from "../../../worker/models/worker.models"
 
 @Component({
   selector: "app-announcement-detail",
@@ -20,6 +22,7 @@ export class AnnouncementDetailComponent implements OnInit {
   private router = inject(Router);
   private http = inject(HttpClient);
   announcement: Announcement | null = null
+  applications !: Observable<PaginationResponse<Application> | null>;
   isLoading = true
   error: string | null = null
   showConfirmationModal = false
