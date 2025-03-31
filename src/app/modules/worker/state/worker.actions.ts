@@ -1,6 +1,7 @@
 import { createAction, props } from "@ngrx/store";
 import { PaginationResponse } from "../../../shared/models";
 import { Announcement } from "../../organizer/models/organizer.models";
+import { ApplicationRequest } from "../models/worker.models";
 
 
 export const fetchAllAnnouncements = createAction(
@@ -16,4 +17,9 @@ export const AnnouncementsFetchedSuccessfully = createAction(
 export const filterAnnouncements = createAction(
     "[Find job page] Filter announcements",
     props<{page : number , term : string}>()
+)
+
+export const submitApplication = createAction(
+    "[Find job page] Apply",
+    props<{data : ApplicationRequest}>()
 )

@@ -80,15 +80,9 @@ export class WorkerAnnouncementsPageComponent implements OnInit{
   }
 
   onSubmitApplication(application: ApplicationRequest): void {
-    console.log("Application submitted:", application)
-
-    // Here you would normally send the application to your API
-    // For demo purposes, we'll just close the popup
+    
     this.showApplicationPopup = false
     this.selectedAnnouncement = null
-
-    // Show success message (in a real app, you'd use a toast or notification service)
-    alert("Your application has been submitted successfully!")
   }
 }
 
