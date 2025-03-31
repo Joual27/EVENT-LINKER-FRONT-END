@@ -1,4 +1,4 @@
-<div class="announcement-card bg-gray-900 rounded-lg overflow-hidden border border-gray-800 pl-5">
+<div class="announcement-card bg-gray-900 rounded-lg overflow-hidden border border-gray-800 pl-5 mb-4">
     <div class="p-6">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-2">
         <h2 class="text-xl font-bold text-white">{{ announcement.title }}</h2>
@@ -14,28 +14,18 @@
         </div>
       </div>
       
-      <p class="text-gray-300 mb-4" [class.line-clamp-3]="!isExpanded">{{ announcement.description }}</p>
+      <p class="text-gray-300 mb-4" >{{ announcement.description }}</p>
       
-      <button 
-        *ngIf="announcement.description.length > 150"
-        (click)="toggleExpand()" 
-        class="text-pink-400 hover:text-pink-300 text-sm flex items-center mb-4"
-      >
-        {{ isExpanded ? 'Show less' : 'Show more' }}
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 expand-button" [class.expanded]="isExpanded" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
+     
       
       <div class="mb-4">
-        <h3 class="text-sm font-medium text-gray-400 mb-2">Required Skills:</h3>
+        <h3 class="text-[.95rem] text-primary-color font-semibold underline mb-4">Required Skills:</h3>
         <div class="flex flex-wrap gap-2">
           <div 
             *ngFor="let skillItem of announcement.announcementSkills" 
             class="skill-badge px-3 py-1 rounded-full text-sm bg-gray-800 text-gray-300 border border-gray-700"
           >
             {{ skillItem.skill.name }}
-            <span *ngIf="!skillItem.acceptsNonOrganizations" class="ml-1 text-xs text-pink-400">(Org. only)</span>
           </div>
         </div>
       </div>
@@ -43,7 +33,7 @@
       <div class="flex justify-end">
         <button 
           (click)="onApply()" 
-          class="apply-button bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-90 text-white font-medium py-2 px-6 rounded-full transition-colors duration-300"
+          class="hover:border-white bg-transparent border-2 border-primary-color hover:opacity-90 text-white font-medium py-2 px-6 rounded-full transition-colors duration-300"
         >
           Apply Now
         </button>

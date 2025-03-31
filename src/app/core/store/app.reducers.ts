@@ -4,11 +4,13 @@ import { uiReducer } from "../../shared/ui-state/ui.reducer";
 import { authReducer } from "../../modules/auth/state/auth.reducers";
 import { profileReducer } from "../../shared/state/profile.reducers";
 import { organizerReducer } from "../../modules/organizer/state/organizer.reducers";
+import { workerReducer } from "../../modules/worker/state/worker.reducers";
 
 
 export const reducers : ActionReducerMap<AppState> = {
     ui : uiReducer , 
     auth : authReducer,
     profile : profileReducer,
-    organizer : organizerReducer
+    organizer : organizerReducer,
+    worker : workerReducer
 }

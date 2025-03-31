@@ -1,3 +1,6 @@
+import { PaginationResponse } from "../../../shared/models"
+import { Announcement } from "../../organizer/models/organizer.models"
+
 export enum ApplicationStatus {
     PENDING ,
     ACCEPTED ,
@@ -5,6 +8,10 @@ export enum ApplicationStatus {
     CONFIRMED,
     UNCONFIRMED,
     ONGOING
+}
+
+export interface WorkerState {
+    announcements : PaginationResponse<Announcement[]> | null
 }
 
 export interface Application {

@@ -14,11 +14,6 @@ export class WorkerAnnouncementItemComponent {
   @Input() announcement!: Announcement
   @Output() apply = new EventEmitter<void>()
 
-  isExpanded = false
-
-  toggleExpand(): void {
-    this.isExpanded = !this.isExpanded
-  }
 
   onApply(): void {
     this.apply.emit()
