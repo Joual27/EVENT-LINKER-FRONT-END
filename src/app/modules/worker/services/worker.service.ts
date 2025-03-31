@@ -22,4 +22,9 @@ export class WorkerService {
   getAllAnnouncements(page : number) : Observable<ApiResponse<PaginationResponse<Announcement[]>>>{
     return this.http.get<ApiResponse<PaginationResponse<Announcement[]>>>(`/api/worker/announcements?page=${page}&size=5`)
   }
+
+
+  filterAnnouncements(page : number , term : string) : Observable<ApiResponse<PaginationResponse<Announcement[]>>>{
+    return this.http.get<ApiResponse<PaginationResponse<Announcement[]>>>(`/api/worker/announcements/filter?page=${page}&size=5&term=${term}`)
+  }
 }

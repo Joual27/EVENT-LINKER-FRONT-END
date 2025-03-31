@@ -12,3 +12,8 @@ export const AnnouncementsFetchedSuccessfully = createAction(
     "[Find Job Page]  announcements fetched !" , 
     props<{announcements : PaginationResponse<Announcement[]>}>()
 )
+
+export const filterAnnouncements = createAction(
+    "[Find job page] Filter announcements",
+    props<{page : number , term : string}>()
+)

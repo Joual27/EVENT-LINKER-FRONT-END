@@ -10,7 +10,7 @@ import { PaginationResponse } from "../../../../shared/models"
 import { Observable } from "rxjs"
 import { Store } from "@ngrx/store"
 import { selectAllAnnouncements } from "../../state/worker.selectors"
-import { fetchAllAnnouncements } from "../../state/worker.actions"
+import { fetchAllAnnouncements, filterAnnouncements } from "../../state/worker.actions"
 import { appIsLoading, stopLoading } from "../../../../shared/ui-state/ui.actions"
 
 
@@ -39,37 +39,18 @@ export class WorkerAnnouncementsPageComponent implements OnInit{
       this.store.dispatch(fetchAllAnnouncements({page : 0}))
   }
 
-  // applyFilters(): void {
-  //   this.isLoading = true
 
+  onSearch(term : string): void {
+    this.currentPage = 0;
+    this.store.dispatch(appIsLoading());
+    this.store.dispatch(filterAnnouncements({page : this.currentPage , term : term}));
+    this.stopLoadingPage()
+  }
 
-  //   setTimeout(() => {
-    
-  //     let filtered = this.announcements
-  //     if (this.searchTerm) {
-  //       const term = this.searchTerm.toLowerCase()
-  //       filtered = filtered.filter(
-  //         (a) =>
-  //           a.title.toLowerCase().includes(term) ||
-  //           a.description.toLowerCase().includes(term) ||
-  //           a.event.title.toLowerCase().includes(term) ||
-  //           a.announcementSkills.some((s) => s.skill.name.toLowerCase().includes(term)),
-  //       )
-  //     }
-
-  //     // Calculate total pages
-  //     this.totalPages = Math.ceil(filtered.length / this.itemsPerPage)
-
-  //     // Paginate results
-  //     const startIndex = (this.currentPage - 1) * this.itemsPerPage
-  //     this.filteredAnnouncements = filtered.slice(startIndex, startIndex + this.itemsPerPage)
-
-  //     this.isLoading = false
-  //   }, 500)
-  // }
-
-  onSearch(): void {
-    this.currentPage = 1
+  private stopLoadingPage() : void {
+    setTimeout(() => {
+      this.store.dispatch(stopLoading());
+    } , 900)
   }
 
   
@@ -77,18 +58,14 @@ export class WorkerAnnouncementsPageComponent implements OnInit{
     this.currentPage = this.currentPage - 1;
     this.store.dispatch(appIsLoading());
     this.store.dispatch(fetchAllAnnouncements({page : this.currentPage}))
-    setTimeout(() => {
-      this.store.dispatch(stopLoading());
-    } , 900)
+    this.stopLoadingPage()
   }
 
   onNext() : void {
     this.currentPage = this.currentPage + 1;
     this.store.dispatch(appIsLoading());
     this.store.dispatch(fetchAllAnnouncements({page : this.currentPage}))
-    setTimeout(() => {
-      this.store.dispatch(stopLoading());
-    } , 900)
+    this.stopLoadingPage()
   }
 
 

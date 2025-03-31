@@ -86,20 +86,17 @@
             </div>
           </div>
           
-          <!-- Form actions -->
           <div class="mt-8 flex justify-end gap-3">
             <button 
               type="button"
               (click)="onClose()"
-              class="cancel-button bg-transparent hover:opacity-95 text-white border-2 border-pink-500 text-[.9rem] font-semibold py-2 px-6 rounded-full transition-colors duration-300"
+              class="cancel-button bg-transparent hover:opacity-95 text-white border-2 border-primary-color text-[.9rem] font-semibold py-2 px-6 rounded-full transition-colors duration-300"
             >
               Cancel
             </button>
             <button 
               type="submit"
-              [disabled]="applicationForm.invalid"
-              class="bg-primary-color hover:opacity-95 text-white font-medium py-2 px-6 rounded-full transition-colors duration-300"
-              [ngClass]="{'opacity-50 cursor-not-allowed': applicationForm.invalid}"
+                  class="bg-primary-color hover:opacity-95 text-white font-medium py-2 px-6 rounded-full transition-colors duration-300"
             >
               Apply
             </button>

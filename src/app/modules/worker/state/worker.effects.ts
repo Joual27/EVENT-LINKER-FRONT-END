@@ -32,5 +32,24 @@ export class WorkerEffect {
           )
         )
     ));
+
+    filterAnnouncements$ = createEffect(() => 
+        this.actions$.pipe(
+          ofType(workerActions.filterAnnouncements),
+          switchMap(({ page , term }) => 
+            this.workerService.filterAnnouncements(page , term).pipe(
+              map(response => 
+                workerActions.AnnouncementsFetchedSuccessfully({ 
+                  announcements: response.data 
+                })
+              ),
+              catchError((err) => 
+                of(showFailurePopup({ 
+                  errors: [err.message || 'Failed to load announcements'] 
+                }))
+            )
+          )
+        )
+    ));
   
 }
