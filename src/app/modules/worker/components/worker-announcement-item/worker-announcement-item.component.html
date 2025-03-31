@@ -1,0 +1,44 @@
+<div class="announcement-card bg-gray-900 rounded-lg overflow-hidden border border-gray-800 pl-5 mb-4">
+    <div class="p-6">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-2">
+        <h2 class="text-xl font-bold text-white">{{ announcement.title }}</h2>
+        <span class="text-sm text-gray-400">{{ formatDate(announcement.createdAt) }}</span>
+      </div>
+      
+      <div class="event-badge inline-block bg-gray-800 pl-4 pr-3 py-1.5 rounded-r-full mb-4">
+        <div class="flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span class="text-sm text-gray-300">{{ announcement.event.title }}</span>
+        </div>
+      </div>
+      
+      <p class="text-gray-300 mb-4" >{{ announcement.description }}</p>
+      
+     
+      
+      <div class="mb-4">
+        <h3 class="text-[.95rem] text-primary-color font-semibold underline mb-4">Required Skills:</h3>
+        <div class="flex flex-wrap gap-2">
+          <div 
+            *ngFor="let skillItem of announcement.announcementSkills" 
+            class="skill-badge px-3 py-1 rounded-full text-sm bg-gray-800 text-gray-300 border border-gray-700"
+          >
+            {{ skillItem.skill.name }}
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-end">
+        <button 
+          (click)="onApply()" 
+          class="hover:border-white bg-transparent border-2 border-primary-color hover:opacity-90 text-white font-medium py-2 px-6 rounded-full transition-colors duration-300"
+        >
+          Apply Now
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  

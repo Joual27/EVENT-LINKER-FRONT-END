@@ -1,0 +1,76 @@
+<ng-container *ngIf="announcements$ | async as announcements">
+    <div class="min-h-screen bg-black text-white">
+    
+        <div class="w-[75%] mx-auto px-4 ">
+          <div class="mb-8">
+            <app-page-title title="FIND WORK"></app-page-title>
+            
+            <div class="search-container rounded-lg p-4">
+              <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                  <input 
+                    type="text" 
+                    [(ngModel)]="searchTerm"
+                    placeholder="Search for announcements, skills, or events..." 
+                    class=" w-full bg-gray-800 border border-gray-700 rounded-md py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-primary-color"
+                  >
+                </div>
+                <button 
+                  (click)="onSearch(searchTerm)" 
+                  class="bg-primary-color hover:opacity-95 text-white font-medium py-2 px-6 rounded-full transition-colors duration-300"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <app-worker-announcement-list
+            [announcements]="announcements.data"
+            [isLoading]="isLoading"
+            (apply)="onApply($event)"
+          ></app-worker-announcement-list>
+          
+          <div class="w-full relative mb-64">
+          
+             @if (announcements.hasPrevious) {
+                <div class="left-0 absolute bottom-[-6.5rem]">
+                    <button class="px-4 py-2 bg-transparent text-white font-medium text-[.9rem] border-2 border-primary-color hover:border-white duration-300"
+                    (click)="onPrevious()"
+                    >
+                      Previous
+                    </button>
+                  </div>
+             }
+        
+             @if (announcements.hasNext) {
+                <div class="right-0 absolute bottom-[-6.5rem]">
+                    <button class="px-4 py-2 bg-transparent text-white font-medium text-[.9rem] border-2 border-primary-color hover:border-white duration-300"
+                    (click)="onNext()"
+                    >
+                      next
+                    </button>
+                  </div>
+             }
+          </div>  
+          
+          <div *ngIf="!isLoading && announcements.data.length === 0" class="rounded-lg p-8 text-center mt-[-7.5rem]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            <h3 class="text-xl font-medium text-gray-300 mb-2">No announcements found</h3>
+            <p class="text-gray-400">Try adjusting your search criteria or check back later for new opportunities.</p>
+          </div>
+        </div>
+        
+        <app-application-popup
+          *ngIf="showApplicationPopup && selectedAnnouncement"
+          [announcement]="selectedAnnouncement"
+          (close)="onClosePopup()"
+          (submit)="onSubmitApplication($event)"
+        ></app-application-popup>
+      </div>
+      
+      
+
+</ng-container>

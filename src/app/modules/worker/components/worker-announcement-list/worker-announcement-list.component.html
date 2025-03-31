@@ -1,0 +1,10 @@
+
+<div *ngIf="!isLoading && announcements.length > 0" class="space-y-6">
+    <app-worker-announcement-item
+      *ngFor="let announcement of announcements"
+      [announcement]="announcement"
+      (apply)="onApply(announcement)"
+    ></app-worker-announcement-item>
+</div>
+  
+  

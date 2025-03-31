@@ -11,7 +11,8 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { AuthEffect } from './modules/auth/state/auth.effects';
 import { ProfileEffect } from './shared/state/profile.effects';
 import { OrganizerEffect } from './modules/organizer/state/organizer.effects';
+import { WorkerEffect } from './modules/worker/state/worker.effects';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),provideStore(reducers) ,provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }) , provideEffects() , provideAnimations() , provideHttpClient(withInterceptors([authInterceptor])) , provideEffects([AuthEffect , ProfileEffect, OrganizerEffect ]) ]
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),provideStore(reducers) ,provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }) , provideEffects() , provideAnimations() , provideHttpClient(withInterceptors([authInterceptor])) , provideEffects([AuthEffect , ProfileEffect, OrganizerEffect , WorkerEffect ]) ]
 };
