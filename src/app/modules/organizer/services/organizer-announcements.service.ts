@@ -37,6 +37,6 @@ export class OrganizerAnnouncementsService {
   } 
 
   getAnnouncementApplications(page : number , announcementId : number) : Observable<ApiResponse<PaginationResponse<Application[]>>> {
-    return this.http.get<ApiResponse<PaginationResponse<Application[]>>>(`/api/organizer/announcements/applications/${announcementId}?page=${page}&size=3`)
+    return this.http.get<ApiResponse<PaginationResponse<Application[]>>>(`/api/organizer/announcements/applications/${announcementId}?page=${page}&size=2`)
   }
 }

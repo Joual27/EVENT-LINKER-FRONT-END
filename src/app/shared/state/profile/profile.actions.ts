@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { PaginationResponse, Review, UserProfile } from "../models";
+import { PaginationResponse, Review, UserProfile } from "../../models";
 
 
 export const profileDataFetchedSuccess = createAction(

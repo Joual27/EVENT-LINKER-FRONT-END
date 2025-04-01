@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import * as profileActions from '../../state/profile.actions'
+import * as profileActions from '../../state/profile/profile.actions'
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { appIsLoading, showFailurePopup, showSuccessPopup, stopLoading } from '../../ui-state/ui.actions';

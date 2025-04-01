@@ -1,0 +1,68 @@
+.dm-item {
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .dm-item:hover {
+    background-color: rgba(31, 41, 55, 0.8);
+  }
+  
+  .dm-item.active {
+    background-color: rgba(31, 41, 55, 1);
+  }
+  
+  .dm-item.active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #ec4899, #a855f7);
+  }
+  
+  .profile-image {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s #a855f7;
+  }
+  
+  .profile-image {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .profile-image:hover {
+    transform: scale(1.05);
+  }
+  
+  .unread-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: linear-gradient(to right, #ec4899, #a855f7);
+    color: white;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 2px #1f2937;
+  }
+  
+  .message-preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .message-time {
+    font-size: 0.75rem;
+    color: #9ca3af;
+  }
+  
+  

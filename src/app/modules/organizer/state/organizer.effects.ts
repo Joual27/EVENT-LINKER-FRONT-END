@@ -83,6 +83,19 @@ export class OrganizerEffect {
         )
       )
     );
+
+
+    loadApplications$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(organizerActions.fetchAnnouncementApplicationsInDetailsPage),
+        switchMap(({page , id}) => 
+          this.organizerAnnouncementsService.getAnnouncementApplications(page , id).pipe(
+            map((res) => organizerActions.AnnouncementApplicationsFetchedSuccessfully({data: res.data})),
+            catchError((err) => of(showFailurePopup({ errors: [err.message] })))
+          )
+        )
+      )
+    );
     
     createAnnouncement$ = createEffect(() => 
       this.actions$.pipe(

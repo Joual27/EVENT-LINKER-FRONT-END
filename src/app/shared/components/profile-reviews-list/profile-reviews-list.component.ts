@@ -4,8 +4,8 @@ import { ProfileReviewsItemComponent } from '../profile-reviews-item/profile-rev
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { fetchReviewsData } from '../../state/profile.actions';
-import { selectActiveProfileData } from '../../state/profile.selectors';
+import { fetchReviewsData } from '../../state/profile/profile.actions';
+import { selectActiveProfileData } from '../../state/profile/profile.selectors';
 
 @Component({
   selector: 'app-profile-reviews-list',

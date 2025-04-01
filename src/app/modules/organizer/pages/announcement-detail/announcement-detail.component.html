@@ -118,8 +118,16 @@
             </div>
           </div>
           
-          <div *ngIf="activeTab === 'applications'" class="h-full flex flex-col items-center justify-center text-center p-8" >
-            
+          <div *ngIf="activeTab === 'applications'" class="h-full flex flex-col items-center justify-center text-center px-8 mt-[-1rem] relative" >
+             <ng-container *ngIf="applications$ | async as applications">
+              <app-announcement-applications-list [applications$]="applications$"></app-announcement-applications-list>
+              @if (applications.hasPrevious) {
+                <button (click)="onPrevious()" class="absolute left-[1%] bottom-[-1.5rem] px-3 py-2 border-2 border-primary-color text-white text-[.9rem] hover:border-white duration-300">Previous</button>
+              }
+              @if (applications.hasNext) {
+                <button (click)="onNext()" class="absolute right-[1%] bottom-[-1.5rem] px-3 py-2 border-2 border-primary-color text-white text-[.9rem] hover:border-white duration-300">Next</button>
+              }
+             </ng-container>
           </div>
         </div>
       </div>

@@ -9,10 +9,11 @@ import { reducers } from './core/store/app.reducers';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { AuthEffect } from './modules/auth/state/auth.effects';
-import { ProfileEffect } from './shared/state/profile.effects';
+import { ProfileEffect } from './shared/state/profile/profile.effects';
 import { OrganizerEffect } from './modules/organizer/state/organizer.effects';
 import { WorkerEffect } from './modules/worker/state/worker.effects';
+import { DmsEffect } from './shared/state/DMs/DMs.effects';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),provideStore(reducers) ,provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }) , provideEffects() , provideAnimations() , provideHttpClient(withInterceptors([authInterceptor])) , provideEffects([AuthEffect , ProfileEffect, OrganizerEffect , WorkerEffect ]) ]
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),provideStore(reducers) ,provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }) , provideEffects() , provideAnimations() , provideHttpClient(withInterceptors([authInterceptor])) , provideEffects([AuthEffect , ProfileEffect, OrganizerEffect , WorkerEffect , DmsEffect ]) ]
 };

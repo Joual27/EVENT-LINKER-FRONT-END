@@ -1,7 +1,7 @@
 import { createReducer, on } from "@ngrx/store";
 import { initialAuthState } from "./auth.state";
 import * as authActions from "./auth.actions"
-import { profileDataFetchedSuccess } from "../../../shared/state/profile.actions";
+import { profileDataFetchedSuccess } from "../../../shared/state/profile/profile.actions";
 
 export const authReducer = createReducer(
     initialAuthState,

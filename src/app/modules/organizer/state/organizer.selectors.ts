@@ -16,7 +16,6 @@ export const selectOrganizerAnnouncements = createSelector(
 );
 
 
-
 export const selectAnnouncementApplications = createSelector(
     selectOrganizerState,
     (state) => state.applications

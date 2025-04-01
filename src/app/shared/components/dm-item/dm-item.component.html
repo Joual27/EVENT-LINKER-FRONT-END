@@ -1,0 +1,27 @@
+<div class="dm-item p-4 border-b border-gray-800 cursor-pointer" [class.active]="isActive">
+    <div class="flex items-center gap-3">
+      <div class="relative">
+        <div class="profile-image w-12 h-12 rounded-full overflow-hidden">
+          <img 
+            [src]="otherUser.profileImgUrl" 
+            [alt]="otherUser.username"
+            class="w-full h-full object-cover"
+          >
+        </div>
+        
+      
+      </div>
+      
+      <div class="flex-1 min-w-0">
+        <div class="flex justify-between items-center mb-1">
+          <h3 class="font-medium text-white">{{ otherUser.username }}</h3>
+          <span *ngIf="dm.lastMessage" class="message-time">{{ lastMessageTime }}</span>
+        </div>
+        <p class="message-preview text-gray-400 text-sm">
+          {{ truncatedLastMessage }}
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  

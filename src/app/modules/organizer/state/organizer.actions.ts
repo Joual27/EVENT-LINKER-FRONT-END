@@ -65,13 +65,13 @@ export const fetchAnnouncements = createAction(
     props<{data: Announcement}>()
   );
 
-  export const fetchAnnouncementApplications = createAction(
-    "[Announncement Page] Fetch applications of announcement" ,
-    props<{page : number , id : number}>
+  export const fetchAnnouncementApplicationsInDetailsPage = createAction(
+    "[Announcement Page] Fetch applications of announcement" ,
+    props<{page : number , id : number}>()
   )
 
   export const AnnouncementApplicationsFetchedSuccessfully = createAction(
-    "[Announncement Page] Fetch applications of announcement" ,
+    "[Announcement Page]  applications of announcement fetched" ,
     props<{data : PaginationResponse<Application[]>}>()
   )
 

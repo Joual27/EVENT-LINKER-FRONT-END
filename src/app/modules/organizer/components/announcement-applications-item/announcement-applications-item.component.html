@@ -1,0 +1,40 @@
+<div class="application-card rounded-lg overflow-hidden border border-primary-color pl-5 mb-4">
+    <div class="p-6">
+      <div class="flex flex-col md:flex-row gap-6">
+        <div class="md:w-1/4 flex flex-col items-center">
+          <div class="profile-image w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-gray-800">
+            <img 
+              [src]="application.applicant?.profileImgUrl || '/placeholder.svg?height=96&width=96'" 
+              [alt]="application.applicant?.username || 'Applicant'"
+              class="w-full h-full object-cover"
+            >
+          </div>
+          
+          <h3 class="text-lg font-medium text-white text-center mb-3">{{ application.applicant?.username || 'Anonymous' }}</h3>
+          
+          <div class="price-tag rounded-r-full text-center w-full">
+            <span class="text-xl font-bold text-white">${{ application.price }}</span>
+          </div>
+        </div>
+        
+        <div class="md:w-3/4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+            <span class="text-[.8rem] font-semibold text-gray-400">{{ formatDate(application.createdAt) }}</span>
+            <button class="bg-transparent px-3 py-1 border-2 border-primary-color rounded-2xl hover:border-white duration-300">Contact</button>
+          </div>
+          
+          <div class="letter-container bg-gray-800/50 p-5 pl-6 mb-2">
+            <h4 class="text-md font-medium text-gray-300 mb-2 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Cover Letter
+            </h4>
+            <p class="text-gray-300 whitespace-pre-line" >{{ application.letter }}</p>
+          </div>
+          
+         
+        </div>
+      </div>
+    </div>
+  </div>

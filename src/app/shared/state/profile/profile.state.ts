@@ -1,4 +1,4 @@
-import { ProfileState } from "../models";
+import { ProfileState } from "../../models";
 
 
 export const initialProfileState : ProfileState =  {
