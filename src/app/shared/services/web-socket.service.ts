@@ -1,7 +1,8 @@
-import { inject, Injectable } from "@angular/core"
-import { Client, Message, type IMessage, type StompSubscription } from "@stomp/stompjs"
-import { BehaviorSubject, filter, Subject, take, type Observable } from "rxjs"
-import { EncryptionService } from "../../modules/auth/services/encryption.service"
+import { inject, Injectable } from "@angular/core";
+import { Client, Message, type IMessage, type StompSubscription } from "@stomp/stompjs";
+import SockJS from 'sockjs-client';
+import { BehaviorSubject, filter, Subject, take, type Observable } from "rxjs";
+import { EncryptionService } from "../../modules/auth/services/encryption.service";
 
 @Injectable({ providedIn: 'root' })
 export class WebSocketService {
@@ -12,7 +13,7 @@ export class WebSocketService {
 
   constructor(private encryptionService: EncryptionService) {
     this.client = new Client({
-      brokerURL: 'ws://localhost:8080/ws',
+      webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
       connectHeaders: {
         Authorization: `Bearer ${this.encryptionService.getLoggedInUser()?.token}`
       },
@@ -48,6 +49,7 @@ export class WebSocketService {
     if (this.client.active) {
       this.client.deactivate();
       this.subscriptions.clear();
+      this.messageSubjects.clear();
     }
   }
 
@@ -72,22 +74,38 @@ export class WebSocketService {
     return subject.asObservable();
   }
 
+  unsubscribeFromDM(dmId: number): void {
+    const subKey = `dm-${dmId}`;
+    
+    if (this.subscriptions.has(subKey)) {
+      this.subscriptions.get(subKey)?.unsubscribe();
+      this.subscriptions.delete(subKey);
+      console.log(`Unsubscribed from DM: ${dmId}`);
+    }
+    
+    if (this.messageSubjects.has(dmId)) {
+      this.messageSubjects.get(dmId)?.complete();
+      this.messageSubjects.delete(dmId);
+    }
+  }
+
   private doSubscribe(dmId: number): void {
     const subKey = `dm-${dmId}`;
     if (this.subscriptions.has(subKey)) return;
 
     const subscription = this.client.subscribe(
-      `/topic/dm/${dmId}`,
+      `/topic/dm/${dmId}`,  
       (message: IMessage) => {
         try {
-          const msg = JSON.parse(message.body) as Message;
+          const msg = JSON.parse(message.body);
           this.messageSubjects.get(dmId)?.next(msg);
         } catch (err) {
           console.error('Error parsing message:', err);
         }
       },
       { 
-        Authorization: `Bearer ${this.encryptionService.getLoggedInUser()?.token}` 
+        Authorization: `Bearer ${this.encryptionService.getLoggedInUser()?.token}` ,
+        'content-type': 'application/json' 
       }
     );
 
@@ -114,5 +132,9 @@ export class WebSocketService {
         receipt: `receipt-${Date.now()}`
       }
     });
+  }
+
+  isConnected(): Observable<boolean> {
+    return this.connected$.asObservable();
   }
 }

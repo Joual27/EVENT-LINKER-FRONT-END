@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core"
+import { Component, Input, OnInit } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { Message } from "../../models"
 
@@ -9,11 +9,31 @@ import { Message } from "../../models"
   templateUrl: "./message-item.component.html",
   styleUrls: ["./message-item.component.css"],
 })
-export class MessageItemComponent {
+export class MessageItemComponent implements OnInit {
   @Input() message!: Message
   @Input() isCurrentUser = false
   @Input() showAvatar = true
   @Input() otherUserImg = ""
+  @Input() currentUserId!: number
+
+  ngOnInit() {
+    // If the message has a user object with an id, use that for comparison
+    if (this.message.user && this.message.user.id) {
+      this.isCurrentUser = this.message.user.id === this.currentUserId
+    }
+    // Otherwise fall back to the userId property
+    else if (this.message.userId) {
+      // Normalize userId to a number if it's a string
+      const userId =
+        typeof this.message.userId === "string" ? Number.parseInt(this.message.userId) : this.message.userId
+
+      this.isCurrentUser = userId === this.currentUserId
+    }
+
+    console.log(
+      `Message: "${this.message.content}", from: ${this.message.user?.id || this.message.userId}, currentUser: ${this.currentUserId}, isCurrentUser: ${this.isCurrentUser}`,
+    )
+  }
 
   get formattedTime(): string {
     const date = new Date(this.message.sentAt)
@@ -23,10 +43,5 @@ export class MessageItemComponent {
       hour12: true,
     })
   }
-
-  get messageStatus(): string {
-    if (this.message.seenAt) return "Seen"
-    if (this.message.deliveredAt) return "Delivered"
-    return "Sent"
-  }
 }
+

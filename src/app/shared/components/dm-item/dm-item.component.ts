@@ -11,25 +11,25 @@ import { selectSignedInUser } from "../../../modules/auth/state/auth.selectors"
   templateUrl: "./dm-item.component.html",
   styleUrls: ["./dm-item.component.css"],
 })
-export class DmItemComponent implements OnInit{
+export class DmItemComponent implements OnInit {
   @Input() dm!: DmWithLastMessage
-  private store = inject(Store);
+  private store = inject(Store)
   @Input() isActive = false
-  userId !: number
-
+  userId!: number
 
   ngOnInit(): void {
     this.store.select(selectSignedInUser).subscribe({
-      next : (res) => {
-        if(res){
-          this.userId = res?.id
+      next: (res) => {
+        if (res) {
+          this.userId = res.id
+          console.log("DmItemComponent initialized with userId:", this.userId)
         }
-      }
+      },
     })
   }
 
   get otherUser(): EmbeddedUser {
-    return this.dm.dm.users.find((u) => u.id != this.userId ) || this.dm.dm.users[0]
+    return this.dm.dm.users.find((u) => u.id !== this.userId) || this.dm.dm.users[0]
   }
 
   get lastMessageTime(): string {
@@ -58,7 +58,7 @@ export class DmItemComponent implements OnInit{
   get isLastMessageFromCurrentUser(): boolean {
     if (!this.dm.lastMessage) return false
 
-    return this.dm.lastMessage.userId === 1
+    return this.dm.lastMessage.userId === this.userId
   }
 
   get truncatedLastMessage(): string {

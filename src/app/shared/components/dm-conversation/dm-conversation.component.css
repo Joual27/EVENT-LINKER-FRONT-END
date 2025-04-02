@@ -1,0 +1,116 @@
+.conversation-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .conversation-header {
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  
+  .conversation-header::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, #ec4899, #a855f7, transparent);
+  }
+  
+  .profile-image {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .profile-image:hover {
+    transform: scale(1.05);
+  }
+  
+  .messages-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Important for flex containers to allow scrolling */
+  }
+  
+  .messages-container::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .messages-container::-webkit-scrollbar-track {
+    background: rgba(31, 41, 55, 0.5);
+  }
+  
+  .messages-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #ec4899, #a855f7);
+    border-radius: 3px;
+  }
+  
+  .message-input-container {
+    position: relative;
+    padding: 1rem;
+    border-top: 1px solid #374151;
+    flex-shrink: 0;
+  }
+  
+  .message-input {
+    transition: all 0.3s ease;
+  }
+  
+  .message-input:focus {
+    box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.3);
+  }
+  
+  .send-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .send-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    transition: left 0.5s ease;
+  }
+  
+  .send-button:hover::before {
+    left: 100%;
+  }
+  
+  .date-divider {
+    position: relative;
+    text-align: center;
+    margin: 1rem 0;
+  }
+  
+  .date-divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #374151;
+    z-index: 0;
+  }
+  
+  .date-divider span {
+    position: relative;
+    background-color: #1f2937;
+    padding: 0 0.75rem;
+    z-index: 1;
+  }
+  
+  

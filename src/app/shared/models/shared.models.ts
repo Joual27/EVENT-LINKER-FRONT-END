@@ -95,7 +95,8 @@ export interface EmbeddedUser{
 
 export interface DmResponseDTO {
     id: number
-    users: EmbeddedUser[]
+    users: EmbeddedUser[],
+    messages : Message[]
 }
   
 export interface Message {
@@ -107,13 +108,13 @@ export interface Message {
     deliveredAt?: string;
     seenAt?: string;
     content: string;
+    user ?: EmbeddedUser
 }
   
 export interface DmWithLastMessage {
     dm: DmResponseDTO;
     lastMessage?: Message
     unreadCount : 0,
-    messages : Message[]
 }
 
 

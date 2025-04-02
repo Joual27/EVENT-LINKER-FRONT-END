@@ -17,11 +17,13 @@
       </div>
       
       <ng-container *ngIf="!isLoading && dms.length > 0">
+       
         <app-dms-list 
           [dms]="dms" 
           [activeDmId]="activeDm?.dm?.id" 
           (dmSelected)="setActiveDm($event)"
           class="w-full md:w-1/3 border-r border-gray-800"
+          [ngClass]="{'hidden md:block': activeDm && isMobileView}"
         ></app-dms-list>
         
         <app-dm-conversation
@@ -29,7 +31,7 @@
           [dm]="activeDm"
           [currentUserId]="currentUserId"
           (sendMessage)="handleSendMessage($event)"
-          class="w-full md:w-2/3 hidden md:flex"
+          class="w-full md:w-2/3 flex flex-col h-full"
         ></app-dm-conversation>
         
         <div *ngIf="!activeDm" class="w-full md:w-2/3 hidden md:flex flex-col justify-center items-center p-8 empty-state">

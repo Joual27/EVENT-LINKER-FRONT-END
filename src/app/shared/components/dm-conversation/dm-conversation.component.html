@@ -29,7 +29,7 @@
       <app-message-item 
         *ngFor="let message of messages; let i = index" 
         [message]="message"
-        [isCurrentUser]="message.userId === currentUserId"
+        [currentUserId]="currentUserId"
         [showAvatar]="i === 0 || messages[i-1].userId !== message.userId"
         [otherUserImg]="otherUser.profileImgUrl"
       ></app-message-item>
@@ -44,7 +44,6 @@
         [(ngModel)]="newMessage"
         placeholder="Type a message..." 
         class="message-input flex-1 bg-gray-800 border border-gray-700 rounded-full py-2 px-4 text-white focus:outline-none"
-        (keyup.enter)="onSendMessage()"
       >
       <button 
         (click)="onSendMessage()" 
