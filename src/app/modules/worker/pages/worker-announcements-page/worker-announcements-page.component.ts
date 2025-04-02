@@ -10,7 +10,7 @@ import { PaginationResponse } from "../../../../shared/models"
 import { Observable } from "rxjs"
 import { Store } from "@ngrx/store"
 import { selectAllAnnouncements } from "../../state/worker.selectors"
-import { fetchAllAnnouncements, filterAnnouncements } from "../../state/worker.actions"
+import { fetchAllAnnouncements, filterAnnouncements, submitApplication } from "../../state/worker.actions"
 import { appIsLoading, stopLoading } from "../../../../shared/ui-state/ui.actions"
 
 
@@ -79,10 +79,6 @@ export class WorkerAnnouncementsPageComponent implements OnInit{
     this.selectedAnnouncement = null
   }
 
-  onSubmitApplication(application: ApplicationRequest): void {
-    
-    this.showApplicationPopup = false
-    this.selectedAnnouncement = null
-  }
+  
 }
 

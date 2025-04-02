@@ -88,9 +88,40 @@ export interface Review {
 }
 
 export interface EmbeddedUser{
+    id ?: number,
     username : string ;
     profileImgUrl : string
 }
+
+export interface DmResponseDTO {
+    id: number
+    users: EmbeddedUser[],
+    messages : Message[]
+}
+  
+export interface Message {
+    id?: number;
+    dmId: number;
+    userId: number;
+    sentAt: string;
+    delivered: boolean;
+    deliveredAt?: string;
+    seenAt?: string;
+    content: string;
+    user ?: EmbeddedUser
+}
+  
+export interface DmWithLastMessage {
+    dm: DmResponseDTO;
+    lastMessage?: Message
+    unreadCount : 0,
+}
+
+
+export interface DMsState {
+    DMs : DmWithLastMessage[] | null
+}
+  
 
 
 

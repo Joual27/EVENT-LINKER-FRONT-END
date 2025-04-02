@@ -32,10 +32,14 @@ export const routes: Routes = [
     {
         path: 'profile/:userId',
         loadComponent : () => import('./shared/pages/profile-page/profile-page.component').then(m => m.ProfilePageComponent)
-      },
-      {
+    },
+    {
         path: 'profile',
         loadComponent : () => import('./shared/pages/profile-page/profile-page.component').then(m => m.ProfilePageComponent),
         canActivate : [ProfileGuard]
-      },
+    },{
+        path : "dms",
+        loadComponent : () => import("./shared/pages/dms-page/dms-page.component").then(m => m.DmsPageComponent),
+        canActivate : [ProfileGuard]
+    }
 ];

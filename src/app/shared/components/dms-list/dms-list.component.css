@@ -1,0 +1,42 @@
+.dms-list-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .search-container {
+    position: relative;
+  }
+  
+  .search-input {
+    transition: all 0.3s ease;
+  }
+  
+ 
+  .clear-button {
+    transition: all 0.3s ease;
+  }
+  
+  .clear-button:hover {
+    background-color: rgba(236, 72, 153, 0.1);
+  }
+  
+  .dms-list {
+    overflow-y: auto;
+    flex-grow: 1;
+  }
+  
+  .dms-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .dms-list::-webkit-scrollbar-track {
+    background: rgba(31, 41, 55, 0.5);
+  }
+  
+  .dms-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #ec4899, #a855f7);
+    border-radius: 3px;
+  }
+  
+  

@@ -4,14 +4,19 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router"
 import { HttpClient } from "@angular/common/http"
 import { ConfirmationModalComponent } from "../../../../shared/ui/confirmation-modal/confirmation-modal.component"
 import { Announcement } from "../../models/organizer.models"
-import { ApiResponse } from "../../../../shared/models"
+import { ApiResponse, PaginationResponse } from "../../../../shared/models"
 import { Store } from "@ngrx/store"
 import { appIsLoading, stopLoading } from "../../../../shared/ui-state/ui.actions"
+import { Observable } from "rxjs"
+import { Application } from "../../../worker/models/worker.models"
+import { selectAnnouncementApplications } from "../../state/organizer.selectors"
+import { fetchAnnouncementApplicationsInDetailsPage } from "../../state/organizer.actions"
+import { AnnouncementApplicationsListComponent } from "../../components/announcement-applications-list/announcement-applications-list.component";
 
 @Component({
   selector: "app-announcement-detail",
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, AnnouncementApplicationsListComponent],
   templateUrl: "./announcement-detail.component.html",
 })
 export class AnnouncementDetailComponent implements OnInit {
@@ -20,6 +25,8 @@ export class AnnouncementDetailComponent implements OnInit {
   private router = inject(Router);
   private http = inject(HttpClient);
   announcement: Announcement | null = null
+  applications$ !: Observable<PaginationResponse<Application[]> | null>;
+  currentApplicationsPage : number = 0;
   isLoading = true
   error: string | null = null
   showConfirmationModal = false
@@ -32,16 +39,31 @@ export class AnnouncementDetailComponent implements OnInit {
       const id = params.get("id")
       if (id) {
         this.fetchAnnouncement(Number(id))
+        this.store.dispatch(fetchAnnouncementApplicationsInDetailsPage({page : this.currentApplicationsPage , id : Number(id)}))
       }
     })
 
     this.store.dispatch(appIsLoading());
     setTimeout(() => {
       this.store.dispatch(stopLoading())
+      this.applications$ = this.store.select(selectAnnouncementApplications)
     } , 1000)
     
   }
 
+  onNext() : void{
+    this.currentApplicationsPage = this.currentApplicationsPage + 1 ;
+    if(this.announcement){
+      this.store.dispatch(fetchAnnouncementApplicationsInDetailsPage({page : this.currentApplicationsPage , id : this.announcement?.id}))
+    }
+  }
+
+  onPrevious() : void{
+    this.currentApplicationsPage = this.currentApplicationsPage - 1  ;
+    if(this.announcement){
+      this.store.dispatch(fetchAnnouncementApplicationsInDetailsPage({page : this.currentApplicationsPage , id : this.announcement?.id}))
+    }
+  }
 
   fetchAnnouncement(id: number): void {
     this.isLoading = true
@@ -51,8 +73,6 @@ export class AnnouncementDetailComponent implements OnInit {
         this.isLoading = false
       },
       error: (err) => {
-        console.error("Error fetching announcement:", err)
-        this.error = "Failed to load announcement. It may have been deleted or you don't have permission to view it."
         this.isLoading = false
       },
     })

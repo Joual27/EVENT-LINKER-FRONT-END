@@ -7,8 +7,8 @@ import { selectProfileData, selectSignedInUser } from '../../../modules/auth/sta
 import { appIsLoading, stopLoading } from '../../ui-state/ui.actions';
 import { ActivatedRoute } from '@angular/router';
 import { UserNavbarComponent } from "../../ui/user-navbar/user-navbar.component";
-import * as profileActions from "../../state/profile.actions"
-import { selectActiveProfileData, selectReviews } from '../../state/profile.selectors';
+import * as profileActions from "../../state/profile/profile.actions"
+import { selectActiveProfileData, selectReviews } from '../../state/profile/profile.selectors';
 import { BioComponent } from "../../components/bio/bio.component";
 import { FileUploadComponent } from "../../ui/file-upload/file-upload.component";
 import { UpdateBioPopupComponent } from '../../components/update-bio-popup/update-bio-popup.component';

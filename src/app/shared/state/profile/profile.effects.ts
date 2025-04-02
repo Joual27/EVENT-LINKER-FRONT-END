@@ -2,9 +2,9 @@ import { inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import * as profileActions from './profile.actions'
 import { catchError, forkJoin, map, mergeMap, of } from "rxjs";
-import { ProfileService } from "../services/profile.service";
-import { ApiResponse, PaginationResponse, Review, UserProfile } from "../models";
-import { showFailurePopup, showSuccessPopup } from "../ui-state/ui.actions";
+import { ProfileService } from "../../services/profile.service";
+import { ApiResponse, PaginationResponse, Review, UserProfile } from "../../models";
+import { showFailurePopup, showSuccessPopup } from "../../ui-state/ui.actions";
 
 
 export class ProfileEffect{

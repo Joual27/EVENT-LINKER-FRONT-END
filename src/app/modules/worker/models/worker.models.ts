@@ -1,4 +1,4 @@
-import { PaginationResponse } from "../../../shared/models"
+import { EmbeddedUser, PaginationResponse } from "../../../shared/models"
 import { Announcement } from "../../organizer/models/organizer.models"
 
 export enum ApplicationStatus {
@@ -20,10 +20,11 @@ export interface Application {
     status : ApplicationStatus,
     createdAt : Date,
     letter : string
+    applicant ?: EmbeddedUser
 }
 
 export interface ApplicationRequest {
     announcementId: number
     price: number
-    coverLetter: string
-  }
+    letter: string
+}

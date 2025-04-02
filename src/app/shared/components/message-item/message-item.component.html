@@ -1,0 +1,19 @@
+<div class="message-container" [class.current-user]="isCurrentUser" [class.other-user]="!isCurrentUser">
+  <ng-container *ngIf="!isCurrentUser">
+    <div *ngIf="showAvatar" class="avatar">
+      <img [src]="otherUserImg" alt="User avatar">
+    </div>
+    <div *ngIf="!showAvatar" class="avatar-placeholder"></div>
+  </ng-container>
+  
+  <div>
+    <div class="message-bubble" [class.current-user]="isCurrentUser" [class.other-user]="!isCurrentUser">
+      {{ message.content }}
+    </div>
+    
+    <div class="flex justify-between items-center">
+      <div class="message-time">{{ formattedTime }}</div>
+    </div>
+  </div>
+</div>
+

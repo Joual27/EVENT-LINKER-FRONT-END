@@ -3,6 +3,9 @@ import { CommonModule } from "@angular/common"
 import { FormBuilder, type FormGroup, ReactiveFormsModule, Validators } from "@angular/forms"
 import { Announcement } from "../../../organizer/models/organizer.models";
 import { ApplicationRequest } from "../../models/worker.models";
+import { Store } from "@ngrx/store";
+import { submitApplication } from "../../state/worker.actions";
+import { appIsLoading, stopLoading } from "../../../../shared/ui-state/ui.actions";
 
 @Component({
   selector: "app-application-popup",
@@ -13,9 +16,10 @@ import { ApplicationRequest } from "../../models/worker.models";
 })
 export class ApplicationPopupComponent implements OnInit {
   private fb = inject(FormBuilder);
+  private store = inject(Store);
   @Input() announcement!: Announcement
   @Output() close = new EventEmitter<void>()
-  @Output() submit = new EventEmitter<ApplicationRequest>()
+  @Output() hidePopup = new EventEmitter<void>()
 
   applicationForm!: FormGroup
 
@@ -23,7 +27,7 @@ export class ApplicationPopupComponent implements OnInit {
   ngOnInit(): void {
     this.applicationForm = this.fb.group({
       price: ["", [Validators.required, Validators.min(1)]],
-      coverLetter: ["", [Validators.required, Validators.minLength(50)]],
+      letter: ["", [Validators.required, Validators.minLength(50)]],
     })
   }
 
@@ -36,17 +40,22 @@ export class ApplicationPopupComponent implements OnInit {
       const application: ApplicationRequest = {
         announcementId: this.announcement.id,
         price: this.applicationForm.value.price,
-        coverLetter: this.applicationForm.value.coverLetter,
+        letter: this.applicationForm.value.letter,
       }
-
-      this.submit.emit(application)
+      this.store.dispatch(appIsLoading());
+      this.store.dispatch(submitApplication({data : application}));
+      this.hidePopup.emit();
+      setTimeout(() => {
+        this.store.dispatch(stopLoading());
+      } , 900)
+      
     } else {
       this.applicationForm.markAllAsTouched()
     }
   }
 
   get coverLetterLength(): number {
-    return this.applicationForm.value.coverLetter?.length || 0
+    return this.applicationForm.value.letter?.length || 0
   }
 }
 

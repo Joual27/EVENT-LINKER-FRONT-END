@@ -1,7 +1,7 @@
 import { AuthState } from "../../modules/auth/models";
 import { OrganizerState } from "../../modules/organizer/models/organizer.models";
 import { WorkerState } from "../../modules/worker/models/worker.models";
-import { ProfileState, UiState } from "../../shared/models";
+import { DMsState, ProfileState, UiState } from "../../shared/models";
 
 
 export interface AppState {
@@ -9,5 +9,6 @@ export interface AppState {
     auth : AuthState,
     profile : ProfileState, 
     organizer : OrganizerState,
-    worker : WorkerState
+    worker : WorkerState,
+    dms : DMsState
 }

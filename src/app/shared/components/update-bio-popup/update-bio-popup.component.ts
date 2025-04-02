@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from "@angular/core"
 import { FormBuilder, type FormGroup, ReactiveFormsModule, Validators } from "@angular/forms"
 import { CommonModule } from "@angular/common"
 import { Store } from "@ngrx/store";
-import * as profileActions from "../../state/profile.actions"
+import * as profileActions from "../../state/profile/profile.actions"
 import { appIsLoading, showSuccessPopup, stopLoading } from "../../ui-state/ui.actions";
 
 @Component({

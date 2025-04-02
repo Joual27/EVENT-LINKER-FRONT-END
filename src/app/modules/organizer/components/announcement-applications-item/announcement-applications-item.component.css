@@ -1,0 +1,73 @@
+
+.application-card {
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .application-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  }
+  
+
+  
+  .profile-image {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .profile-image:hover {
+    transform: scale(1.05);
+  }
+  
+  .profile-image::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  }
+  
+  .status-badge {
+    position: relative;
+    overflow: hidden;
+  }
+  
+
+  
+  .price-tag {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  
+  
+  .expand-button {
+    transition: all 0.3s ease;
+  }
+  
+  .expand-button.expanded {
+    transform: rotate(180deg);
+  }
+  
+  .letter-container {
+    position: relative;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .letter-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #ec4899, #a855f7);
+  }
+  
+  

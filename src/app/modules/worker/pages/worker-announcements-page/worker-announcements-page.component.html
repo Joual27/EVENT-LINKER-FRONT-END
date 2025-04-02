@@ -67,7 +67,7 @@
           *ngIf="showApplicationPopup && selectedAnnouncement"
           [announcement]="selectedAnnouncement"
           (close)="onClosePopup()"
-          (submit)="onSubmitApplication($event)"
+          (hidePopup)="onClosePopup()"
         ></app-application-popup>
       </div>
       
