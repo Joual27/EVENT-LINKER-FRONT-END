@@ -11,6 +11,7 @@ import { fetchUserDMs } from "../../state/DMs/DMs.actions";
 import { selectUserDMs } from "../../state/DMs/DMs.selectors";
 import { selectSignedInUser } from "../../../modules/auth/state/auth.selectors";
 import { WebSocketService } from "../../services/web-socket.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-dms-page",
@@ -23,6 +24,7 @@ export class DmsPageComponent implements OnInit, OnDestroy {
   dms$!: Observable<DmWithLastMessage[] | null>
   dms: DmWithLastMessage[] = []
   private store = inject(Store)
+  private activatedRoute = inject(ActivatedRoute);
   private webSocketService = inject(WebSocketService)
   activeDm: DmWithLastMessage | null = null
   isLoading = true
@@ -39,6 +41,23 @@ export class DmsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    let pendingActiveDmId: number | null = null
+
+    this.activatedRoute.queryParams.subscribe((params) => {
+      const activeDmIdParam = params["activeDmId"]
+      if (activeDmIdParam) {
+        pendingActiveDmId = Number(activeDmIdParam)
+
+        if (this.dms.length > 0) {
+          const dmToActivate = this.dms.find((dm) => dm.dm.id === pendingActiveDmId)
+          if (dmToActivate) {
+            this.setActiveDm(dmToActivate)
+            pendingActiveDmId = null 
+          }
+        }
+      }
+    })
+
     this.webSocketService.connect()
 
     this.userSubscription = this.store.select(selectSignedInUser).subscribe({
@@ -55,7 +74,15 @@ export class DmsPageComponent implements OnInit, OnDestroy {
       next: (res) => {
         if (res) {
           this.dms = res
-          if (res.length > 0 && !this.activeDm) {
+
+          if (pendingActiveDmId && res.length > 0) {
+            const dmToActivate = res.find((dm) => dm.dm.id === pendingActiveDmId)
+            if (dmToActivate) {
+              this.setActiveDm(dmToActivate)
+              pendingActiveDmId = null 
+            }
+          }
+          else if (res.length > 0 && !this.activeDm) {
             this.setActiveDm(res[0])
           }
         }
@@ -98,14 +125,11 @@ export class DmsPageComponent implements OnInit, OnDestroy {
         try {
           const messageData = this.parseIncomingMessage(message)
 
-          // Update the active DM with the new message
           if (this.activeDm?.dm.id === dmId) {
-            // Make sure messages array exists
             if (!this.activeDm.dm.messages) {
               this.activeDm.dm.messages = []
             }
 
-            // Check if message already exists
             const messageExists = this.activeDm.dm.messages.some(
               (m) =>
                 (m.id && messageData.id && m.id === messageData.id) ||
@@ -115,7 +139,6 @@ export class DmsPageComponent implements OnInit, OnDestroy {
             )
 
             if (!messageExists) {
-              // Add message to the active DM
               this.activeDm = {
                 ...this.activeDm,
                 lastMessage: messageData,
@@ -127,7 +150,6 @@ export class DmsPageComponent implements OnInit, OnDestroy {
             }
           }
 
-          // Update the DM in the list
           this.dms = this.dms.map((d) => {
             if (d.dm.id === dmId) {
               return {
@@ -146,7 +168,6 @@ export class DmsPageComponent implements OnInit, OnDestroy {
   }
 
   private parseIncomingMessage(message: any): Message {
-    // Handle STOMP message format
     if (message.body) {
       try {
         const body = JSON.parse(message.body)

@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common"
 import { FormBuilder, type FormGroup, ReactiveFormsModule, Validators } from "@angular/forms"
 import { OrganizerEvent } from "../../models/organizer.models"
 import { Store } from "@ngrx/store"
-import { createEvent, updateEvent } from "../../state/organizer.actions"
+import { createEvent, fetchEvents, updateEvent } from "../../state/organizer.actions"
 import { appIsLoading, stopLoading } from "../../../../shared/ui-state/ui.actions"
 
 @Component({
@@ -81,12 +81,14 @@ export class EventFormPopupComponent implements OnInit {
       }
       const formValue = this.eventForm.value
       const formData = this.populateFormData(formValue);
+      this.store.dispatch(appIsLoading())
       if(this.event){
         this.store.dispatch(updateEvent({data : formData}));
       }else{
         this.store.dispatch(createEvent({data : formData}));
       }
       setTimeout(() => {
+        this.store.dispatch(fetchEvents({page:0}))
         this.store.dispatch(stopLoading())
         this.onClose()
       } , 3000)   

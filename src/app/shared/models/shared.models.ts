@@ -121,7 +121,11 @@ export interface DmWithLastMessage {
 export interface DMsState {
     DMs : DmWithLastMessage[] | null
 }
-  
+
+
+export interface CreateDmDTO {
+    userIds: number[]
+}
 
 
 

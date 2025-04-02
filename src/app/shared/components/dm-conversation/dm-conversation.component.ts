@@ -31,14 +31,12 @@ export class DmConversationComponent implements OnChanges, OnInit, OnDestroy {
   private messageSubscription?: Subscription
 
   ngOnInit(): void {
-    // Initialize WebSocket connection
     this.webSocketService.connect()
     console.log("DmConversationComponent initialized with currentUserId:", this.currentUserId)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["dm"] && changes["dm"].currentValue) {
-      // Reset messages array and tracking set
       this.messages = []
       this.processedMessageIds.clear()
       this.isLoading = true
