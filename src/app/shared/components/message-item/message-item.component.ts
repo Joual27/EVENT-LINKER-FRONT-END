@@ -17,13 +17,10 @@ export class MessageItemComponent implements OnInit {
   @Input() currentUserId!: number
 
   ngOnInit() {
-    // If the message has a user object with an id, use that for comparison
     if (this.message.user && this.message.user.id) {
       this.isCurrentUser = this.message.user.id === this.currentUserId
     }
-    // Otherwise fall back to the userId property
     else if (this.message.userId) {
-      // Normalize userId to a number if it's a string
       const userId =
         typeof this.message.userId === "string" ? Number.parseInt(this.message.userId) : this.message.userId
 

@@ -29,16 +29,15 @@
     <div *ngIf="showPopup" class="absolute right-[10.5%] mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10">
         <ng-container *ngIf="user$ | async as user">
           <ng-container *ngIf="user.role === 'WORKER'">
-            <a routerLink="/collector/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Profile</a>
-            <a routerLink="/collector/dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Browse Requests</a>
-            <a routerLink="/collector/dashboard/requests" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">My Requests</a>
+            <a routerLink="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Profile</a>
+            <a routerLink="/worker/find-work" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Find work</a>
           </ng-container>
           <ng-container *ngIf="user.role === 'ORGANIZER'">
-            <a routerLink="/user/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Profile</a>
-            <a routerLink="/user/requests/create" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Make Requests</a>
-            <a routerLink="/user/requests" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">My Requests</a>
-            <a routerLink="/user/points" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">My Points</a>
+            <a routerLink="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Profile</a>
+            <a routerLink="/organizer/events" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Events</a>
+            <a routerLink="/organizer/announcements" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Announcements</a>
           </ng-container>
+          <a routerLink="/dms" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">DMs</a>
           <a (click)="logout()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="hidePopup()">Logout</a>
         </ng-container>
       </div>

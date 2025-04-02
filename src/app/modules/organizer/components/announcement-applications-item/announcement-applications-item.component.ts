@@ -1,5 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Application } from '../../../worker/models/worker.models';
+import { DmsService } from '../../../../shared/services/dms.service';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { selectSignedInUser } from '../../../auth/state/auth.selectors';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-announcement-applications-item',
@@ -9,6 +14,9 @@ import { Application } from '../../../worker/models/worker.models';
 })
 export class AnnouncementApplicationsItemComponent {
   @Input() application !: Application;
+  private dmService = inject(DmsService);
+  private router = inject(Router);
+  private store = inject(Store);
   formatDate(date: Date): string {
     if (!date) return ""
 
@@ -31,5 +39,41 @@ export class AnnouncementApplicationsItemComponent {
         day: "numeric",
       })}`
     }
+  }
+
+  contactApplicant(): void {
+    if (!this.application.applicant?.id) {
+      console.error("Cannot contact: No applicant ID found")
+      return
+    }
+
+    this.store
+      .select(selectSignedInUser)
+      .pipe(take(1))
+      .subscribe((currentUser) => {
+        if (!currentUser) {
+          console.error("Cannot contact: No current user found")
+          return
+        }
+
+        if (currentUser && this.application.applicant?.id) {
+          const userIds = [currentUser.id, this.application.applicant!.id]
+
+          this.dmService.createOrFindDM(userIds).subscribe({
+            next: (response) => {
+              console.log("DM created or found:", response)
+
+              setTimeout(() => {
+                this.router.navigate(["/dms"], {
+                  queryParams: { activeDmId: response.data.id },
+                })
+              }, 200)
+            },
+            error: (error) => {
+              console.error("Error creating DM:", error)
+            },
+          })
+        }
+      })
   }
 }
